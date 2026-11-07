@@ -1,11 +1,11 @@
 {
-  "input_path": "E:\\AI Pictures\\20261104-Dream Night",
+  "input_path": "E:\\AI Pictures\\20261105-A Date with Mona Lisa",
   "output_mode": "default_new",
   "output_path": "",
   "finetuned_display": "genstereo-v2.1",
   "gen_mode_display": "Orig_Right",
   "finetuned_path": "models",
-  "mde_display": "FlashDepth-L - Official, follows Resolution",
+  "mde_display": "FlashDepth-L",
   "mde_path": "models/FlashDepth/configs/flashdepth-l/iter_10001.pth",
   "vae_display": "sd-vae-ft-mse (default)",
   "vae_path": "models/sd-vae-ft-mse",

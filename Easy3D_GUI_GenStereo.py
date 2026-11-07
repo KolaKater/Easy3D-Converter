@@ -66,8 +66,8 @@ MDE_OPTIONS = {
     "Depth Anything V2 ViT-L": "depth_anything_v2_vitl",
     "Depth Anything V2 ViT-B": "depth_anything_v2_vitb",
     "Depth Anything V2 ViT-S": "depth_anything_v2_vits",
-    "FlashDepth-L - Official, follows Resolution": "flashdepth-l",
-    "FlashDepth-S - Official, follows Resolution, Fast": "flashdepth-s",
+    "FlashDepth-L": "flashdepth-l",
+    "FlashDepth-S, Fast": "flashdepth-s",
 }
 # MDE model id -> relative checkpoint path (relative to Easy3D folder, no absolute paths).
 # FlashDepth paths match flashdepth_model.py MODEL_FILES / find_config_dir():
