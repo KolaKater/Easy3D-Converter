@@ -469,13 +469,8 @@ Easy3D/
 
 ## FAQ
 
-**Q: Is GenStereo better than Depth Anything V3 / StereoSpace?**
-- **Depth Anything V3** is depth estimation only (better depth), not stereo generation. Best combo is GenStereo with a better depth model (not yet implemented).
-- **StereoSpace** wins on transparent / reflective / multi-layer scenes, has physical baseline control, and uses SD 2.0. GenStereo wins for stereo-matching training data and for speed on RTX 3070 with v1.5.
-- GenStereo handles lighting better than expected: Reference UNet + Warped image preserve true lighting, AdaptiveFusion mixes them.
-
 **Q: Can I use it for video?**
-No. GenStereo is single-image only. Frame-by-frame causes flicker / depth jumps. For video, use StereoWorld / StereoCrafter / SVG.
+No. No, at the moment it is single-image only. Frame-by-frame causes flicker / depth jumps. For video, use StereoWorld / StereoCrafter / SVG.
 
 **Q: Does Fusion / Guidance / Depth / Baseline affect speed?**
 No. They are weights. Speed is determined by **Steps**, **Resolution**, and **Finetuned Model** (v1.5 vs v2.1) only.
