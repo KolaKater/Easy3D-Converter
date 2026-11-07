@@ -36,12 +36,7 @@ CONFIG_FILE = "preset/easy3d_gui_config.json"
 PRESET_FILE = "preset/easy3d_presets.json"
 LOG_FILE = "easy3d_debug.log"
 SCRIPT_NAME = "test.py"
-SCRIPT_ARBITRARY = "test_arbitrary_size.py"  # v3.1 UNUSED - patch path removed, stretch-only. Kept for reference, do NOT use.
-# v3.0 SD3D-style: NO Mode option. Resolution = inference SQUARE size (stretch target).
-# GUI stretches original -> Res x Res square, inference runs on square, GUI stretches right view back to ORIGINAL W x H.
-# No crop, no letterbox, output aspect == input aspect, always.
-# v3.1 STRETCH ONLY (SD3D-style, user confirmed stretch is best): NO patch, NO crop, NO letterbox.
-# Always test.py single-pass. Resolution = stretch square side. GUI stretches original -> Res x Res, test.py runs UNet at Res, GUI stretches right view back to original W x H.
+SCRIPT_ARBITRARY = "test_arbitrary_size.py"  # v3.1 UNUSED - patch path removed, Kept for reference, do NOT use.
 # Final SBS size = ORIGINAL image size (W x H), NOT Res. Res controls inference detail. Res 1024+ on 3070 8GB is slow / may OOM - lower Res if OOM.
 # v1.9 fixed dependencies (not options): VAE + Image Encoder live in models/
 FIXED_VAE = "sd-vae-ft-mse"
@@ -577,7 +572,7 @@ class GenStereoGUI:
         stem = Path(input_file).stem
         if "_Easy3D_" in stem:
             stem = stem.split("_Easy3D_")[0]
-        # v3.1: Finetuned choice is always respected (stretch-only, no patch forcing v2.1).
+        # v3.1: Finetuned choice is always respected (no patch forcing v2.1).
         model = "V15" if "v1.5" in str(params.get("finetuned_model", "")) else ("V21" if "v2.1" in str(params.get("finetuned_model", "")) else "V15")
         _mde = str(params.get("mde_model", "")).strip().lower()
         _mde_suf = MDE_SUFFIXES.get(_mde, "_MDEC" if _mde else "")
@@ -587,7 +582,7 @@ class GenStereoGUI:
         _fr = "_FRBoth" if str(params.get("face_restore", "none")) == "gfpgan_both" else ""
         return f"{stem}_Easy3D_{model}{_mde_suf}_R{res}_{self._param_code(params.get('depth_strength', 1.0), 'D')}_{self._param_code(params.get('baseline', 1.0), 'B')}_{self._param_code(params.get('fusion_strength', 0.5), 'F')}_S{int(params.get('steps', 50))}_{self._param_code(params.get('guidance_scale', 1.5), 'G')}{_fr}_{ot}_Seed{params.get('seed', '')}{extra}"
     def _stretch_to_square(self, input_path, res):
-        """SD3D-style stretch: original (W x H, any aspect) -> Res x Res square, NO crop, NO black bars.
+        """SD3D-style:NO crop, NO black bars.
         Returns (temp_square_path, (orig_W, orig_H)). Temp file is _tmp_square_<stem>.jpg in ./_tmp_square/."""
         from PIL import Image
         orig = Image.open(input_path).convert("RGB")
@@ -763,7 +758,6 @@ class GenStereoGUI:
         exe = sys.executable
         for cand in (Path("venv_Easy3D/Scripts/python.exe"), Path("venv/Scripts/python.exe")):
             if cand.exists(): exe = str(cand); break
-        # v3.1 STRETCH ONLY: input_path is ALREADY the stretched square (Res x Res) from _stretch_to_square().
         # Always test.py single-pass, NO patch. test.py runs UNet at Res (cfg.height/width = Res).
         scale = 0.15 * float(params.get("baseline", 1.0)) * float(params.get("depth_strength", 1.0))
         # v3.2: input_path can be a single square OR a list of squares (batch, load model once).
@@ -804,7 +798,7 @@ class GenStereoGUI:
                 _fm = str(params.get("finetuned_model", "genstereo-v1.5"))
                 env["GENSTEREO_VERSION"] = _fm.replace("genstereo-", "").replace("genstereo", "v1.5") if "genstereo" in _fm else _fm
                 _res_rt = int(params.get("resolution", 512) or 512)
-                self.log(f"[Stretch] Resolution {_res_rt} -> test.py single-pass, UNet at {_res_rt}x{_res_rt}, Finetuned={_fm}, GenMode={params.get('gen_mode','orig_right')} (no patch, no crop)")
+                self.log(f"[Work] Resolution {_res_rt} -> test.py single-pass, UNet at {_res_rt}x{_res_rt}, Finetuned={_fm}, GenMode={params.get('gen_mode','orig_right')} (no patch, no crop)")
                 creationflags = subprocess.CREATE_NO_WINDOW if sys.platform == "win32" else 0
                 _rc = 0
                 # v3.4 STREAMING (StereoSpace-style): ONE test.py call (load once, v3.2 speedup kept),
@@ -816,7 +810,7 @@ class GenStereoGUI:
                     _sq_path, _orig_sz = self._stretch_to_square(_t, int(params.get("resolution", 512) or 512))
                     self._square_map[str(Path(_t))] = (_sq_path.stem, _orig_sz)
                     _sq_paths.append(str(_sq_path))
-                    self.log(f"[Stretch] {Path(_t).name} {_orig_sz} -> {params.get('resolution')}x{params.get('resolution')} square (no crop), back to {_orig_sz} after inference")
+                    self.log(f"[Work] {Path(_t).name} {_orig_sz} -> {params.get('resolution')}x{params.get('resolution')} square (no crop), back to {_orig_sz} after inference")
                 self.log(f"[Batch] {len(_sq_paths)} images, ONE test.py call, model loaded ONCE (saves ~25s x {len(_sq_paths)-1} reloads)")
                 _cmd, _ = self.build_command(params, _sq_paths, output_dir)
                 self.log(f"Command: {' '.join(_cmd)}")
