@@ -122,13 +122,13 @@ This step auto-detects your GPU and installs the matching PyTorch CUDA build:
 **Double-click:**
 
 ```
-install_venv_Easy3D_v3.bat
+install_venv_Easy3D_v3_for_RTX20_to_RTX50.bat
 ```
 
 Or from a terminal:
 
 ```bash
-python install_venv_Easy3D_v3.py
+python install_venv_Easy3D_v3_for_RTX20_to_RTX50.py
 ```
 
 This creates `venv_Easy3D\`, installs PyTorch **first** (so it is not pulled as CPU-only), then installs `numpy`, `pillow`, `diffusers`, `transformers`, `accelerate`, `safetensors`, `huggingface_hub`, `einops`, `omegaconf`, `scipy`, `opencv-python`, `timm`, `gradio`, `tkinterdnd2`, `xformers`, and the GFPGAN stack (`gfpgan`, `basicsr`, `facexlib`, `realesrgan`).
