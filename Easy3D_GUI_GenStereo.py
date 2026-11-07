@@ -134,6 +134,7 @@ OUTPUT_TYPE_OPTIONS = _OT_OPTS if _OT_OPTS else {
 }
 SEED_OPTIONS = {
     "Random (Default)": "",
+    "402260655 - Reproducible": "402260655",    
     "457315609 - Reproducible": "457315609",
     "123 - Reproducible": "123",
     "999 - Reproducible": "999",
