@@ -8,6 +8,8 @@ Easy3D Converter is a free, open-source Tkinter GUI for [GenStereo (ICCV 2025)](
 [Python: 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)
 [GPU: RTX 3070+](https://img.shields.io/badge/GPU-RTX%203070%2B-brightgreen.svg)
 
+<img width="1277" height="845" alt="图片" src="https://github.com/user-attachments/assets/e7f18372-4e1d-494a-98b9-8a9c952799a2" />
+
 ---
 
 ## Table of Contents
