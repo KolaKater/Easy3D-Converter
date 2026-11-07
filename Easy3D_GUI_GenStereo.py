@@ -30,7 +30,7 @@ try:
 except Exception:
     HAS_DND = False
 
-__VERSION__ = "v4.6 - 2026-11-07 (hide+fix)"
+__VERSION__ = "v4.6 - 2026-11-07"
 APP_TITLE = "Easy3D Converter"
 CONFIG_FILE = "preset/easy3d_gui_config.json"
 PRESET_FILE = "preset/easy3d_presets.json"
@@ -603,7 +603,9 @@ class GenStereoGUI:
         tmp_dir = Path(__file__).parent / "_cache"
         tmp_dir.mkdir(exist_ok=True)
         tmp = tmp_dir / f"{Path(input_path).stem}_prep{res}.jpg"
-        orig.resize((int(res), int(res)), Image.LANCZOS).save(tmp, "JPEG", quality=95, subsampling=0, optimize=True)
+        # CANCELLED: no ml-sharp pre-shrink. GenStereo != ml-sharp. Plain resize only.
+        _sq = orig.resize((int(res), int(res)), Image.LANCZOS)
+        _sq.save(tmp, "JPEG", quality=95, subsampling=0, optimize=True)
         return tmp, (ow, oh)
     def _cleanup_vis_and_tmp(self, target, params=None):
         """v3.4: after SBS for ONE image is done, delete its vis/ folder + its _cache file. No leftovers."""
@@ -624,21 +626,6 @@ class GenStereoGUI:
             _td = Path(__file__).parent / "_cache"
             if _td.is_dir() and not any(_td.iterdir()): _td.rmdir()
         except Exception: pass
-
-    def _crop_stereo_pair(self, left_img, right_img, expand):
-        try:
-            if expand <= 1.0 + 1e-6: return left_img, right_img
-            from PIL import Image as _Image
-            W, H = left_img.size
-            crop_total = int((expand - 1.0) * W)
-            if crop_total <= 0: return left_img, right_img
-            crop_L_left = int(crop_total * 0.05); crop_L_right = int(crop_total * 0.95)
-            crop_R_left = int(crop_total * 0.95); crop_R_right = int(crop_total * 0.05)
-            l_c = left_img.crop((crop_L_left, 0, W - crop_L_right, H))
-            r_c = right_img.crop((crop_R_left, 0, W - crop_R_right, H))
-            return l_c.resize((W, H), _Image.LANCZOS), r_c.resize((W, H), _Image.LANCZOS)
-        except Exception as _e:
-            self.log(f"[EdgeCrop] skipped: {_e}"); return left_img, right_img
 
     def build_outputs_from_vis(self, targets, output_dir, params):
         """test.py -> vis/<stem>/{left,generated_right,warped,disp}.png
@@ -712,12 +699,9 @@ class GenStereoGUI:
                                 import time as _time2; _time2.sleep(1.0); continue
                             raise
                     if right.size != left.size: right = right.resize(left.size, Image.LANCZOS)
-                try:
-                    _expand = 1.0 + 0.03 * float(params.get("baseline", 1.0)) * float(params.get("depth_strength", 1.0))
-                    if _expand > 1.0 + 1e-6:
-                        left, right = self._crop_stereo_pair(left, right, _expand)
-                except Exception as _ec:
-                    self.log(f"[EdgeCrop] {_ec}")
+                # CANCELLED: no ml-sharp post-expand / crop. GenStereo != ml-sharp. Left/right as-is.
+                # Edge crop is small, Auto-Align will crop anyway.
+                pass
                 # Temp SBS: plain Left|Right, let output_type.py decide swap/align
                 if _create_sbs is not None:
                     sbs_img = _create_sbs(left, right, output_type="parallel")
