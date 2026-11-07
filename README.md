@@ -188,9 +188,9 @@ torch: 2.6.0+cu124 cuda: True
 **Recommended first run (RTX 3070 8GB):**
 
 ```
-Finetuned:  genstereo-v2.1 - 768px
-MDE:        FlashDepth-L - Official, follows Resolution
-Resolution: 1024 - Inference 1024x1024
+Finetuned:  genstereo-v2.1 
+MDE:        FlashDepth-L 
+Resolution: 1024 - Inference 
 Steps:      20 - Fast
 Depth:      1.00
 Baseline:   0.40
