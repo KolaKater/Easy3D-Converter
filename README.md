@@ -187,14 +187,14 @@ torch: 2.6.0+cu124 cuda: True
 **Recommended first run (RTX 3070 8GB):**
 
 ```
-Finetuned:  genstereo-v1.5 - 512px
-MDE:        Depth Anything V2 ViT-L
+Finetuned:  genstereo-v2.1 - 768px
+MDE:        FlashDepth-L - Official, follows Resolution
 Resolution: 1024 - Inference 1024x1024
-Steps:      30 - Balanced
+Steps:      20 - Fast
 Depth:      1.00
-Baseline:   1.00
-Fusion:     0.50
-Guidance:   1.50
+Baseline:   0.40
+Fusion:     0.40
+Guidance:   1.80
 Gen Mode:   Orig_Right
 Face Restore: None
 Output Type: 1. Parallel (Default)

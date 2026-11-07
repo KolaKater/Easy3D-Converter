@@ -30,7 +30,7 @@ try:
 except Exception:
     HAS_DND = False
 
-__VERSION__ = "v4.3 - 2026-11-07"
+__VERSION__ = "v4.4 - 2026-11-07"
 APP_TITLE = "Easy3D - GenStereo, FlashDepth, DA2, Gfpgan Converter"
 CONFIG_FILE = "preset/easy3d_gui_config.json"
 PRESET_FILE = "preset/easy3d_presets.json"
@@ -59,8 +59,8 @@ except Exception as _e:
     _process_sbs_file = None
 
 FINETUNED_OPTIONS = {
-    "genstereo-v1.5 - 512px": "genstereo-v1.5",
-    "genstereo-v2.1 - 768px": "genstereo-v2.1",
+    "genstereo-v1.5": "genstereo-v1.5",
+    "genstereo-v2.1": "genstereo-v2.1",
 }
 MDE_OPTIONS = {
     "Depth Anything V2 ViT-L": "depth_anything_v2_vitl",
@@ -101,23 +101,23 @@ ENCODER_OPTIONS = {
     "Custom - Use Image Encoder Path below": "custom",
 }
 RESOLUTION_OPTIONS = {
-    "512 - Inference 512x512, Fast": 512,
-    "640 - Inference 640x640": 640,
-    "768 - Inference 768x768": 768,
-    "896 - Inference 896x896": 896,
-    "1024 - Inference 1024x1024": 1024,
-    "1152 - Inference 1152x1152": 1152,
-    "1280 - Inference 1280x1280": 1280,
-    "1408 - Inference 1408x1408": 1408,
-    "1536 - Inference 1536x1536": 1536,
-    "1664 - Inference 1664x1664": 1664,
-    "1792 - Inference 1792x1792": 1792,
-    "1920 - Inference 1920x1920": 1920,
-    "2048 - Inference 2048x2048, Slowest": 2048,
+    "512 - Inference, Fast": 512,
+    "640 - Inference": 640,
+    "768 - Inference": 768,
+    "896 - Inference": 896,
+    "1024 - Inference": 1024,
+    "1152 - Inference": 1152,
+    "1280 - Inference": 1280,
+    "1408 - Inference": 1408,
+    "1536 - Inference": 1536,
+    "1664 - Inference": 1664,
+    "1792 - Inference": 1792,
+    "1920 - Inference": 1920,
+    "2048 - Inference, Slowest": 2048,
 }
 FACE_RESTORE_OPTIONS = {
     "None": "none",
-    "Gfpgan_Both - Both Eyes": "gfpgan_both",
+    "Both Eyes": "gfpgan_both",
 }
 GEN_MODE_OPTIONS = {
     "Orig_Right": "orig_right",
@@ -139,7 +139,7 @@ OUTPUT_TYPE_OPTIONS = _OT_OPTS if _OT_OPTS else {
 }
 SEED_OPTIONS = {
     "Random (Default)": "",
-    "42 - Reproducible": "42",
+    "457315609 - Reproducible": "457315609",
     "123 - Reproducible": "123",
     "999 - Reproducible": "999",
     "2025 - Reproducible": "2025",
@@ -147,8 +147,8 @@ SEED_OPTIONS = {
 
 # Old MDE labels (before res patch) -> new labels. Old presets/configs keep working.
 _MDE_LABEL_ALIASES = {
-    "FlashDepth-L - Official, 518px": "FlashDepth-L - Official, follows Resolution",
-    "FlashDepth-S - Official, 392px, Fast": "FlashDepth-S - Official, follows Resolution, Fast",
+    "FlashDepth-L - Official, 518px": "FlashDepth-L",
+    "FlashDepth-S - Official, 392px, Fast": "FlashDepth-S, Fast",
 }
 def _migrate(saved, options):
     if saved in options:
@@ -186,7 +186,7 @@ class GenStereoGUI:
         main = ttk.Frame(root, padding=(10, 6)); main.pack(fill=tk.BOTH, expand=True)
         ttk.Label(main, text=APP_TITLE, style="Header.TLabel").pack()
 
-        # ---- Input / Output (v4.3 mockup: Browse left, Entry middle, checkboxes right) ----
+        # ---- Input / Output (v4.4 mockup: Browse left, Entry middle, checkboxes right) ----
         io = ttk.LabelFrame(main, text="Input / Output", padding=(10, 6)); io.pack(fill=tk.X, pady=(0, 6))
         # Row 0: Input: [Browse File][Browse Folder][Entry ........] [Save Depth][Save Warped][Low VRAM]
         io_r0 = ttk.Frame(io); io_r0.pack(fill=tk.X, pady=2)
@@ -219,14 +219,14 @@ class GenStereoGUI:
         ttk.Button(io_r1, text="Save", width=10, command=self.on_preset_save).pack(side=tk.LEFT, padx=2)
         ttk.Button(io_r1, text="Delete", width=10, command=self.on_preset_delete).pack(side=tk.LEFT, padx=2)
         self.refresh_preset_combo()
-        # v4.3: GenStereo Model frame removed - Finetuned / MDE moved into Parameters (mockup).
+        # v4.4: GenStereo Model frame removed - Finetuned / MDE moved into Parameters (mockup).
         self.finetuned_path_var = tk.StringVar(value="models")
         self.mde_path_var = tk.StringVar(value="models/depth_anything_v2_vitl.pth")
         self.vae_var = tk.StringVar(value=list(VAE_OPTIONS)[0])
         self.vae_path_var = tk.StringVar(value=FIXED_VAE_PATH)
         self.encoder_var = tk.StringVar(value=list(ENCODER_OPTIONS)[0])
         self.encoder_path_var = tk.StringVar(value=FIXED_ENCODER_PATH)
-        # ---- Stereo Parameters (v4.3 mockup: 12-col, 3 rows, no separate Model frame) ----
+        # ---- Stereo Parameters (v4.4 mockup: 12-col, 3 rows, no separate Model frame) ----
         pf2 = ttk.LabelFrame(main, text="Stereo Parameters", padding=(10, 8)); pf2.pack(fill=tk.X, pady=(0, 6))
         for _cc in range(12): pf2.columnconfigure(_cc, weight=1)
         # Row 0: 4 sliders - Depth / Fusion / Baseline / Guidance (each: Label + Scale + Value = 3 cols)
@@ -298,7 +298,7 @@ class GenStereoGUI:
         bottom = ttk.Frame(main); bottom.pack(fill=tk.BOTH, expand=True, pady=(2, 0))
         for c in (0, 1, 2): bottom.columnconfigure(c, weight=1)
         bottom.rowconfigure(0, weight=1)
-        # v4.3: Log / File List fill the same height as Preview (no fixed height, rowconfigure weight=1)
+        # v4.4: Log / File List fill the same height as Preview (no fixed height, rowconfigure weight=1)
         self.log_frame = ttk.LabelFrame(bottom, text="Log", padding=5); self.log_frame.grid(row=0, column=0, sticky=tk.NSEW, padx=(0, 5)); self.log_frame.rowconfigure(0, weight=1); self.log_frame.columnconfigure(0, weight=1)
         self.log_text = tk.Text(self.log_frame, wrap=tk.WORD, font=("Consolas", 8), bg="#1e1e1e", fg="#d4d4d4", insertbackground="white")
         sb = ttk.Scrollbar(self.log_frame, orient=tk.VERTICAL, command=self.log_text.yview); self.log_text.configure(yscrollcommand=sb.set)
@@ -686,7 +686,7 @@ class GenStereoGUI:
                     sbs_img = _create_sbs(left, right, output_type="parallel")
                 else:
                     sbs_img = Image.new("RGB", (left.width + right.width, left.height)); sbs_img.paste(left, (0, 0)); sbs_img.paste(right, (left.width, 0))
-                # v4.3 Face Restore: AFTER SBS merge, BEFORE Output Type (output_type.py).
+                # v4.4 Face Restore: AFTER SBS merge, BEFORE Output Type (output_type.py).
                 # One call on the whole SBS image - GFPGAN sees both eyes' faces at once (Both Eyes).
                 if str(params.get("face_restore", "none")) == "gfpgan_both":
                     try:
