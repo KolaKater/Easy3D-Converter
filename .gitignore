@@ -1,0 +1,61 @@
+# Easy3D Converter - .gitignore
+# Place this file in the repo root, same folder as README.md
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual env - too large, do not commit.
+# Users create it with install_venv_Easy3D_v3.bat
+venv_Easy3D/
+venv/
+.env
+.venv/
+
+# Models - too large, do not commit.
+# GitHub single file limit is 100MB, one model is ~3.4GB.
+# Users download them with install_all.bat
+# NOTE: Only ignore the weights, NOT the whole folder structure.
+# If you want the empty folder to show on GitHub, add a .gitkeep inside it.
+models/**/*.pth
+models/**/*.safetensors
+models/**/*.bin
+models/**/config.yaml
+models/**/.cache/
+gfpgan/weights/
+checkpoints/
+*.pth
+*.safetensors
+
+# Gradio / cache - do not commit
+.gradio/
+.gradio_flagged/
+.cache/
+__pycache__/
+
+# Temp / Output - do not commit
+vis/
+_tmp_square/
+*.log
+genstereo_gui.log
+easy3d_debug.log
+
+# Output images - do not commit (except placeholders)
+# NOTE: Do NOT ignore preset/ or scripts/ - those are code and must show on GitHub
+*.jpg
+*.jpeg
+*.png
+!Easy3D.png
+!Easy3D.ico
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# FFmpeg binary - too large, do not commit, users download it separately
+ffmpeg/bin/ffmpeg.exe
+ffmpeg/bin/ffprobe.exe

@@ -2,11 +2,13 @@
 
 **Convert a single image into a side-by-side (SBS) stereo 3D image.**
 
-Easy3D Converter is a free, open-source Tkinter GUI for [GenStereo (ICCV 2025)](https://github.com/FQiao/GenStereo) — a diffusion-based single-image-to-stereo model. It is designed to run on a consumer GPU such as an **NVIDIA RTX 3070 8GB**, with stretch-only handling (no crop, no letterbox), clean file naming, and batch conversion.
+Easy3D Converter is a free, open-source Tkinter GUI for [GenStereo (ICCV 2025)](https://github.com/FQiao/GenStereo) — a diffusion-based single-image-to-stereo model. It is designed to run on a consumer GPU such as an **NVIDIA RTX 3070 8GB**, clean file naming, and batch conversion.
 
 [License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 [Python: 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)
 [GPU: RTX 3070+](https://img.shields.io/badge/GPU-RTX%203070%2B-brightgreen.svg)
+
+<img width="1277" height="845" alt="图片" src="https://github.com/user-attachments/assets/e7f18372-4e1d-494a-98b9-8a9c952799a2" />
 
 ---
 
@@ -39,7 +41,6 @@ Easy3D Converter is a free, open-source Tkinter GUI for [GenStereo (ICCV 2025)](
 ## Features
 
 - **Single image → SBS 3D:** Left = original, Right = AI-generated (or symmetric / swapped, see Gen Mode).
-- **Stretch-only:** The input is stretched to a square for inference, then the right view is stretched back to the **original W × H**. No crop, no letterbox, output aspect == input aspect, always.
 - **Batch conversion:** Drop a single image or a whole folder. The model is loaded **once** for the whole batch (no reload per image).
 - **Streaming output:** Each image is converted to SBS as soon as its inference finishes — you don't wait for the whole batch.
 - **Drag & drop:** Drop a file / folder onto the Input box or the whole window (`tkinterdnd2`).
@@ -56,10 +57,8 @@ Easy3D Converter is a free, open-source Tkinter GUI for [GenStereo (ICCV 2025)](
 
 ```
 Original (W x H, any aspect)
-  → Stretch to Res x Res square (LANCZOS, no crop)
   → GenStereo (Depth + Warp + Diffusion, single pass)
   → Right view (Res x Res)
-  → Stretch right view back to original W x H
   → Merge Left | Right → SBS
   → (Optional) GFPGAN Face Restore on SBS
   → (Optional) Output Type: Parallel / Cross-Eyed / Auto-Align
@@ -120,13 +119,13 @@ This step auto-detects your GPU and installs the matching PyTorch CUDA build:
 **Double-click:**
 
 ```
-install_venv_Easy3D_v3.bat
+install_venv_Easy3D_v3_for_RTX20_to_RTX50.bat
 ```
 
 Or from a terminal:
 
 ```bash
-python install_venv_Easy3D_v3.py
+python install_venv_Easy3D_v3_for_RTX20_to_RTX50.py
 ```
 
 This creates `venv_Easy3D\`, installs PyTorch **first** (so it is not pulled as CPU-only), then installs `numpy`, `pillow`, `diffusers`, `transformers`, `accelerate`, `safetensors`, `huggingface_hub`, `einops`, `omegaconf`, `scipy`, `opencv-python`, `timm`, `gradio`, `tkinterdnd2`, `xformers`, and the GFPGAN stack (`gfpgan`, `basicsr`, `facexlib`, `realesrgan`).
@@ -156,6 +155,10 @@ Final check should read:
 ```
 
 If it does not, see the `MISSING` lines and download those files manually to the same relative paths.
+
+### 3. 1 Download FFmpeg
+FFmpeg: Download from https://www.gyan.dev/ffmpeg/builds/ 
+and put ffmpeg.exe into ffmpeg/bin/
 
 ### 4. Verify
 
@@ -264,8 +267,6 @@ How much the diffusion follows the condition.
 `Guidance` does **not** affect speed — it is a weight, not a step count.
 
 #### Resolution
-
-Inference square side. The input is stretched to `Res × Res` for inference, then the right view is stretched back to the original size. `Res` controls detail, **not** final size. Final SBS size = original image size.
 
 | Res | RTX 3070 8GB | Notes |
 |---|---|---|
@@ -390,7 +391,7 @@ All models are **relative** to the Easy3D folder. `install_all.bat` downloads th
 |---|---|---|
 | **GenStereo** | [FQiao/GenStereo](https://github.com/FQiao/GenStereo) (ICCV 2025) | Core stereo generation (dual-UNet diffusion) |
 | **Easy3D Converter** | This repo — `Easy3D_GUI_GenStereo.py` (Tkinter) | GUI, batch, streaming, SBS merging |
-| **test.py** | This repo (GenStereo official CLI, patched) | Single-pass inference, stretch-only, batch, TF32, xformers/SDPA |
+| **test.py** | This repo (GenStereo official CLI, patched) | Single-pass inference, batch, TF32, xformers/SDPA |
 | **output_type.py** | This repo | SBS Parallel / XD / Auto-Align (authoritative for output type) |
 | **GFPGAN_face.py** | This repo | GFPGAN face restore on SBS |
 | **flashdepth_model.py** | This repo (wrapper for FlashDepth) | FlashDepth MDE inference |
@@ -416,12 +417,12 @@ All models are **relative** to the Easy3D folder. `install_all.bat` downloads th
 Easy3D/
 ├── Easy3D_GUI_GenStereo.py      # Tkinter GUI (v4.0) - main entry
 ├── Launch_Easy3D_GUI.bat        # GUI launcher (hidden via VBS, tries pythonw)
-├── test.py                      # GenStereo inference (stretch-only, batch, TF32)
+├── test.py                      # GenStereo inference (batch, TF32)
 ├── test_arbitrary_size.py        # UNUSED in GUI (patch-based, reference only) - DO NOT USE
 ├── output_type.py                # SBS Parallel / XD / Auto-Align - DO NOT MODIFY
 ├── GFPGAN_face.py               # GFPGAN face restore on SBS
 ├── flashdepth_model.py          # FlashDepth wrapper
-├── install_venv_Easy3D_v3.bat / .py  # Create venv, auto-detect GPU, install torch + deps
+├── install_venv_Easy3D_v3_for_RTX20_to_RTX50.bat / .py  # Create venv, auto-detect GPU, install torch + deps
 ├── install_all.bat / .py        # One-click: venv + pip + all 10 models
 ├── download_models.py           # Model downloader (legacy, install_all.py is preferred)
 ├── requirements.txt / requirements_full.txt  # pip freeze / pip list
@@ -437,7 +438,7 @@ Easy3D/
 ├── GenStereo/                   # GenStereo model code (dual-UNet, etc.)
 ├── preset/                      # GUI config + presets (easy3d_gui_config.json, easy3d_presets.json)
 ├── Easy3D.png / Easy3D.ico     # GUI placeholder / icon
-├── _tmp_square/                 # Temp stretched squares (auto-deleted)
+├── _tmp_square/                 # Temp squares (auto-deleted)
 └── vis/                         # Temp GenStereo outputs (auto-deleted per image)
 ```
 
@@ -447,12 +448,12 @@ Easy3D/
 
 | Problem | Fix |
 |---|---|
-| `torch.cuda.is_available() == False` / CPU torch | You installed CPU torch. Delete `venv_Easy3D\`, re-run `install_venv_Easy3D_v3.bat` (it installs CUDA torch **first**). |
-| `pillow 13 vs gradio` / `numpy 2.x` errors | `install_venv_Easy3D_v3.bat` pins `pillow==10.4.0`, `numpy==1.26.4`. Do not upgrade them. |
-| `CLIPVisionModelWithProjection` / `torch >= 2.6` error | Upgrade to `torch 2.6.0+cu124` (30/40 series) or `2.7.1+cu128` (50 series) — `install_venv_Easy3D_v3.bat` does this. |
+| `torch.cuda.is_available() == False` / CPU torch | You installed CPU torch. Delete `venv_Easy3D\`, re-run `install_venv_Easy3D_v3_for_RTX20_to_RTX50.bat` (it installs CUDA torch **first**). |
+| `pillow 13 vs gradio` / `numpy 2.x` errors | `install_venv_Easy3D_v3_for_RTX20_to_RTX50.bat` pins `pillow==10.4.0`, `numpy==1.26.4`. Do not upgrade them. |
+| `CLIPVisionModelWithProjection` / `torch >= 2.6` error | Upgrade to `torch 2.6.0+cu124` (30/40 series) or `2.7.1+cu128` (50 series) — `install_venv_Easy3D_v3_for_RTX20_to_RTX50.bat` does this. |
 | `xformers` not available | Optional. GUI falls back to SDPA. On 50 series, use `xformers 0.0.30` + `cu128`. |
 | `Triton` missing on Windows | Normal. Falls back gracefully. |
-| `tkinterdnd2` missing / drag-drop not working | Run `venv_Easy3D\Scripts\python.exe -m pip install tkinterdnd2==0.7.0` (included in `install_venv_Easy3D_v3.bat`). |
+| `tkinterdnd2` missing / drag-drop not working | Run `venv_Easy3D\Scripts\python.exe -m pip install tkinterdnd2==0.7.0` (included in `install_venv_Easy3D_v3_for_RTX20_to_RTX50.bat`). |
 | `GFPGAN loaded: False` | Run `fix_basicsr` / check `basicsr` shim for `torchvision.transforms.functional_tensor.rgb_to_grayscale` (removed in torchvision 0.21). See `GFPGAN_face.py` `get_last_error()`. |
 | `image_encoder` corrupted / `PytorchStreamReader` error | Delete `models/image_encoder/` and re-run `install_all.bat`. It tries `lambdalabs` → `hf-mirror` → `openai/clip-vit-large-patch14`. |
 | `checkpoints/depth_anything_v2_vitl.pth` reappears | Old GUI v1.0 bug (GUI passed `checkpoints/...` to `test.py`). GUI v4.0 uses `models/` only. Delete `checkpoints/` — it will not reappear on v4.0. |
@@ -479,9 +480,6 @@ No. They are weights. Speed is determined by **Steps**, **Resolution**, and **Fi
 
 **Q: Can I use Flux.2 Klein as Finetuned?**
 No. GenStereo needs SD 1.5 / 2.1 UNet weights. Flux is DiT + Flow Matching, different VAE, different weight shapes.
-
-**Q: Why stretch, not crop or patch?**
-Stretch preserves the full image and the original aspect ratio (output aspect == input aspect). Crop loses content. Patch (`test_arbitrary_size.py`) is slower (9–25 patches), has seams / brightness jumps, and is v2.1-only. Stretch is the StereoSpace / SD3D-style choice.
 
 ---
 
