@@ -9,6 +9,7 @@ Easy3D Converter is a free, open-source Tkinter GUI for [GenStereo (ICCV 2025)](
 [GPU: RTX 3070+](https://img.shields.io/badge/GPU-RTX%203070%2B-brightgreen.svg)
 
 <img width="1275" height="844" alt="图片" src="https://github.com/user-attachments/assets/c7236244-1795-440f-adee-42a301965283" />
+<img width="3070" height="1600" alt="1793898215341-done-photo-reality_Easy3D_V21_FDL_R1024_D100_B040_F030_S20_G181_FRBoth_PAR_Seed402260655_Aligned_Cut" src="https://github.com/user-attachments/assets/82054335-fa0c-4c07-a6aa-9cd1fdce0240" />
 
 
 ---
@@ -468,13 +469,8 @@ Easy3D/
 
 ## FAQ
 
-**Q: Is GenStereo better than Depth Anything V3 / StereoSpace?**
-- **Depth Anything V3** is depth estimation only (better depth), not stereo generation. Best combo is GenStereo with a better depth model (not yet implemented).
-- **StereoSpace** wins on transparent / reflective / multi-layer scenes, has physical baseline control, and uses SD 2.0. GenStereo wins for stereo-matching training data and for speed on RTX 3070 with v1.5.
-- GenStereo handles lighting better than expected: Reference UNet + Warped image preserve true lighting, AdaptiveFusion mixes them.
-
 **Q: Can I use it for video?**
-No. GenStereo is single-image only. Frame-by-frame causes flicker / depth jumps. For video, use StereoWorld / StereoCrafter / SVG.
+No. No, at the moment it is single-image only. Frame-by-frame causes flicker / depth jumps. For video, use StereoWorld / StereoCrafter / SVG.
 
 **Q: Does Fusion / Guidance / Depth / Baseline affect speed?**
 No. They are weights. Speed is determined by **Steps**, **Resolution**, and **Finetuned Model** (v1.5 vs v2.1) only.
