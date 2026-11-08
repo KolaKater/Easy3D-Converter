@@ -232,7 +232,7 @@ That's it. Wait for `[Done] Updated to latest version!`, then double-click `Laun
 ```
 Finetuned:  genstereo-v2.1 
 MDE:        FlashDepth-L 
-Resolution: 1152 - Inference 
+Resolution: 1024 - Inference 
 Steps:      20 - Fast
 Depth:      1.00
 Baseline:   0.40
