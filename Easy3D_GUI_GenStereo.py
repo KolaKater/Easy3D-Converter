@@ -24,7 +24,7 @@ except Exception:
     HAS_DND = False
 
 __VERSION__ = "v5.0- 2026-11-08"
-APP_TITLE = "Easy3D Converter"
+APP_TITLE = "Easy3D Converter: I love Depth. I also love Light."
 CONFIG_FILE = "preset/easy3d_gui_config.json"
 PRESET_FILE = "preset/easy3d_presets.json"
 LOG_FILE = "easy3d_debug.log"
