@@ -1,4 +1,4 @@
-# Easy3D Converter — I love Depth. I also love Light.
+# Easy3D Converter: I love Depth. I also love Light.
 
 **Convert a single image into a side-by-side (SBS) stereo 3D image.**
 
