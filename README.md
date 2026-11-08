@@ -8,8 +8,8 @@ Easy3D Converter is a free, open-source tool that converts a single image (with 
 [[Python: 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
 [[GPU: RTX 3070+](https://img.shields.io/badge/GPU-RTX%203070%2B-brightgreen.svg)](https://www.nvidia.com/)
 
-<img width="1275" height="844" alt="图片" src="https://github.com/user-attachments/assets/c7236244-1795-440f-adee-42a301965283" />
-<img width="3070" height="1600" alt="1793898215341-done-photo-reality_Easy3D_V21_FDL_R1024_D100_B040_F030_S20_G181_FRBoth_PAR_Seed402260655_Aligned_Cut" src="https://github.com/user-attachments/assets/82054335-fa0c-4c07-a6aa-9cd1fdce0240" />
+<img width="1278" height="847" alt="图片" src="https://github.com/user-attachments/assets/013cc441-5ec8-4a6a-832d-94648afe8243" />
+
 
 ---
 
