@@ -154,6 +154,18 @@ def _migrate(saved, options):
         return _MDE_LABEL_ALIASES[saved]
     return None
 
+def _apply_gamma(img, gamma):
+    """out = 255*(in/255)**gamma, gamma=1.0 直接返回原图."""
+    try:
+        if img is None or not gamma or float(gamma) == 1.0:
+            return img
+        g = float(gamma)
+        lut = [max(0, min(255, int(round(255.0 * ((i/255.0) ** g))))) for i in range(256)]
+        return img.point(lut * 3)
+    except Exception as e:
+        print(f'[Gamma] failed {gamma}: {e}')
+        return img
+
 class GenStereoGUI:
     def __init__(self, root):
         self.root = root
@@ -565,18 +577,6 @@ class GenStereoGUI:
         except Exception: pass
         print(line, end="")
 
-
-def _apply_gamma(img, gamma):
-    """out = 255*(in/255)**gamma, gamma=1.0 直接返回原图."""
-    try:
-        if img is None or not gamma or float(gamma) == 1.0:
-            return img
-        g = float(gamma)
-        lut = [max(0, min(255, int(round(255.0 * ((i/255.0) ** g))))) for i in range(256)]
-        return img.point(lut * 3)
-    except Exception as e:
-        print(f'[Gamma] failed {gamma}: {e}')
-        return img
 
     # ---- Run ----
     # ---- v1.9 Output naming + vis -> SBS ----
