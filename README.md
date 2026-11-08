@@ -3,6 +3,9 @@
 **Convert a single image into a side-by-side (SBS) stereo 3D image.**
 
 Easy3D Converter is a free, open-source tool that converts a single image (with video support planned for the future) into a side-by-side (SBS) stereo 3D image. It is designed to run on a consumer GPU, such as an NVIDIA RTX 3070 or higher.
+It is a next-generation  3D SBS converter, which combines Stable Diffusion-based processing with depth-map-based conversion, bringing the advantages of both approaches together.
+It also offers a wide range of settings that allow you to fine-tune the conversion. However, the same settings can produce quite different results on different hardware configurations.
+With a more powerful GPU, you can work with higher resolutions and run experiments much faster. This makes it easier to test different seeds and settings until you find the optimal combination for your particular hardware and preferences.
 
 [[License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [[Python: 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
