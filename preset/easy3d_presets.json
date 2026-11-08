@@ -22,7 +22,7 @@
     "save_depth": false,
     "save_warped": false
   },
-  "Seed 402260655 FDL 1280 good": {
+  "Seed 402260655 FDL 1152 good": {
     "gen_mode": "orig_right",
     "face_restore": "gfpgan_both",
     "finetuned_model": "genstereo-v2.1",
@@ -37,7 +37,7 @@
     "baseline": 0.404,
     "fusion_strength": 0.305,
     "guidance_scale": 1.81,
-    "resolution": 1280,
+    "resolution": 1152,
     "steps": 20,
     "seed": "402260655",
     "output_type": "parallel",
