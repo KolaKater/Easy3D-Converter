@@ -5,17 +5,18 @@
 Easy3D Converter is a free, open-source tool that converts a single image into a side-by-side (SBS) stereo 3D image. It combines Stable Diffusion-based generation with depth-map-based conversion, and runs on a consumer GPU such as an NVIDIA RTX 3070 or higher.
 
 Results vary by hardware and settings, so experimenting with different resolutions, seeds, and parameters is the fastest way to find what works best for you. Video support is planned for the future.
-welcome to visit our Facebook group:
-https://www.facebook.com/share/g/1KokTEPmCs/
 
 [[License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [[Python: 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
 [[GPU: RTX 3070+](https://img.shields.io/badge/GPU-RTX%203070%2B-brightgreen.svg)](https://www.nvidia.com/)
 
-<img width="1278" height="848" alt="图片" src="https://github.com/user-attachments/assets/ece54b72-35ee-4290-bdf9-3fd8cb1b8054" />
+<img width="1278" height="848" alt="Easy3D Converter GUI" src="https://github.com/user-attachments/assets/ece54b72-35ee-4290-bdf9-3fd8cb1b8054" />
 
-<img width="3972" height="1149" alt="1794081262931-2048_Easy3D_V21_FDL_R1280_D100_B040_F030_S20_G181_FRBoth_PAR_Seed402260655_Aligned_Cut" src="https://github.com/user-attachments/assets/5578050a-efa9-4e45-bfbd-0b390a27f6f2" />
+*Easy3D Converter GUI*
 
+<img width="3972" height="1149" alt="SBS stereo 3D result" src="https://github.com/user-attachments/assets/5578050a-efa9-4e45-bfbd-0b390a27f6f2" />
+
+*Original image → SBS stereo 3D result*
 
 ---
 
@@ -28,6 +29,7 @@ https://www.facebook.com/share/g/1KokTEPmCs/
   - [1. Clone / Download](#1-clone--download)
   - [2. Create the Virtual Environment](#2-create-the-virtual-environment)
   - [3. Download All Models](#3-download-all-models)
+  - [3.1 Download FFmpeg](#31-download-ffmpeg)
   - [4. Verify](#4-verify)
 - [Update](#update)
 - [Usage](#usage)
@@ -42,6 +44,7 @@ https://www.facebook.com/share/g/1KokTEPmCs/
 - [Project Structure](#project-structure)
 - [Troubleshooting](#troubleshooting)
 - [FAQ](#faq)
+- [Community](#community)
 - [Credits & License](#credits--license)
 
 ---
@@ -56,7 +59,7 @@ https://www.facebook.com/share/g/1KokTEPmCs/
 - **Depth / Warped export:** Optional `_DEPTH` and `_WARPED` outputs.
 - **Face Restore (optional):** GFPGAN on the merged SBS image, both eyes.
 - **Live preview:** Full-resolution preview that follows the window size.
-- **Clean naming:** `Original_Easy3D_V15_DA2L_R1024_D100_B100_F050_S50_G150_PAR_Seed12345.jpg` — all parameters are in the filename.
+- **Clean naming:** `White Rose_Easy3D_V21_FDL_R1024_D100_B040_F040_S20_G180_PAR_Seed402260655.jpg` — all parameters are in the filename.
 - **RTX 3070 friendly:** v1.5 / 512–1024 px is the recommended setting. 1536 px+ is possible but slow / may OOM on 8 GB.
 - **One-click update:** Double-click `update.bat` to update to the latest version from GitHub. Your `models/`, `venv_Easy3D/`, `preset/` are NOT overwritten.
 
@@ -67,7 +70,7 @@ https://www.facebook.com/share/g/1KokTEPmCs/
 ```
 Original (W x H, any aspect)
   → GenStereo (Depth + Warp + Diffusion, single pass)
-  → Right view (Res x Res)
+  → Right view (Res x Res, resized back to W x H)
   → Merge Left | Right → SBS
   → (Optional) GFPGAN Face Restore on SBS
   → (Optional) Output Type: Parallel / Cross-Eyed / Auto-Align
@@ -165,9 +168,11 @@ Final check should read:
 
 If it does not, see the `MISSING` lines and download those files manually to the same relative paths.
 
-### 3. 1 Download FFmpeg
-FFmpeg: Download from https://www.gyan.dev/ffmpeg/builds/ 
-and put ffmpeg.exe into ffmpeg/bin/
+### 3.1 Download FFmpeg
+
+Download FFmpeg from https://www.gyan.dev/ffmpeg/builds/ and put `ffmpeg.exe` into `ffmpeg/bin/`.
+
+FFmpeg is only required for **Auto-Align** output types. Parallel / Cross-Eyed work without it.
 
 ### 4. Verify
 
@@ -234,17 +239,23 @@ That's it. Wait for `[Done] Updated to latest version!`, then double-click `Laun
 **Recommended first run (RTX 3070+):**
 
 ```
-Finetuned:  genstereo-v2.1 
-MDE:        FlashDepth-L 
-Resolution: 1024 - Inference 
-Steps:      20 - Fast
-Depth:      1.00
-Baseline:   0.40
-Fusion:     0.40
-Guidance:   1.80
-Gen Mode:   Orig_Right
+Finetuned:    genstereo-v2.1
+MDE:          FlashDepth-L
+Resolution:   1024 - Inference
+Steps:        20 - Fast
+Depth:        1.00
+Baseline:     0.40
+Fusion:       0.40
+Guidance:     1.80
+Gen Mode:     Orig_Right
 Face Restore: None
-Output Type: 1. Parallel (Default)
+Output Type:  1. Parallel (Default)
+```
+
+The filename for this exact run looks like:
+
+```
+White Rose_Easy3D_V21_FDL_R1024_D100_B040_F040_S20_G180_PAR_Seed402260655.jpg
 ```
 
 ### Input / Output
@@ -255,7 +266,7 @@ Output Type: 1. Parallel (Default)
 | Output format | Always JPG, `quality=95, subsampling=0, optimize=True` |
 | Output folder | Default: `<InputName>_3D\` / `<InputFolder>_3D\` next to input. Custom: any folder (must differ from input folder if input is a folder). |
 | Excluded | `Easy3D.png` (preview placeholder) is never converted. |
-| Temp files | `vis/<stem>/` and `_tmp_square/` are deleted per image after its SBS is built. No leftovers. |
+| Temp files | `vis/<stem>/` and `_cache/` are deleted per image after its SBS is built. No leftovers. |
 
 ### Parameters
 
@@ -299,7 +310,7 @@ Mix of Warped (true lighting / details, with holes) vs Diffusion-generated (fill
 | 0.5 | Balanced (default, recommended) |
 | 1.0 | All Generated — lighting may drift |
 
-> **Note (GUI v4.0):** `Fusion Strength` is recorded in the filename (`_F050_`). It does **not** change inference speed, and in v4.0 it is not passed to `test.py` — see `build_command()` in `Easy3D_GUI_GenStereo.py` if you want to wire it to `AdaptiveFusion`.
+> **Note (GUI v5.1):** `Fusion Strength` is recorded in the filename (`_F040_`). It does **not** change inference speed, and in v5.1 it is not passed to `test.py` — see `build_command()` in `Easy3D_GUI_GenStereo.py` if you want to wire it to `AdaptiveFusion`. In other words: changing it today only changes the filename, not the image.
 
 #### Guidance Scale
 
@@ -338,7 +349,17 @@ Number of diffusion steps. Linear with speed.
 
 #### Seed
 
-Reproducibility. `Random (Default)` = random each run. Or pick `42 / 123 / 999 / 2025`, or type a custom integer (`0 – 2147483647`). Custom values appear as `12345 - Custom`.
+Reproducibility. `Random (Default)` = random each run. Or pick a preset from the dropdown:
+
+| Label | Value |
+|---|---|
+| Seed A | `510902704` |
+| Seed B | `457315609` |
+| Seed C | `402260655` |
+| Seed D | `1999` |
+| Seed E | `2026` |
+
+You can also type a custom integer (`0 – 2147483647`). Custom values appear as `12345 - Custom`.
 
 #### Gen Mode
 
@@ -353,7 +374,7 @@ Reproducibility. `Random (Default)` = random each run. Or pick `42 / 123 / 999 /
 | Option | Effect |
 |---|---|
 | `None` (default) | No face restore |
-| `Gfpgan_Both - Both Eyes` | GFPGAN on the merged SBS image, both eyes at once. Filename adds `_FRBoth`. |
+| `Both Eyes` | GFPGAN on the merged SBS image, both eyes at once. Filename adds `_FRBoth`. |
 
 Requires `gfpgan/weights/` (see [Model List](#model-list)). If GFPGAN fails to load, the SBS is saved unchanged and the Log shows the reason.
 
@@ -374,7 +395,7 @@ Optional. Saves `_DEPTH` (from `vis/disp.png`) and `_WARPED` (from `vis/warped.p
 Example:
 
 ```
-White Rose_Easy3D_V15_DA2L_R1024_D100_B100_F050_S50_G150_PAR_Seed457315609.jpg
+White Rose_Easy3D_V21_FDL_R1024_D100_B040_F040_S20_G180_PAR_Seed402260655.jpg
 ```
 
 | Token | Meaning |
@@ -385,10 +406,10 @@ White Rose_Easy3D_V15_DA2L_R1024_D100_B100_F050_S50_G150_PAR_Seed457315609.jpg
 | `MDEC` | Custom MDE |
 | `R1024` | Resolution = 1024 |
 | `D100` | Depth Strength = 1.00 × 100 |
-| `B100` | Baseline = 1.00 × 100 |
-| `F050` | Fusion Strength = 0.50 × 100 |
-| `S50` | Steps = 50 |
-| `G150` | Guidance = 1.50 × 100 |
+| `B040` | Baseline = 0.40 × 100 |
+| `F040` | Fusion Strength = 0.40 × 100 |
+| `S20` | Steps = 20 |
+| `G180` | Guidance = 1.80 × 100 |
 | `_FRBoth` | Face Restore (GFPGAN, both eyes) |
 | `PAR` / `XD` | Output Type (Parallel / Cross-Eyed) |
 | `Seed...` | Seed |
@@ -430,7 +451,7 @@ All models are **relative** to the Easy3D folder. `install_all.bat` downloads th
 | 9 | `gfpgan/weights/parsing_parsenet.pth` | `TencentARC/GFPGAN` v1.3.4 | ~30–80 MB | Face parsing (GFPGAN) |
 | 10 | `gfpgan/weights/detection_Resnet50_Final.pth` | `xinntao/facexlib` v0.2.2 | ~100 MB | Face detection (GFPGAN) |
 
-> **Legacy note:** `checkpoints/` is **not** used. All models live in `models/`. If you see `checkpoints/depth_anything_v2_vitl.pth`, it is a duplicate from an old version — delete it. GUI v4.0 never writes to `checkpoints/`.
+> **Legacy note:** `checkpoints/` is **not** used. All models live in `models/`. If you see `checkpoints/depth_anything_v2_vitl.pth`, it is a duplicate from an old version — delete it. GUI v5.1 never writes to `checkpoints/`.
 
 ### Programs & Libraries
 
@@ -463,7 +484,7 @@ All models are **relative** to the Easy3D folder. `install_all.bat` downloads th
 
 ```
 Easy3D/
-├── Easy3D_GUI_GenStereo.py      # Tkinter GUI (v4.0) - main entry
+├── Easy3D_GUI_GenStereo.py      # Tkinter GUI (v5.1) - main entry
 ├── Launch_Easy3D_GUI.bat        # GUI launcher (hidden via VBS, tries pythonw)
 ├── update.bat                    # One-click update from GitHub (git pull / ZIP, self-update safe)
 ├── test.py                      # GenStereo inference (batch, TF32)
@@ -487,7 +508,7 @@ Easy3D/
 ├── GenStereo/                   # GenStereo model code (dual-UNet, etc.)
 ├── preset/                      # GUI config + presets (easy3d_gui_config.json, easy3d_presets.json)
 ├── Easy3D.png / Easy3D.ico     # GUI placeholder / icon
-├── _tmp_square/                 # Temp squares (auto-deleted)
+├── _cache/                      # Temp prepared images (auto-deleted)
 └── vis/                         # Temp GenStereo outputs (auto-deleted per image)
 ```
 
@@ -505,11 +526,10 @@ Easy3D/
 | `tkinterdnd2` missing / drag-drop not working | Run `venv_Easy3D\Scripts\python.exe -m pip install tkinterdnd2==0.7.0` (included in `install_venv_Easy3D_v3_for_RTX20_to_RTX50.bat`). |
 | `GFPGAN loaded: False` | Run `fix_basicsr` / check `basicsr` shim for `torchvision.transforms.functional_tensor.rgb_to_grayscale` (removed in torchvision 0.21). See `GFPGAN_face.py` `get_last_error()`. |
 | `image_encoder` corrupted / `PytorchStreamReader` error | Delete `models/image_encoder/` and re-run `install_all.bat`. It tries `lambdalabs` → `hf-mirror` → `openai/clip-vit-large-patch14`. |
-| `checkpoints/depth_anything_v2_vitl.pth` reappears | Old GUI v1.0 bug (GUI passed `checkpoints/...` to `test.py`). GUI v4.0 uses `models/` only. Delete `checkpoints/` — it will not reappear on v4.0. |
+| `checkpoints/depth_anything_v2_vitl.pth` reappears | Old GUI v1.0 bug (GUI passed `checkpoints/...` to `test.py`). GUI v5.1 uses `models/` only. Delete `checkpoints/` — it will not reappear on v5.1. |
 | `vis/` truncated PNG / SBS failed | Streaming watcher requires stable files (size + mtime unchanged twice). Re-run — `vis/` is kept on failure for manual recovery. |
 | OOM on 3070 8GB | Lower **Resolution** (e.g. `1536 → 1024 → 768`) and **Steps** (`50 → 30`). Do not switch to patch mode. |
 | `extern/DAM2` empty | ZIP download lacks submodules. Run `git submodule update --init --recursive` or `git clone https://github.com/DepthAnything/Depth-Anything-V2.git extern/DAM2`. |
-| Batch output duplicated (last image twice) | Stop watcher before final sweep (see `start_conversion()` in GUI). |
 | `Flux.2 Klein` / other models cannot be loaded | `Finetuned` only supports `genstereo-v1.5` / `genstereo-v2.1` (SD UNet arch). Flux (DiT) is a different architecture — `load_state_dict` will fail with `size mismatch`. |
 | `update.bat` fails on first run after updating from v1 | Double-click `update.bat` again — v1 could not update itself safely, v2 can. After that, one click is enough. |
 
@@ -518,13 +538,21 @@ Easy3D/
 ## FAQ
 
 **Q: Can I use it for video?**
-No. No, at the moment it is single-image only. Frame-by-frame causes flicker / depth jumps. For video, use StereoWorld / StereoCrafter / SVG.
+No, at the moment it is single-image only. Frame-by-frame causes flicker / depth jumps. For video, use StereoWorld / StereoCrafter / SVG.
 
 **Q: Does Fusion / Guidance / Depth / Baseline affect speed?**
 No. They are weights. Speed is determined by **Steps**, **Resolution**, and **Finetuned Model** (v1.5 vs v2.1) only.
 
 **Q: Can I use Flux.2 Klein as Finetuned?**
 No. This converter needs SD 1.5 / 2.1 UNet weights. Flux is DiT + Flow Matching, different VAE, different weight shapes.
+
+---
+
+## Community
+
+Welcome to visit our Facebook group: [Easy3D Converter — Facebook Group](https://www.facebook.com/share/g/1KokTEPmCs/)
+
+Share your results, presets, and settings there.
 
 ---
 
