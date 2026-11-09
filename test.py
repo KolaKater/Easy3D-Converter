@@ -13,6 +13,9 @@ import argparse
 
 from GenStereo import GenStereo, AdaptiveFusionLayer
 
+import warnings
+warnings.filterwarnings("ignore", category=FutureWarning) # v5.8fix: 关掉 diffusers 的 scale FutureWarning，Log 干净
+
 # Easy3D v1.9: SD version from env (GUI) or --sd_version, default v1.5
 SD_VERSION = os.environ.get("GENSTEREO_VERSION", "v1.5")
 if SD_VERSION == "v1.5":
@@ -30,7 +33,7 @@ if torch.cuda.is_available():
     try:
         torch.backends.cuda.matmul.allow_tf32 = True
         torch.backends.cudnn.allow_tf32 = True
-        torch.backends.cudnn.benchmark = True
+        torch.backends.cudnn.benchmark = False  #原值  True
         print("[Easy3D] TF32 ON (lossless speedup, 3070 Tensor Core)")
     except Exception as _e:
         print(f"[Easy3D] TF32 not enabled: {_e}")
