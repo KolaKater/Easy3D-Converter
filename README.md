@@ -14,14 +14,13 @@
 
 # Easy3D Converter: I love Depth. I also love Light.
 
-**Convert a single image into a side-by-side (SBS) stereo 3D image. Perfect for any 3D lover — especially 3D creators.**
+**Convert images into side-by-side (SBS) stereo 3D. Perfect for any 3D lover — especially 3D creators.**
 
-Easy3D Converter is a free, open-source tool that converts a single image into a side-by-side (SBS) stereo 3D image. It combines Stable Diffusion-based generation with depth-map-based conversion, and runs on a consumer GPU such as an NVIDIA RTX 3070 or higher.
-
-Results vary by hardware and settings, so experimenting with different resolutions, seeds, and parameters is the fastest way to find what works best for you. Video support is planned for the future.
+Easy3D Converter is a free, open-source tool that converts a single image into a side-by-side (SBS) stereo 3D image. It combines Stable Diffusion-based generation with depth-map-based conversion, and runs on a consumer GPU such as an NVIDIA RTX 3070 or higher. Video support is planned for the future.
 
 ---
 
+<a id="why-easy3d-is-different"></a>
 ## Why Easy3D Is Different · 为什么 Easy3D 不一样
 
 > **Easy3D doesn't just capture Depth — it also captures Light, Fire, Water, Fog...**
@@ -64,7 +63,8 @@ So in the same SBS image, the solid subject has depth, **and** the light still g
 > **分享你的 SBS 成果、Preset、参数设置，问问题、看别人怎么调。Share your SBS results, presets, and settings, ask questions, and see how others tune theirs.**
 
 
-<img width="1120" height="780" alt="图片" src="https://github.com/user-attachments/assets/1d23705a-c1cf-4cf4-8731-897dfda18b3c" />
+<img width="1121" height="780" alt="图片" src="https://github.com/user-attachments/assets/7660805b-0e2b-4fdd-a3cf-fe14311e65fb" />
+
 
 *Easy3D Converter GUI*
 
@@ -104,6 +104,7 @@ So in the same SBS image, the solid subject has depth, **and** the light still g
 
 ---
 
+<a id="features"></a>
 ## Features · 功能
 
 - **Not just Depth — Light, Fire, Water, Fog too:** Most converters only shift pixels by depth, so light / fire / water / fog go flat or tear. Easy3D re-generates the right-eye view with diffusion, so glow, flames, reflections, and fog stay 3D. See [Why Easy3D Is Different](#why-easy3d-is-different).
@@ -122,6 +123,7 @@ So in the same SBS image, the solid subject has depth, **and** the light still g
 
 ---
 
+<a id="how-it-works"></a>
 ## How It Works · 工作原理
 
 > **v5.7 change — Face Restore is deferred.** Old versions did `Diffusion → FaceRestore → Output Type` per image. That kept GFPGAN resident in VRAM while the next image was diffusing, so image 1 took ~30s and image 2+ took ~11 min on RTX 3070 8GB. v5.7 splits the work into two phases:
@@ -172,6 +174,7 @@ Depth comes from **Depth Anything V2** or **FlashDepth**. See [Models](#models--
 
 ---
 
+<a id="requirements"></a>
 ## Requirements
 
 | Item | Minimum | Recommended |
@@ -187,10 +190,12 @@ Depth comes from **Depth Anything V2** or **FlashDepth**. See [Models](#models--
 
 ---
 
+<a id="installation"></a>
 ## Installation
 
 All paths below are **relative** to the Easy3D folder. No absolute paths are hard-coded. Copy the folder anywhere and run.
 
+<a id="1-clone--download"></a>
 ### 1. Clone / Download
 
 ```bash
@@ -200,6 +205,7 @@ cd Easy3D-Converter
 
 Or download the ZIP and extract it. Do **not** use a path with Chinese characters or parentheses if you use the `.bat` launchers — `C:\3D\Easy3D\` is a safe example.
 
+<a id="2-create-the-virtual-environment"></a>
 ### 2. Create the Virtual Environment
 
 This step auto-detects your GPU and installs the matching PyTorch CUDA build:
@@ -228,6 +234,7 @@ This creates `venv_Easy3D\`, installs PyTorch **first** (so it is not pulled as 
 
 > To force a clean rebuild, delete the `venv_Easy3D\` folder and run the `.bat` again.
 
+<a id="3-download-all-models"></a>
 ### 3. Download All Models
 
 **Double-click:**
@@ -252,12 +259,14 @@ Final check should read:
 
 If it does not, see the `MISSING` lines and download those files manually to the same relative paths.
 
+<a id="31-download-ffmpeg"></a>
 ### 3.1 Download FFmpeg
 
 Download FFmpeg from <a href="https://www.gyan.dev/ffmpeg/builds/" target="_blank" rel="noopener noreferrer">https://www.gyan.dev/ffmpeg/builds/</a> and put `ffmpeg.exe` into `ffmpeg/bin/`.
 
 FFmpeg is only required for **Auto-Align** output types. Parallel / Cross-Eyed work without it.
 
+<a id="4-verify"></a>
 ### 4. Verify
 
 ```bash
@@ -272,6 +281,7 @@ torch: 2.6.0+cu124 cuda: True
 
 ---
 
+<a id="update"></a>
 ## Update
 
 Keep Easy3D Converter up to date. No need to re-download the whole ZIP or re-install models / venv.
@@ -310,8 +320,10 @@ That's it. Wait for `[Done] Updated to latest version!`, then double-click `3_La
 
 ---
 
+<a id="usage"></a>
 ## Usage
 
+<a id="quick-start"></a>
 ### Quick Start
 
 1. Double-click `3_Launch_Easy3D_GUI.bat` (or run `venv_Easy3D\Scripts\python.exe Easy3D_GUI_GenStereo.py`).
@@ -346,6 +358,7 @@ White Rose_Easy3D_V21_FDL_R1024_D100_B040_F040_S20_G180_PAR_Seed402260655.jpg
 
 > **Tip — use landscape photos first.** Easy3D currently works best with landscape (wide) images. Portrait (vertical) images work, but depth usually looks weaker — see [FAQ](#faq).
 
+<a id="input--output"></a>
 ### Input / Output
 
 | Item | Details |
@@ -356,6 +369,7 @@ White Rose_Easy3D_V21_FDL_R1024_D100_B040_F040_S20_G180_PAR_Seed402260655.jpg
 | Excluded | `Easy3D.png` (preview placeholder) is never converted. |
 | Temp files | `vis/<stem>/` and `_cache/` are deleted per image after its SBS is built. `Output/_deferred/` holds SBS temps only during Phase 1 when Face Restore is on, and is deleted after Phase 2. No leftovers on success. |
 
+<a id="parameters"></a>
 ### Parameters
 
 #### Depth Strength
@@ -457,6 +471,7 @@ You can also type a custom integer (`0 – 2147483647`). Custom values appear as
 | `Orig_Left` | AI | Original | 1 | Mirrored disparity |
 | `Both / Symmetric` | AI (−0.075) | AI (+0.075) | 2 | Most comfortable, symmetric blur, total disparity still 0.15 |
 
+<a id="face-restore"></a>
 #### Face Restore
 
 | Option | Effect |
@@ -476,6 +491,7 @@ On by default. Recommended for RTX 3070 8GB.
 
 Optional. Saves `_DEPTH` (from `vis/disp.png`) and `_WARPED` (from `vis/warped.png`) as JPGs alongside the SBS. These are saved in Phase 1, not deferred.
 
+<a id="output-naming"></a>
 ### Output Naming
 
 ```
@@ -506,6 +522,7 @@ White Rose_Easy3D_V21_FDL_R1024_D100_B040_F040_S20_G180_PAR_Seed402260655.jpg
 
 Suffixes: `_DEPTH` for depth map, `_WARPED` for warped image.
 
+<a id="output-type"></a>
 ### Output Type
 
 Handled by `output_type.py` (do not modify — it only handles already-merged SBS images):
@@ -524,8 +541,11 @@ Handled by `output_type.py` (do not modify — it only handles already-merged SB
 
 ---
 
+<a id="models"></a>
+<a id="models--components"></a>
 ## Models & Components
 
+<a id="model-list"></a>
 ### Model List
 
 All models are **relative** to the Easy3D folder. `install_all.bat` downloads them. Existing files are skipped.
@@ -545,6 +565,7 @@ All models are **relative** to the Easy3D folder. `install_all.bat` downloads th
 
 > **Legacy note:** `checkpoints/` is **not** used. All models live in `models/`. If you see `checkpoints/depth_anything_v2_vitl.pth`, it is a duplicate from an old version — delete it. GUI v5.7 never writes to `checkpoints/`.
 
+<a id="programs--libraries"></a>
 ### Programs & Libraries
 
 | Component | Version / Source | Purpose |
@@ -572,6 +593,7 @@ All models are **relative** to the Easy3D folder. `install_all.bat` downloads th
 
 ---
 
+<a id="project-structure"></a>
 ## Project Structure
 
 ```
@@ -606,6 +628,7 @@ Easy3D/
 
 ---
 
+<a id="troubleshooting"></a>
 ## Troubleshooting · 故障排查
 
 | Problem | Fix |
@@ -631,6 +654,7 @@ Easy3D/
 
 ---
 
+<a id="faq"></a>
 ## FAQ · 常见问题
 
 **Q: Can I use it for video?**
@@ -671,6 +695,7 @@ It can, but on 8GB it makes the next diffusion 10x slower because GFPGAN holds V
 
 ---
 
+<a id="community"></a>
 ## 👥 Community — Facebook Group · Facebook 群组
 
 > ### 💙 <a href="https://www.facebook.com/share/g/1KokTEPmCs/" target="_blank" rel="noopener noreferrer">3D Stereo Lover — Facebook Group</a>
@@ -690,6 +715,7 @@ It can, but on 8GB it makes the next diffusion 10x slower because GFPGAN holds V
 
 ---
 
+<a id="credits--license"></a>
 ## Credits & License
 
 ### Credits
