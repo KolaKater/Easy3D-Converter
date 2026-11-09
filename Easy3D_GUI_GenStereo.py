@@ -23,7 +23,7 @@ try:
 except Exception:
     HAS_DND = False
 
-__VERSION__ = "v5.8- 2026-11-09 (defer Phase 2 fixed)"
+__VERSION__ = "v5.9- 2026-11-09 (defer Phase 2 fixed)"
 APP_TITLE = "Easy3D Converter: I love Depth. I also love Light."
 CONFIG_FILE = "preset/easy3d_gui_config.json"
 PRESET_FILE = "preset/easy3d_presets.json"
@@ -38,7 +38,7 @@ FIXED_ENCODER = "image_encoder"
 FIXED_ENCODER_PATH = "models/image_encoder"
 SUPPORTED_INPUT_EXTS = {".jpg", ".jpeg", ".png", ".bmp", ".webp", ".tif", ".tiff", ".gif", ".avif", ".heic", ".heif"}
 OUTPUT_JPG_QUALITY = 95
-# ---- Gamma (v5.8) ----
+# ---- Gamma (v5.9) ----
 # 公式: out = 255 * (in/255) ** gamma, LUT 实现
 # GAMMA_PRE_SQUARE: 原图 -> 推理之前, 对原图做一次 0.7
 # GAMMA_PRE_OUTPUT: SBS 合成后 -> Output Type 之前, 对整张 SBS 做一次 1.40
@@ -47,12 +47,12 @@ GAMMA_PRE_SQUARE = 0.70
 GAMMA_PRE_OUTPUT = 1.40  # SBS 合成后 -> Output Type 之前, 整张 SBS
 GAMMA_ENABLED = True
 
-# ---- Auto Batch Chunk (v5.8, 代码里改, 不上界面) ----
+# ---- Auto Batch Chunk (v5.9, 代码里改, 不上界面) ----
 # BATCH_CHUNK_SIZE: 每批几张. 3=最快最稳, 5=推荐, 10=又会变慢, 0=不分批(回到旧版一次跑完)
 # BATCH_COOLDOWN_SEC: 每批之间歇几秒, 让显卡降温、显存释放. 0=不歇, 5=推荐, 10=等太久
 BATCH_CHUNK_SIZE = 2
 BATCH_COOLDOWN_SEC = 5
-# ---- Defer FaceRestore (v5.8, correct) ----
+# ---- Defer FaceRestore (v5.9, correct) ----
 # True = all diffusion+SBS first, Phase 2 does FaceRestore -> Output Type once at end.
 # GFPGAN not loaded during diffusion, diffusion gets full 8GB.
 DEFER_FACE_RESTORE = True
@@ -132,12 +132,17 @@ GEN_MODE_OPTIONS = {
     "Both / Symmetric": "both",
 }
 STEPS_OPTIONS = {
-    "10 - Ultra fast preview": 10,
-    "15 - Fast": 15,
-    "20 - Fast preview": 20,
-    "30 - Balanced": 30,
-    "50 - Default quality": 50,
-    "75 - High quality, slow": 75,
+    "5  - Blink preview": 5,          # 眨眼就出，只看构图
+    "10 - Ultra fast preview": 10,    # 超快预览
+    "15 - Fast": 15,                  # 快
+    "20 - Fast preview": 20,          # 快预览
+    "25 - Balanced preview": 25,      # 均衡预览，25 就是 20 和 30 中间
+    "30 - Balanced": 30,              # 均衡
+    "35 - Refined": 35,               # 精修，开始有细节了
+    "40 - Detailed": 40,               # 细节版
+    "45 - Near final": 45,             # 接近成品
+    "50 - Default quality": 50,        # 官方默认，正式出图
+    "75 - High quality, slow": 75,     # 最高画质，慢
 }
 OUTPUT_TYPE_OPTIONS = _OT_OPTS if _OT_OPTS else {
     "1. Parallel (Default)": "parallel",
@@ -205,7 +210,7 @@ class GenStereoGUI:
             print(f"[Icon] { _e}")
         self.root.minsize(1120, 750)
         self.process = None
-        self._orig_backup = {}  # v5.8fix: original deleted during run -> use cached copy
+        self._orig_backup = {}  # v5.9fix: original deleted during run -> use cached copy
         self.pause_flag = False
         self.stop_flag = False
         self.config = self.load_config()
@@ -222,7 +227,7 @@ class GenStereoGUI:
         main = ttk.Frame(root, padding=(10, 6)); main.pack(fill=tk.BOTH, expand=True)
         ttk.Label(main, text=APP_TITLE, style="Header.TLabel").pack()
 
-        # ---- Input / Output (v5.8mockup: Browse left, Entry middle, checkboxes right) ----
+        # ---- Input / Output (v5.9mockup: Browse left, Entry middle, checkboxes right) ----
         io = ttk.LabelFrame(main, text="Input / Output", padding=(10, 6)); io.pack(fill=tk.X, pady=(0, 6))
         # Row 0: Input: [Browse File][Browse Folder][Entry ........] [Save Depth][Save Warped][Low VRAM]
         io_r0 = ttk.Frame(io); io_r0.pack(fill=tk.X, pady=2)
@@ -255,14 +260,14 @@ class GenStereoGUI:
         ttk.Button(io_r1, text="Save", width=10, command=self.on_preset_save).pack(side=tk.LEFT, padx=2)
         ttk.Button(io_r1, text="Delete", width=10, command=self.on_preset_delete).pack(side=tk.LEFT, padx=2)
         self.refresh_preset_combo()
-        # v5.8: GenStereo Model frame removed - Finetuned / MDE moved into Parameters (mockup).
+        # v5.9: GenStereo Model frame removed - Finetuned / MDE moved into Parameters (mockup).
         self.finetuned_path_var = tk.StringVar(value="models")
         self.mde_path_var = tk.StringVar(value="models/depth_anything_v2_vitl.pth")
         self.vae_var = tk.StringVar(value=list(VAE_OPTIONS)[0])
         self.vae_path_var = tk.StringVar(value=FIXED_VAE_PATH)
         self.encoder_var = tk.StringVar(value=list(ENCODER_OPTIONS)[0])
         self.encoder_path_var = tk.StringVar(value=FIXED_ENCODER_PATH)
-        # ---- Stereo Parameters (v5.8mockup: 12-col, 3 rows, no separate Model frame) ----
+        # ---- Stereo Parameters (v5.9mockup: 12-col, 3 rows, no separate Model frame) ----
         pf2 = ttk.LabelFrame(main, text="Stereo Parameters", padding=(10, 8)); pf2.pack(fill=tk.X, pady=(0, 6))
         for _cc in range(12): pf2.columnconfigure(_cc, weight=1)
         # Row 0: 4 sliders - Depth / Fusion / Baseline / Guidance (each: Label + Scale + Value = 3 cols)
@@ -338,7 +343,7 @@ class GenStereoGUI:
         bottom = ttk.Frame(main); bottom.pack(fill=tk.BOTH, expand=True, pady=(2, 0))
         for c in (0, 1, 2): bottom.columnconfigure(c, weight=1)
         bottom.rowconfigure(0, weight=1)
-        # v5.8: Log / File List fill the same height as Preview (no fixed height, rowconfigure weight=1)
+        # v5.9: Log / File List fill the same height as Preview (no fixed height, rowconfigure weight=1)
         self.log_frame = ttk.LabelFrame(bottom, text="Log", padding=5); self.log_frame.grid(row=0, column=0, sticky=tk.NSEW, padx=(0, 5)); self.log_frame.rowconfigure(0, weight=1); self.log_frame.columnconfigure(0, weight=1)
         self.log_text = tk.Text(self.log_frame, wrap=tk.WORD, font=("Consolas", 8), bg="#1e1e1e", fg="#d4d4d4", insertbackground="white")
         sb = ttk.Scrollbar(self.log_frame, orient=tk.VERTICAL, command=self.log_text.yview); self.log_text.configure(yscrollcommand=sb.set)
@@ -803,7 +808,7 @@ class GenStereoGUI:
                     sbs_img = _create_sbs(left, right, output_type="parallel")
                 else:
                     sbs_img = Image.new("RGB", (left.width + right.width, left.height)); sbs_img.paste(left, (0, 0)); sbs_img.paste(right, (left.width, 0))
-                # v5.8Face Restore: AFTER SBS merge, BEFORE Output Type (output_type.py).
+                # v5.9Face Restore: AFTER SBS merge, BEFORE Output Type (output_type.py).
                 # One call on the whole SBS image - GFPGAN sees both eyes' faces at once (Both Eyes).
                 _defer = bool(globals().get("DEFER_FACE_RESTORE", False)) and str(params.get("face_restore", "none")) == "gfpgan_both"
                 if str(params.get("face_restore", "none")) == "gfpgan_both" and not _defer:
@@ -827,7 +832,7 @@ class GenStereoGUI:
                     sbs_img = _apply_gamma(sbs_img, globals().get("GAMMA_PRE_OUTPUT", 1.0))
                 tmp = out / f"_tmp_sbs_{stem}.jpg"
                 sbs_img.save(tmp, "JPEG", quality=OUTPUT_JPG_QUALITY, subsampling=0, optimize=True)
-                # v5.8 DEFER: do NOT enter Output Type yet. Move SBS to _deferred/, Phase 2 handles it.
+                # v5.9 DEFER: do NOT enter Output Type yet. Move SBS to _deferred/, Phase 2 handles it.
                 # tmp is MOVED, not copied, so no _tmp_sbs duplicate is left behind.
                 if _defer:
                     _def_dir = out / "_deferred"; _def_dir.mkdir(parents=True, exist_ok=True)
@@ -891,7 +896,7 @@ class GenStereoGUI:
         return done
 
     def run_phase2_deferred(self, output_dir, params):
-        """v5.8 Phase 2: _deferred/*_SBS.jpg -> Gamma 1.40 -> FaceRestore -> Output Type -> Easy3D name."""
+        """v5.9 Phase 2: _deferred/*_SBS.jpg -> Gamma 1.40 -> FaceRestore -> Output Type -> Easy3D name."""
         from PIL import Image
         out = Path(output_dir); def_dir = out / "_deferred"
         if not def_dir.exists(): return []
@@ -932,7 +937,7 @@ class GenStereoGUI:
                     elif rn.endswith("_XD.jpg") or "_XD" in rn: ot_label = "XD"
                     else: ot_label = {"parallel": "PAR", "xd": "XD", "align_parallel": "APAR", "align_xd": "AXD", "align_both": "APAR" if idx == 0 else "AXD"}.get(ot, "PAR")
                     import re as _re
-                    base = self.output_stem(stem + ".jpg", params, extra="")  # v5.8fix: stem already bare, +".jpg" stops Path().stem truncating "my.photo" -> "my"
+                    base = self.output_stem(stem + ".jpg", params, extra="")  # v5.9fix: stem already bare, +".jpg" stops Path().stem truncating "my.photo" -> "my"
                     base2 = _re.sub(r"_(PAR|XD|APAR|AXD|ABOTH)_Seed", f"_{ot_label}_Seed", base)
                     dst = out / (base2 + ".jpg")
                     Image.open(r).convert("RGB").save(dst, "JPEG", quality=OUTPUT_JPG_QUALITY, subsampling=0, optimize=True)
@@ -1091,8 +1096,8 @@ class GenStereoGUI:
                     self.log(f"[Batch] 批 {_ci+1}/{len(_chunks)} 完成, 累计 {_total_done}/{len(_targets0)}")
                     self.root.after(0, lambda _n=_total_done: (self.progress_var.set(_n * 100.0 / max(1, len(_targets0))), self.status_var.set(f"Running... {_total_done}/{len(_targets0)}"), self.refresh_file_list_and_preview()))
                     if self.stop_flag: break
-                # v5.8 Phase 2: all diffusion done -> FaceRestore + Output Type
-                # v5.8fix: skip Phase 2 if user cancelled (else cancelled batch still gets face-restored)
+                # v5.9 Phase 2: all diffusion done -> FaceRestore + Output Type
+                # v5.9fix: skip Phase 2 if user cancelled (else cancelled batch still gets face-restored)
                 if not self.stop_flag:
                     try: self.run_phase2_deferred(output_dir, params)
                     except Exception as _p2e: self.log(f"[Defer] Phase 2 error: {_p2e}")
