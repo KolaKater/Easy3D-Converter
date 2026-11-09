@@ -126,7 +126,7 @@ So in the same SBS image, the solid subject has depth, **and** the light still g
 <a id="how-it-works"></a>
 ## How It Works · 工作原理
 
-> **v5.7 change — Face Restore is deferred.** Old versions did `Diffusion → FaceRestore → Output Type` per image. That kept GFPGAN resident in VRAM while the next image was diffusing, so image 1 took ~30s and image 2+ took ~11 min on RTX 3070 8GB. v5.7 splits the work into two phases:
+> **v6.0 change — Face Restore is deferred.** Old versions did `Diffusion → FaceRestore → Output Type` per image. That kept GFPGAN resident in VRAM while the next image was diffusing, so image 1 took ~30s and image 2+ took ~11 min on RTX 3070 8GB. v6.0 splits the work into two phases:
 
 ```
 Phase 1 — Diffusion + SBS (for every image, GFPGAN NOT loaded):
@@ -249,7 +249,7 @@ Or:
 venv_Easy3D\Scripts\python.exe install_all.py
 ```
 
-This downloads all 10 model targets (see [Model List](#model-list)), skips any file that already exists and is not empty, and never downloads to `checkpoints/` (legacy folder — all models live in `models/`).
+This downloads the 10 auto-downloaded model targets (see [Model List](#model-list)), skips any file that already exists and is not empty, and never downloads to `checkpoints/` (legacy folder — all models live in `models/`). Depth Anything V2 **ViT-B / ViT-S are NOT included** — download them manually to the same `models/` folder as ViT-L (see note in [Model List](#model-list)).
 
 Final check should read:
 
@@ -412,7 +412,7 @@ Mix of Warped (true lighting / details, with holes) vs Diffusion-generated (fill
 | 0.5 | Balanced (default, recommended) |
 | 1.0 | All Generated — lighting may drift |
 
-> **Note (GUI v5.7):** `Fusion Strength` is recorded in the filename (`_F040_`). It does **not** change inference speed, and in v5.7 it is not passed to `test.py` — see `build_command()` in `Easy3D_GUI_GenStereo.py` if you want to wire it to `AdaptiveFusion`. In other words: changing it today only changes the filename, not the image.
+> **Note (GUI v6.0):** `Fusion Strength` is recorded in the filename (`_F040_`). It does **not** change inference speed, and in v6.0 it is not passed to `test.py` — see `build_command()` in `Easy3D_GUI_GenStereo.py` if you want to wire it to `AdaptiveFusion`. In other words: changing it today only changes the filename, not the image.
 
 #### Guidance Scale
 
@@ -477,11 +477,11 @@ You can also type a custom integer (`0 – 2147483647`). Custom values appear as
 | Option | Effect |
 |---|---|
 | `None` (default) | No face restore. Phase 2 is skipped. |
-| `Both Eyes` | GFPGAN on the merged SBS image, both eyes at once. Filename adds `_FRBoth`. **Deferred (v5.7):** runs in Phase 2, after all diffusion is done, before Output Type. |
+| `Both Eyes` | GFPGAN on the merged SBS image, both eyes at once. Filename adds `_FRBoth`. **Deferred (v6.0):** runs in Phase 2, after all diffusion is done, before Output Type. |
 
 Requires `gfpgan/weights/` (see [Model List](#model-list)). If GFPGAN fails to load, the SBS is saved unchanged and the Log shows the reason.
 
-**Why deferred?** GFPGAN holds ~2–3 GB VRAM while loaded. If it is loaded per image, the next image's diffusion only has ~5 GB left on RTX 3070 8GB and slows from ~30s to ~11 min. Deferred mode loads GFPGAN once, after `test.py` has exited, so diffusion always has the full 8 GB. Do not use the old `unload-after-each-image` workaround (v5.4) together with deferred mode — v5.7 replaces it.
+**Why deferred?** GFPGAN holds ~2–3 GB VRAM while loaded. If it is loaded per image, the next image's diffusion only has ~5 GB left on RTX 3070 8GB and slows from ~30s to ~11 min. Deferred mode loads GFPGAN once, after `test.py` has exited, so diffusion always has the full 8 GB. Do not use the old `unload-after-each-image` workaround (v5.4) together with deferred mode — v6.0 replaces it.
 
 #### Low VRAM
 
@@ -554,7 +554,9 @@ All models are **relative** to the Easy3D folder. `install_all.bat` downloads th
 |---|---|---|---|---|
 | 1 | `models/image_encoder/` (`config.json` + `pytorch_model.bin`) | `lambdalabs/sd-image-variations-diffusers` / fallback `openai/clip-vit-large-patch14` | ~600 MB | CLIP ViT-L/14 image encoder (GenStereo) |
 | 2 | `models/sd-vae-ft-mse/` (`config.json` + `diffusion_pytorch_model.safetensors`) | `stabilityai/sd-vae-ft-mse` | ~335 MB | VAE (fixed, not an option in GUI) |
-| 3 | `models/depth_anything_v2_vitl.pth` | `depth-anything/Depth-Anything-V2-Large` | ~1.35 GB | Depth Anything V2 ViT-L (default MDE) |
+| 3 | `models/depth_anything_v2_vitl.pth` | `depth-anything/Depth-Anything-V2-Large` | ~1.35 GB | Depth Anything V2 ViT-L (default MDE, best quality, slowest) |
+| 3a | `models/depth_anything_v2_vitb.pth` | `depth-anything/Depth-Anything-V2-Base` | ~390 MB | Depth Anything V2 ViT-B (balanced, manual download) |
+| 3b | `models/depth_anything_v2_vits.pth` | `depth-anything/Depth-Anything-V2-Small` | ~100 MB | Depth Anything V2 ViT-S (fastest, lowest quality, manual download) |
 | 4 | `models/FlashDepth/configs/flashdepth-s/iter_14001.pth` (+ `config.yaml`) | `DepthAnything/FlashDepth` | ~100 MB+ | FlashDepth-S MDE (fast) |
 | 5 | `models/FlashDepth/configs/flashdepth-l/iter_10001.pth` (+ `config.yaml`) | `DepthAnything/FlashDepth` | ~300 MB+ | FlashDepth-L MDE (official) |
 | 6 | `models/genstereo-v1.5/` (`config.json` + `denoising_unet.pth` + `reference_unet.pth` + `pose_guider.pth` + `fusion_layer.pth`) | `FQiao/GenStereo` | ~6.9 GB | GenStereo v1.5 (512 px, RTX 3070 recommended) |
@@ -563,7 +565,28 @@ All models are **relative** to the Easy3D folder. `install_all.bat` downloads th
 | 9 | `gfpgan/weights/parsing_parsenet.pth` | `TencentARC/GFPGAN` v1.3.4 | ~30–80 MB | Face parsing (GFPGAN) |
 | 10 | `gfpgan/weights/detection_Resnet50_Final.pth` | `xinntao/facexlib` v0.2.2 | ~100 MB | Face detection (GFPGAN) |
 
-> **Legacy note:** `checkpoints/` is **not** used. All models live in `models/`. If you see `checkpoints/depth_anything_v2_vitl.pth`, it is a duplicate from an old version — delete it. GUI v5.7 never writes to `checkpoints/`.
+> **DA2 Small / Base / Large — must be in the SAME folder, exact filenames:**
+>
+> ```
+> D:\3D\Easy3D\models\depth_anything_v2_vitl.pth   # Large — GUI: Depth Anything V2 ViT-L
+> D:\3D\Easy3D\models\depth_anything_v2_vitb.pth   # Base  — GUI: Depth Anything V2 ViT-B
+> D:\3D\Easy3D\models\depth_anything_v2_vits.pth   # Small — GUI: Depth Anything V2 ViT-S
+> ```
+>
+> Relative paths in this repo: `models/depth_anything_v2_vitl.pth`, `models/depth_anything_v2_vitb.pth`, `models/depth_anything_v2_vits.pth`.
+> Do **not** put them in a subfolder (e.g. `models/Depth-Anything-V2-Small/...`) and do **not** rename them — `test.py` loads them by this exact filename. Wrong folder / wrong name = `FileNotFoundError: models/depth_anything_v2_vits.pth`, `test.py` crashes at startup, and the GUI used to report it as Done with no output (fixed in GUI v5.9).
+>
+> **Manual download (Small / Base are NOT downloaded by `2_install_all.bat` / `download_models.py` — only Large is):**
+>
+> | Model | Hugging Face repo | File to download |
+> |---|---|---|
+> | ViT-L (Large) | `depth-anything/Depth-Anything-V2-Large` | `depth_anything_v2_vitl.pth` |
+> | ViT-B (Base) | `depth-anything/Depth-Anything-V2-Base` | `depth_anything_v2_vitb.pth` |
+> | ViT-S (Small) | `depth-anything/Depth-Anything-V2-Small` | `depth_anything_v2_vits.pth` |
+>
+> Download the `.pth` from the repo's **Files** tab and save it to `models/` with the exact name above. Verify in Explorer: 3 files side-by-side in `models/`, not nested.
+
+> **Legacy note:** `checkpoints/` is **not** used. All models live in `models/`. If you see `checkpoints/depth_anything_v2_vitl.pth`, it is a duplicate from an old version — delete it. GUI v6.0 never writes to `checkpoints/`.
 
 <a id="programs--libraries"></a>
 ### Programs & Libraries
@@ -598,7 +621,7 @@ All models are **relative** to the Easy3D folder. `install_all.bat` downloads th
 
 ```
 Easy3D/
-├── Easy3D_GUI_GenStereo.py      # Tkinter GUI (v5.7) - main entry
+├── Easy3D_GUI_GenStereo.py      # Tkinter GUI (v6.0) - main entry
 ├── 3_Launch_Easy3D_GUI.bat        # GUI launcher (hidden via VBS, tries pythonw)
 ├── update.bat                    # One-click update from GitHub (git pull / ZIP, self-update safe)
 ├── test.py                      # GenStereo inference (batch, TF32)
@@ -613,7 +636,9 @@ Easy3D/
 ├── models/                      # All GenStereo / VAE / MDE models (see Model List)
 │   ├── image_encoder/
 │   ├── sd-vae-ft-mse/
-│   ├── depth_anything_v2_vitl.pth
+│   ├── depth_anything_v2_vitl.pth   # DA2 Large (auto-downloaded)
+│   ├── depth_anything_v2_vitb.pth   # DA2 Base (manual download, same folder)
+│   ├── depth_anything_v2_vits.pth   # DA2 Small (manual download, same folder)
 │   ├── FlashDepth/configs/flashdepth-s/ / flashdepth-l/
 │   ├── genstereo-v1.5/
 │   └── genstereo-v2.1/
@@ -641,9 +666,9 @@ Easy3D/
 | `tkinterdnd2` missing / drag-drop not working | Run `venv_Easy3D\Scripts\python.exe -m pip install tkinterdnd2==0.7.0` (included in `1_install_venv_Easy3D_v3_for_RTX20_to_RTX50.bat`). |
 | `GFPGAN loaded: False` | Run `fix_basicsr` / check `basicsr` shim for `torchvision.transforms.functional_tensor.rgb_to_grayscale` (removed in torchvision 0.21). See `GFPGAN_face.py` `get_last_error()`. |
 | `image_encoder` corrupted / `PytorchStreamReader` error | Delete `models/image_encoder/` and re-run `2_install_all.bat`. It tries `lambdalabs` → `hf-mirror` → `openai/clip-vit-large-patch14`. |
-| `checkpoints/depth_anything_v2_vitl.pth` reappears | Old GUI v1.0 bug (GUI passed `checkpoints/...` to `test.py`). GUI v5.7 uses `models/` only. Delete `checkpoints/` — it will not reappear on v5.7. |
+| `checkpoints/depth_anything_v2_vitl.pth` reappears | Old GUI v1.0 bug (GUI passed `checkpoints/...` to `test.py`). GUI v6.0 uses `models/` only. Delete `checkpoints/` — it will not reappear on v6.0. |
 | `vis/` truncated PNG / SBS failed | Streaming watcher requires stable files (size + mtime unchanged twice). Re-run — `vis/` is kept on failure for manual recovery. |
-| Batch gets slower after image 1 (30s → 11 min) | You are on old per-image FaceRestore, or GFPGAN is still resident. Update to v5.7 deferred mode (`DEFER_FACE_RESTORE = True`). Do not use v5.4 unload + v5.7 deferred together. |
+| Batch gets slower after image 1 (30s → 11 min) | You are on old per-image FaceRestore, or GFPGAN is still resident. Update to v6.0 deferred mode (`DEFER_FACE_RESTORE = True`). Do not use v5.4 unload + v6.0 deferred together. |
 | `Output/_deferred/` left over after Cancel | Normal on Cancel — Phase 2 never ran. Re-run with same output folder, or delete `_deferred/` and re-run. The SBS temps inside are not final images. |
 | `Output/_deferred/` still there while running | Normal — `_deferred/*_SBS.jpg` is the Phase 1 intermediate. It is deleted by Phase 2 after the final JPG is written. Only worry if it is still there after the run shows `Done`. |
 | OOM on 3070 8GB | Lower **Resolution** (e.g. `1536 → 1024 → 768`) and **Steps** (`50 → 30`). Do not switch to patch mode. |

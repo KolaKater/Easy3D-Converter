@@ -14,7 +14,7 @@ import argparse
 from GenStereo import GenStereo, AdaptiveFusionLayer
 
 import warnings
-warnings.filterwarnings("ignore", category=FutureWarning) # v5.9fix: 关掉 diffusers 的 scale FutureWarning，Log 干净
+warnings.filterwarnings("ignore", category=FutureWarning) # v6.0 fix: 关掉 diffusers 的 scale FutureWarning，Log
 
 # Easy3D v1.9: SD version from env (GUI) or --sd_version, default v1.5
 SD_VERSION = os.environ.get("GENSTEREO_VERSION", "v1.5")

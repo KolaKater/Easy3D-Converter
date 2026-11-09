@@ -1,13 +1,15 @@
-"""install_all.py - One-click: venv + pip (incl. tkinterdnd2) + ALL 10 models. For GUI v4.0.
+"""install_all.py - One-click: venv + pip (incl. tkinterdnd2) + ALL 12 models. For GUI v6.0.
 RELATIVE PATHS ONLY. No absolute path anywhere.
 Run: double-click install_all.bat, or: venv_Easy3D\Scripts\python.exe install_all.py
 Base = folder where this file lives (Path(__file__).parent). Copy this file + bat to Easy3D folder and run.
 NEVER downloads to checkpoints/. Skips any file that already exists and is not empty.
 
-10 targets (your list, all relative to Easy3D folder):
+12 targets (your list, all relative to Easy3D folder):
   1. models/image_encoder/                            (config.json + pytorch_model.bin)
   2. models/sd-vae-ft-mse/                            (config.json + diffusion_pytorch_model.safetensors)
   3. models/depth_anything_v2_vitl.pth
+  3a. models/depth_anything_v2_vitb.pth
+  3b. models/depth_anything_v2_vits.pth
   4. models/FlashDepth/configs/flashdepth-s/iter_14001.pth (+ config.yaml)
   5. models/FlashDepth/configs/flashdepth-l/iter_10001.pth (+ config.yaml)
   6. models/genstereo-v1.5/                            (config.json + 4x .pth)
@@ -107,7 +109,7 @@ run([PY, "-m", "pip", "install", "gfpgan==1.3.8", "basicsr==1.4.2", "facexlib==0
 print("  Verifying pip ...")
 run([PY, "-c", "import torch, tkinterdnd2, omegaconf, einops, scipy; print('torch:', torch.__version__, 'cuda:', torch.cuda.is_available()); print('tkinterdnd2/omegaconf/einops/scipy: OK')"])
 
-print("\n=== [2/3] 10 models (skip if already OK, never re-download, never checkpoints/) ===")
+print("\n=== [2/3] 12 models (skip if already OK, never re-download, never checkpoints/) ===")
 MODELS.mkdir(exist_ok=True); GFPGAN_W.mkdir(parents=True, exist_ok=True)
 print("\n-- [1/10] models/image_encoder --")
 enc = MODELS / "image_encoder"; enc.mkdir(exist_ok=True)
@@ -129,7 +131,17 @@ dam = MODELS / "depth_anything_v2_vitl.pth"
 if not ok(dam, 1_000_000_000):
     if not dl_hf("depth-anything/Depth-Anything-V2-Large", "depth_anything_v2_vitl.pth", dam, 1_000_000_000):
         dl_https("https://huggingface.co/depth-anything/Depth-Anything-V2-Large/resolve/main/depth_anything_v2_vitl.pth", dam, 1_000_000_000)
-print("\n-- [4/10] + [5/10] models/FlashDepth --")
+print("\n-- [3a/12] models/depth_anything_v2_vitb.pth (DA2 Base, same folder as Large) --")
+dam_b = MODELS / "depth_anything_v2_vitb.pth"
+if not ok(dam_b, 100_000_000):
+    if not dl_hf("depth-anything/Depth-Anything-V2-Base", "depth_anything_v2_vitb.pth", dam_b, 100_000_000):
+        dl_https("https://huggingface.co/depth-anything/Depth-Anything-V2-Base/resolve/main/depth_anything_v2_vitb.pth", dam_b, 100_000_000)
+print("\n-- [3b/12] models/depth_anything_v2_vits.pth (DA2 Small, same folder as Large) --")
+dam_s = MODELS / "depth_anything_v2_vits.pth"
+if not ok(dam_s, 10_000_000):
+    if not dl_hf("depth-anything/Depth-Anything-V2-Small", "depth_anything_v2_vits.pth", dam_s, 10_000_000):
+        dl_https("https://huggingface.co/depth-anything/Depth-Anything-V2-Small/resolve/main/depth_anything_v2_vits.pth", dam_s, 10_000_000)
+print("\n-- [4/12] + [5/12] models/FlashDepth --")
 for short, fn in [("flashdepth-s", "iter_14001.pth"), ("flashdepth-l", "iter_10001.pth")]:
     d = MODELS / "FlashDepth" / "configs" / short; d.mkdir(parents=True, exist_ok=True)
     dest = d / fn
@@ -145,7 +157,7 @@ for short, fn in [("flashdepth-s", "iter_14001.pth"), ("flashdepth-l", "iter_100
 fd_code = MODELS / "FlashDepth" / "flashdepth" / "model.py"
 if not ok(fd_code, 1000):
     print("  [WARN] FlashDepth/flashdepth/model.py missing - copy official FlashDepth code into models/FlashDepth/flashdepth/")
-print("\n-- [6/10] + [7/10] models/genstereo-v1.5 / v2.1 --")
+print("\n-- [6/12] + [7/12] models/genstereo-v1.5 / v2.1 --")
 for ver, repo in [("genstereo-v1.5", "FQiao/GenStereo"), ("genstereo-v2.1", "FQiao/GenStereo-sd2.1")]:
     vd = MODELS / ver; vd.mkdir(exist_ok=True)
     for fn in ["config.json", "denoising_unet.pth", "fusion_layer.pth", "pose_guider.pth", "reference_unet.pth"]:
@@ -153,7 +165,7 @@ for ver, repo in [("genstereo-v1.5", "FQiao/GenStereo"), ("genstereo-v2.1", "FQi
         if ok(dest, 1000): continue
         if not dl_hf(repo, fn, dest, 1000):
             dl_https(f"https://huggingface.co/{repo}/resolve/main/{fn}", dest, 1000)
-print("\n-- [8/10] + [9/10] + [10/10] gfpgan/weights --")
+print("\n-- [8/12] + [9/12] + [10/12] gfpgan/weights --")
 for url, dest, mn in [
     ("https://github.com/TencentARC/GFPGAN/releases/download/v1.3.4/GFPGANv1.4.pth", GFPGAN_W / "GFPGANv1.4.pth", 100_000_000),
     ("https://github.com/TencentARC/GFPGAN/releases/download/v1.3.4/parsing_parsenet.pth", GFPGAN_W / "parsing_parsenet.pth", 10_000_000),
@@ -191,11 +203,13 @@ if CHECKPOINTS.exists():
             CHECKPOINTS.rmdir(); print("  Removed empty checkpoints/ folder.")
     except Exception: pass
 
-print("\n=== FINAL CHECK (10/10) ===")
+print("\n=== FINAL CHECK (12/12) ===")
 checks = [
     ok(MODELS / "image_encoder" / "pytorch_model.bin", 100_000_000),
     ok(MODELS / "sd-vae-ft-mse" / "diffusion_pytorch_model.safetensors", 10_000_000),
     ok(MODELS / "depth_anything_v2_vitl.pth", 1_000_000_000),
+    ok(MODELS / "depth_anything_v2_vitb.pth", 100_000_000),
+    ok(MODELS / "depth_anything_v2_vits.pth", 10_000_000),
     ok(MODELS / "FlashDepth" / "configs" / "flashdepth-s" / "iter_14001.pth", 100_000_000),
     ok(MODELS / "FlashDepth" / "configs" / "flashdepth-l" / "iter_10001.pth", 100_000_000),
     ok(MODELS / "genstereo-v1.5" / "denoising_unet.pth", 1000),
@@ -204,8 +218,8 @@ checks = [
     ok(GFPGAN_W / "parsing_parsenet.pth", 10_000_000),
     ok(GFPGAN_W / "detection_Resnet50_Final.pth", 10_000_000),
 ]
-print(f"\n{sum(checks)}/10 OK")
-if sum(checks) == 10:
-    print("DONE - All models present. GUI v4.0 should now run without re-downloading to checkpoints/.")
+print(f"\n{sum(checks)}/12 OK")
+if sum(checks) == 12:
+    print("DONE - All models present. GUI v5.9 should now run without re-downloading to checkpoints/.")
 else:
     print("Some models still missing - see MISSING lines above, download those manually.")
