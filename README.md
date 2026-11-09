@@ -62,7 +62,7 @@ So in the same SBS image, the solid subject has depth, **and** the light still g
 
 > ### 💙 加入 Facebook 群组 · Join the Facebook Group: <a href="https://www.facebook.com/share/g/1KokTEPmCs/" target="_blank" rel="noopener noreferrer">3D Stereo Lover</a>
 > **分享你的 SBS 成果、Preset、参数设置，问问题、看别人怎么调。Share your SBS results, presets, and settings.**
-> 建议先加群再调参 — 群里很多现成的 `Seed / Depth / Baseline` 组合，直接抄就能出好效果。Join first, then tune — the group already has many ready-made combos you can copy directly.
+> 分享你的 SBS 成果、Preset、参数设置，问问题、看别人怎么调。Share your SBS results, presets, and settings, ask questions, and see how others tune theirs.
 
 
 <img width="1278" height="848" alt="Easy3D Converter GUI" src="https://github.com/user-attachments/assets/97576e9d-696f-4460-861b-73e880d6d8b7" />
