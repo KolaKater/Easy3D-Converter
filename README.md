@@ -14,11 +14,9 @@
 
 # Easy3D Converter: I love Depth. I also love Light.
 
-**Convert a single image into a side-by-side (SBS) stereo 3D image. Perfect for any 3D lover — especially 3D creators.**
+**Convert images into side-by-side (SBS) stereo 3D. Perfect for any 3D lover — especially 3D creators.**
 
-Easy3D Converter is a free, open-source tool that converts a single image into a side-by-side (SBS) stereo 3D image. It combines Stable Diffusion-based generation with depth-map-based conversion, and runs on a consumer GPU such as an NVIDIA RTX 3070 or higher.
-
-Results vary by hardware and settings, so experimenting with different resolutions, seeds, and parameters is the fastest way to find what works best for you. Video support is planned for the future.
+Easy3D Converter is a free, open-source tool that converts a single image into a side-by-side (SBS) stereo 3D image. It combines Stable Diffusion-based generation with depth-map-based conversion, and runs on a consumer GPU such as an NVIDIA RTX 3070 or higher. Video support is planned for the future.
 
 ---
 
