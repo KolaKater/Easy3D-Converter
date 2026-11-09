@@ -27,7 +27,7 @@ Results vary by hardware and settings, so experimenting with different resolutio
 
 > ### 💙 加入 Facebook 群组 · Join the Facebook Group: [3D Stereo Lover](https://www.facebook.com/share/g/1KokTEPmCs/)
 > **分享你的 SBS 成果、Preset、参数设置，问问题、看别人怎么调。Share your SBS results, presets, and settings.**
-> 建议先加群再调参 — GUI里有现成的 `Seed / Depth / Baseline` 组合，直接抄就能出好效果。Join first, then tune — the GUI already has many ready-made combos you can copy directly.
+> 分享 `Seed / Depth / Baseline` 等组合，让别人直接抄就能出好效果。Share ready-made Seed / Depth / Baseline combos so others can copy them and get great results right away.
 
 
 <img width="1278" height="848" alt="Easy3D Converter GUI" src="https://github.com/user-attachments/assets/97576e9d-696f-4460-861b-73e880d6d8b7" />
