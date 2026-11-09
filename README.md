@@ -550,7 +550,7 @@ No. This converter needs SD 1.5 / 2.1 UNet weights. Flux is DiT + Flow Matching,
 
 ## Community
 
-Welcome to visit our Facebook group: [Easy3D Converter — Facebook Group](https://www.facebook.com/share/g/1KokTEPmCs/)
+Welcome to visit our Facebook group: [3D Stereo Lover — Facebook Group](https://www.facebook.com/share/g/1KokTEPmCs/)
 
 Share your results, presets, and settings there.
 
