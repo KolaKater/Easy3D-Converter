@@ -8,6 +8,9 @@ With a more powerful GPU, you can work with higher resolutions and run experimen
 
 It is a free, open-source tool that converts a single image (with video support planned for the future) into a side-by-side (SBS) stereo 3D image. It is designed to run on a consumer GPU, such as an NVIDIA RTX 3070 or higher.
 
+welcome to visit our Facebook group:
+https://www.facebook.com/share/g/1KokTEPmCs/
+
 [[License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [[Python: 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
 [[GPU: RTX 3070+](https://img.shields.io/badge/GPU-RTX%203070%2B-brightgreen.svg)](https://www.nvidia.com/)
