@@ -14,7 +14,7 @@
 
 # Easy3D Converter: I love Depth. I also love Light.
 
-**Convert a single image into a side-by-side (SBS) stereo 3D image.**
+**Convert a single image into a side-by-side (SBS) stereo 3D image. Perfect for any 3D lover — especially 3D creators.**
 
 Easy3D Converter is a free, open-source tool that converts a single image into a side-by-side (SBS) stereo 3D image. It combines Stable Diffusion-based generation with depth-map-based conversion, and runs on a consumer GPU such as an NVIDIA RTX 3070 or higher.
 
@@ -30,11 +30,11 @@ Results vary by hardware and settings, so experimenting with different resolutio
 > 分享 `Seed / Depth / Baseline` 等组合，让别人直接抄就能出好效果。Share ready-made Seed / Depth / Baseline combos so others can copy them and get great results right away.
 
 
-<img width="1278" height="848" alt="Easy3D Converter GUI" src="https://github.com/user-attachments/assets/97576e9d-696f-4460-861b-73e880d6d8b7" />
+<img width="1120" height="780" alt="图片" src="https://github.com/user-attachments/assets/1d23705a-c1cf-4cf4-8731-897dfda18b3c" />
 
 *Easy3D Converter GUI*
 
-<img width="1278" height="370" alt="SBS stereo 3D result" src="https://github.com/user-attachments/assets/aa215237-a3e4-4ab8-a32f-dd9285c7f901" />
+<img width="3836" height="1438" alt="1794090399214-1918_Easy3D_V21_FDL_R1024_D100_B040_F040_S20_G152_FRBoth_PAR_Seed510902704" src="https://github.com/user-attachments/assets/4df396a5-be6e-4360-91c5-aea29cdcda41" />
 
 *Original image → SBS stereo 3D result*
 
