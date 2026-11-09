@@ -6,7 +6,7 @@
 
 **分享 SBS 成果 · Share your SBS results · 问参数 · 抄 Preset**
 
-[[Join 3D Stereo Lover on Facebook](https://img.shields.io/badge/👉_Join_Facebook_Group-3D%20Stereo%20Lover-1877F2?style=for-the-badge&logo=facebook&logoColor=white&labelColor=1877F2)](https://www.facebook.com/share/g/1KokTEPmCs/)
+[![Join 3D Stereo Lover on Facebook](https://img.shields.io/badge/Join_Facebook_Group-3D%20Stereo%20Lover-1877F2?style=for-the-badge&logo=facebook&logoColor=white)](https://www.facebook.com/share/g/1KokTEPmCs/)
 
 </p>
 
