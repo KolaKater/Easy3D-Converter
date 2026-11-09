@@ -63,12 +63,13 @@ So in the same SBS image, the solid subject has depth, **and** the light still g
 > **分享你的 SBS 成果、Preset、参数设置，问问题、看别人怎么调。Share your SBS results, presets, and settings, ask questions, and see how others tune theirs.**
 
 
-<img width="1121" height="780" alt="图片" src="https://github.com/user-attachments/assets/7660805b-0e2b-4fdd-a3cf-fe14311e65fb" />
+<img width="1280" height="847" alt="图片" src="https://github.com/user-attachments/assets/b195f497-e303-4491-9896-5db86fb2c512" />
 
 
 *Easy3D Converter GUI*
 
-<img width="3836" height="1438" alt="1794090399214-1918_Easy3D_V21_FDL_R1024_D100_B040_F040_S20_G152_FRBoth_PAR_Seed510902704" src="https://github.com/user-attachments/assets/4df396a5-be6e-4360-91c5-aea29cdcda41" />
+<img width="3836" height="1077" alt="1794099835414-1918_Easy3D_V21_FDL_R1024_D100_B040_F040_S10_G152_PAR_Seed510902704" src="https://github.com/user-attachments/assets/1a982c23-568b-4f75-aa75-d0ddfd092b50" />
+
 
 *Original image → SBS stereo 3D result*
 
