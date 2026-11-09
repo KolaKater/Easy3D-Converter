@@ -61,8 +61,7 @@ So in the same SBS image, the solid subject has depth, **and** the light still g
 <a href="https://www.facebook.com/share/g/1KokTEPmCs/" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/Facebook-3D%20Stereo%20Lover-1877F2?style=for-the-badge&logo=facebook&logoColor=white" alt="Facebook Group: 3D Stereo Lover"></a>
 
 > ### 💙 加入 Facebook 群组 · Join the Facebook Group: <a href="https://www.facebook.com/share/g/1KokTEPmCs/" target="_blank" rel="noopener noreferrer">3D Stereo Lover</a>
-> **分享你的 SBS 成果、Preset、参数设置，问问题、看别人怎么调。Share your SBS results, presets, and settings.**
-> 分享你的 SBS 成果、Preset、参数设置，问问题、看别人怎么调。Share your SBS results, presets, and settings, ask questions, and see how others tune theirs.
+> **分享你的 SBS 成果、Preset、参数设置，问问题、看别人怎么调。Share your SBS results, presets, and settings, ask questions, and see how others tune theirs.**
 
 
 <img width="1120" height="780" alt="图片" src="https://github.com/user-attachments/assets/1d23705a-c1cf-4cf4-8731-897dfda18b3c" />
