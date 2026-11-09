@@ -2,11 +2,11 @@
 
 ### 💙 加入 Facebook 群组 · Join Our Facebook Group
 
-# 👉 [3D Stereo Lover](https://www.facebook.com/share/g/1KokTEPmCs/)
+# 👉 <a href="https://www.facebook.com/share/g/1KokTEPmCs/" target="_blank" rel="noopener noreferrer">3D Stereo Lover</a>
 
 **分享 SBS 成果 · Share your SBS results · 问参数 · 抄 Preset**
 
-[![Join 3D Stereo Lover on Facebook](https://img.shields.io/badge/Join_Facebook_Group-3D%20Stereo%20Lover-1877F2?style=for-the-badge&logo=facebook&logoColor=white)](https://www.facebook.com/share/g/1KokTEPmCs/)
+<a href="https://www.facebook.com/share/g/1KokTEPmCs/" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/Join_Facebook_Group-3D%20Stereo%20Lover-1877F2?style=for-the-badge&logo=facebook&logoColor=white" alt="Join 3D Stereo Lover on Facebook"></a>
 
 </p>
 
@@ -20,12 +20,12 @@ Easy3D Converter is a free, open-source tool that converts a single image into a
 
 Results vary by hardware and settings, so experimenting with different resolutions, seeds, and parameters is the fastest way to find what works best for you. Video support is planned for the future.
 
-[[License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[[Python: 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
-[[GPU: RTX 3070+](https://img.shields.io/badge/GPU-RTX%203070%2B-brightgreen.svg)](https://www.nvidia.com/)
-[[Facebook Group: 3D Stereo Lover](https://img.shields.io/badge/Facebook-3D%20Stereo%20Lover-1877F2?style=for-the-badge&logo=facebook&logoColor=white)](https://www.facebook.com/share/g/1KokTEPmCs/)
+<a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License: MIT"></a>
+<a href="https://www.python.org/" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/Python-3.11-blue.svg" alt="Python: 3.11"></a>
+<a href="https://www.nvidia.com/" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/GPU-RTX%203070%2B-brightgreen.svg" alt="GPU: RTX 3070+"></a>
+<a href="https://www.facebook.com/share/g/1KokTEPmCs/" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/Facebook-3D%20Stereo%20Lover-1877F2?style=for-the-badge&logo=facebook&logoColor=white" alt="Facebook Group: 3D Stereo Lover"></a>
 
-> ### 💙 加入 Facebook 群组 · Join the Facebook Group: [3D Stereo Lover](https://www.facebook.com/share/g/1KokTEPmCs/)
+> ### 💙 加入 Facebook 群组 · Join the Facebook Group: <a href="https://www.facebook.com/share/g/1KokTEPmCs/" target="_blank" rel="noopener noreferrer">3D Stereo Lover</a>
 > **分享你的 SBS 成果、Preset、参数设置，问问题、看别人怎么调。Share your SBS results, presets, and settings.**
 > 分享 `Seed / Depth / Baseline` 等组合，让别人直接抄就能出好效果。Share ready-made Seed / Depth / Baseline combos so others can copy them and get great results right away.
 
@@ -81,7 +81,7 @@ Results vary by hardware and settings, so experimenting with different resolutio
 - **Live preview:** Full-resolution preview that follows the window size.
 - **Clean naming:** `White Rose_Easy3D_V21_FDL_R1024_D100_B040_F040_S20_G180_PAR_Seed402260655.jpg` — all parameters are in the filename.
 - **RTX 3070 friendly:** v1.5 / 512–1024 px is the recommended setting. 1536 px+ is possible but slow / may OOM on 8 GB.
-- **👥 Facebook Community:** Join [3D Stereo Lover on Facebook](https://www.facebook.com/share/g/1KokTEPmCs/) — share SBS results, presets, and settings. See [Community](#community).
+- **👥 Facebook Community:** Join <a href="https://www.facebook.com/share/g/1KokTEPmCs/" target="_blank" rel="noopener noreferrer">3D Stereo Lover on Facebook</a> — share SBS results, presets, and settings. See [Community](#community).
 - **One-click update:** Double-click `update.bat` to update to the latest version from GitHub. Your `models/`, `venv_Easy3D/`, `preset/` are NOT overwritten.
 
 ---
@@ -158,7 +158,7 @@ All paths below are **relative** to the Easy3D folder. No absolute paths are har
 ### 1. Clone / Download
 
 ```bash
-git clone https://github.com/KolaKater/Easy3D-Converter.git
+git clone <a href="https://github.com/KolaKater/Easy3D-Converter.git" target="_blank" rel="noopener noreferrer">https://github.com/KolaKater/Easy3D-Converter.git</a>
 cd Easy3D-Converter
 ```
 
@@ -218,7 +218,7 @@ If it does not, see the `MISSING` lines and download those files manually to the
 
 ### 3.1 Download FFmpeg
 
-Download FFmpeg from https://www.gyan.dev/ffmpeg/builds/ and put `ffmpeg.exe` into `ffmpeg/bin/`.
+Download FFmpeg from <a href="https://www.gyan.dev/ffmpeg/builds/" target="_blank" rel="noopener noreferrer">https://www.gyan.dev/ffmpeg/builds/</a> and put `ffmpeg.exe` into `ffmpeg/bin/`.
 
 FFmpeg is only required for **Auto-Align** output types. Parallel / Cross-Eyed work without it.
 
@@ -253,7 +253,7 @@ That's it. Wait for `[Done] Updated to latest version!`, then double-click `3_La
 | Your install | How it updates |
 |---|---|
 | `git clone` (has `.git`) | `git fetch` + `git pull --ff-only`. If you changed files locally, it `git stash`es them first, pulls, then `git stash pop`s them back. |
-| ZIP download (no `.git`, or no `git` installed) | Downloads `https://github.com/KolaKater/Easy3D-Converter/archive/refs/heads/main.zip`, extracts it, copies new files over. |
+| ZIP download (no `.git`, or no `git` installed) | Downloads `<a href="https://github.com/KolaKater/Easy3D-Converter/archive/refs/heads/main.zip`," target="_blank" rel="noopener noreferrer">https://github.com/KolaKater/Easy3D-Converter/archive/refs/heads/main.zip`,</a> extracts it, copies new files over. |
 
 ### What is NOT overwritten
 
@@ -269,7 +269,7 @@ That's it. Wait for `[Done] Updated to latest version!`, then double-click `3_La
 | Problem | Fix |
 |---|---|
 | `git fetch failed` / `git pull failed` | Check network / GitHub. Your local changes are in `git stash` — run `git stash list` to see them, `git stash pop` to restore. |
-| ZIP download failed | Open https://github.com/KolaKater/Easy3D-Converter manually, click `Code` > `Download ZIP`, unzip, copy over (keep `models/` `venv_Easy3D/` `preset/`). |
+| ZIP download failed | Open <a href="https://github.com/KolaKater/Easy3D-Converter" target="_blank" rel="noopener noreferrer">https://github.com/KolaKater/Easy3D-Converter</a> manually, click `Code` > `Download ZIP`, unzip, copy over (keep `models/` `venv_Easy3D/` `preset/`). |
 | First run after updating from old `update.bat` v1 | Double-click `update.bat` again — v1 could not update itself safely, v2 can. After that, one click is enough. |
 
 ---
@@ -284,7 +284,7 @@ That's it. Wait for `[Done] Updated to latest version!`, then double-click `3_La
 4. Set parameters (recommended first run below).
 5. Click **Start**. Watch **Log** / **Preview** / **File List**. Click **Suspend** to pause, **Cancel** to stop.
 
-> 💙 **出图了？先发到 Facebook 群组 · Got a result? Post it to the Facebook Group: [3D Stereo Lover](https://www.facebook.com/share/g/1KokTEPmCs/)** — 带上文件名（里面有全部参数），别人能直接复现。Include the filename (it already contains all parameters), so others can reproduce it directly.
+> 💙 **出图了？先发到 Facebook 群组 · Got a result? Post it to the Facebook Group: <a href="https://www.facebook.com/share/g/1KokTEPmCs/" target="_blank" rel="noopener noreferrer">3D Stereo Lover</a>** — 带上文件名（里面有全部参数），别人能直接复现。Include the filename (it already contains all parameters), so others can reproduce it directly.
 
 **Recommended first run (RTX 3070+):**
 
@@ -513,15 +513,15 @@ All models are **relative** to the Easy3D folder. `install_all.bat` downloads th
 
 | Component | Version / Source | Purpose |
 |---|---|---|
-| **GenStereo** | [FQiao/GenStereo](https://github.com/FQiao/GenStereo) (ICCV 2025) | Core stereo generation (dual-UNet diffusion) |
+| **GenStereo** | <a href="https://github.com/FQiao/GenStereo" target="_blank" rel="noopener noreferrer">FQiao/GenStereo</a> (ICCV 2025) | Core stereo generation (dual-UNet diffusion) |
 | **Easy3D Converter** | This repo — `Easy3D_GUI_GenStereo.py` (Tkinter) | GUI, batch, streaming, SBS merging |
 | **test.py** | This repo (GenStereo official CLI, patched) | Single-pass inference, batch, TF32, xformers/SDPA |
 | **output_type.py** | This repo | SBS Parallel / XD / Auto-Align (authoritative for output type) |
 | **StereoAutoAlign Ver0.30** | Masuji Suto (Muttyan) — released January 10, 2022 | Auto-Align: horizontal shift / convergence for SBS (called by `output_type.py` via `ffmpeg/bin/stereoautoalign030`) |
 | **GFPGAN_face.py** | This repo | GFPGAN face restore on SBS (deferred, Phase 2) |
 | **flashdepth_model.py** | This repo (wrapper for FlashDepth) | FlashDepth MDE inference |
-| **Depth Anything V2** | [DepthAnything/Depth-Anything-V2](https://github.com/DepthAnything/Depth-Anything-V2) (`extern/DAM2/`) | Default depth estimation |
-| **FlashDepth** | [DepthAnything/FlashDepth](https://github.com/DepthAnything/FlashDepth) | Optional fast depth estimation |
+| **Depth Anything V2** | <a href="https://github.com/DepthAnything/Depth-Anything-V2" target="_blank" rel="noopener noreferrer">DepthAnything/Depth-Anything-V2</a> (`extern/DAM2/`) | Default depth estimation |
+| **FlashDepth** | <a href="https://github.com/DepthAnything/FlashDepth" target="_blank" rel="noopener noreferrer">DepthAnything/FlashDepth</a> | Optional fast depth estimation |
 | **PyTorch** | 2.6.0+cu124 (30/40 series) / 2.7.1+cu128 (50 series) | Deep learning |
 | **torchvision / torchaudio** | Matching CUDA build | PyTorch companions |
 | **xformers** | 0.0.29.post3 (cu124) / 0.0.30 (cu128) | Memory-efficient attention (SDPA fallback if missing) |
@@ -589,7 +589,7 @@ Easy3D/
 | `Output/_deferred/` still there while running | Normal — `_deferred/*_SBS.jpg` is the Phase 1 intermediate. It is deleted by Phase 2 after the final JPG is written. Only worry if it is still there after the run shows `Done`. |
 | OOM on 3070 8GB | Lower **Resolution** (e.g. `1536 → 1024 → 768`) and **Steps** (`50 → 30`). Do not switch to patch mode. |
 | Portrait image depth looks weaker than landscape | Expected — Easy3D currently works best with landscape (wide) images. See FAQ. |
-| `extern/DAM2` empty | ZIP download lacks submodules. Run `git submodule update --init --recursive` or `git clone https://github.com/DepthAnything/Depth-Anything-V2.git extern/DAM2`. |
+| `extern/DAM2` empty | ZIP download lacks submodules. Run `git submodule update --init --recursive` or `git clone <a href="https://github.com/DepthAnything/Depth-Anything-V2.git" target="_blank" rel="noopener noreferrer">https://github.com/DepthAnything/Depth-Anything-V2.git</a> extern/DAM2`. |
 | `Flux.2 Klein` / other models cannot be loaded | `Finetuned` only supports `genstereo-v1.5` / `genstereo-v2.1` (SD UNet arch). Flux (DiT) is a different architecture — `load_state_dict` will fail with `size mismatch`. |
 | `update.bat` fails on first run after updating from v1 | Double-click `update.bat` again — v1 could not update itself safely, v2 can. After that, one click is enough. |
 
@@ -628,7 +628,7 @@ Portrait support may improve in a future version. For now, if you want the stron
 竖屏想尽量出效果：能裁成宽屏就先裁宽屏；`Baseline` 稍微加大一点（比如 `0.40 → 0.55`），但保持 `Depth × Baseline ≈ 1.0 – 1.4` 别出重影；`Resolution 1024` + `Steps 30` 会干净一点。
 
 **Q: Where can I share results / ask for help?**
-Join the Facebook group: **[3D Stereo Lover](https://www.facebook.com/share/g/1KokTEPmCs/)** — post your SBS image + filename (it contains all params) + GPU model.
+Join the Facebook group: **<a href="https://www.facebook.com/share/g/1KokTEPmCs/" target="_blank" rel="noopener noreferrer">3D Stereo Lover</a>** — post your SBS image + filename (it contains all params) + GPU model.
 
 **Q: Why is Face Restore deferred? Can't it run per image?**
 It can, but on 8GB it makes the next diffusion 10x slower because GFPGAN holds VRAM. Deferred mode runs diffusion with full VRAM, then FaceRestore once at the end. See [How It Works](#how-it-works).
@@ -637,9 +637,9 @@ It can, but on 8GB it makes the next diffusion 10x slower because GFPGAN holds V
 
 ## 👥 Community — Facebook Group · Facebook 群组
 
-> ### 💙 [3D Stereo Lover — Facebook Group](https://www.facebook.com/share/g/1KokTEPmCs/)
+> ### 💙 <a href="https://www.facebook.com/share/g/1KokTEPmCs/" target="_blank" rel="noopener noreferrer">3D Stereo Lover — Facebook Group</a>
 >
-> **👉 点击加入 · Join here: https://www.facebook.com/share/g/1KokTEPmCs/**
+> **👉 点击加入 · Join here: <a href="https://www.facebook.com/share/g/1KokTEPmCs/" target="_blank" rel="noopener noreferrer">https://www.facebook.com/share/g/1KokTEPmCs/</a>**
 >
 > 分享你的成果、Preset、参数设置，问问题、看别人怎么调。Share your results, presets, and settings.
 >
@@ -650,7 +650,7 @@ It can, but on 8GB it makes the next diffusion 10x slower because GFPGAN holds V
 >
 > 这样别人一眼就能复现你的效果。That way others can reproduce your result at a glance.
 
-[[Join 3D Stereo Lover on Facebook](https://img.shields.io/badge/Join-3D%20Stereo%20Lover-1877F2?style=for-the-badge&logo=facebook&logoColor=white)](https://www.facebook.com/share/g/1KokTEPmCs/)
+<a href="https://www.facebook.com/share/g/1KokTEPmCs/" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/Join-3D%20Stereo%20Lover-1877F2?style=for-the-badge&logo=facebook&logoColor=white" alt="Join 3D Stereo Lover on Facebook"></a>
 
 ---
 
@@ -662,18 +662,18 @@ This project builds on the work of many open-source authors and teams. Thank you
 
 | Component | Authors / Team | Link / License |
 |---|---|---|
-| **GenStereo** | Fan Qiao et al. — ICCV 2025 | [FQiao/GenStereo](https://github.com/FQiao/GenStereo) — see its repo for license |
-| **Depth Anything V2** | Depth Anything Team | [DepthAnything/Depth-Anything-V2](https://github.com/DepthAnything/Depth-Anything-V2) — Apache-2.0 |
-| **FlashDepth** | Depth Anything Team / FlashDepth Authors | [DepthAnything/FlashDepth](https://github.com/DepthAnything/FlashDepth) — see its repo for license |
-| **Stable Diffusion** | CompVis / Stability AI / Runway | [CompVis/stable-diffusion](https://github.com/CompVis/stable-diffusion) — CreativeML Open RAIL-M |
-| **CLIP** | OpenAI | [openai/CLIP](https://github.com/openai/CLIP) — MIT |
-| **GFPGAN** | Tencent ARC — Xintao Wang et al. | [TencentARC/GFPGAN](https://github.com/TencentARC/GFPGAN) — Apache-2.0 |
+| **GenStereo** | Fan Qiao et al. — ICCV 2025 | <a href="https://github.com/FQiao/GenStereo" target="_blank" rel="noopener noreferrer">FQiao/GenStereo</a> — see its repo for license |
+| **Depth Anything V2** | Depth Anything Team | <a href="https://github.com/DepthAnything/Depth-Anything-V2" target="_blank" rel="noopener noreferrer">DepthAnything/Depth-Anything-V2</a> — Apache-2.0 |
+| **FlashDepth** | Depth Anything Team / FlashDepth Authors | <a href="https://github.com/DepthAnything/FlashDepth" target="_blank" rel="noopener noreferrer">DepthAnything/FlashDepth</a> — see its repo for license |
+| **Stable Diffusion** | CompVis / Stability AI / Runway | <a href="https://github.com/CompVis/stable-diffusion" target="_blank" rel="noopener noreferrer">CompVis/stable-diffusion</a> — CreativeML Open RAIL-M |
+| **CLIP** | OpenAI | <a href="https://github.com/openai/CLIP" target="_blank" rel="noopener noreferrer">openai/CLIP</a> — MIT |
+| **GFPGAN** | Tencent ARC — Xintao Wang et al. | <a href="https://github.com/TencentARC/GFPGAN" target="_blank" rel="noopener noreferrer">TencentARC/GFPGAN</a> — Apache-2.0 |
 | **StereoAutoAlign Ver0.30** | Masuji Suto (Muttyan) — released January 10, 2022 | Auto-Align for SBS stereo (horizontal shift / convergence). Used by `output_type.py` for Auto-Align Parallel / XD. Original tool by Masuji Suto (Muttyan), Ver0.30 released January 10, 2022. See `ffmpeg/bin/stereoautoalign030/` in this repo. |
-| **BasicSR / Real-ESRGAN / FaceXLib** | Xintao Wang et al. | [XPixelGroup/BasicSR](https://github.com/XPixelGroup/BasicSR) / [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN) / [facexlib](https://github.com/xinntao/facexlib) — BSD-3-Clause / Apache-2.0 |
-| **Hugging Face Diffusers / Transformers** | Hugging Face | [huggingface/diffusers](https://github.com/huggingface/diffusers) / [transformers](https://github.com/huggingface/transformers) — Apache-2.0 |
-| **PyTorch** | Meta AI | [pytorch/pytorch](https://github.com/pytorch/pytorch) — BSD-3-Clause |
-| **xFormers** | Meta AI / xFormers Team | [facebookresearch/xformers](https://github.com/facebookresearch/xformers) — BSD-3-Clause |
-| **TkinterDnD2** | Michael Lange / TkinterDnD2 contributors | [TkinterDnD2](https://github.com/pmgagne/tkinterdnd2) — MIT |
+| **BasicSR / Real-ESRGAN / FaceXLib** | Xintao Wang et al. | <a href="https://github.com/XPixelGroup/BasicSR" target="_blank" rel="noopener noreferrer">XPixelGroup/BasicSR</a> / <a href="https://github.com/xinntao/Real-ESRGAN" target="_blank" rel="noopener noreferrer">Real-ESRGAN</a> / <a href="https://github.com/xinntao/facexlib" target="_blank" rel="noopener noreferrer">facexlib</a> — BSD-3-Clause / Apache-2.0 |
+| **Hugging Face Diffusers / Transformers** | Hugging Face | <a href="https://github.com/huggingface/diffusers" target="_blank" rel="noopener noreferrer">huggingface/diffusers</a> / <a href="https://github.com/huggingface/transformers" target="_blank" rel="noopener noreferrer">transformers</a> — Apache-2.0 |
+| **PyTorch** | Meta AI | <a href="https://github.com/pytorch/pytorch" target="_blank" rel="noopener noreferrer">pytorch/pytorch</a> — BSD-3-Clause |
+| **xFormers** | Meta AI / xFormers Team | <a href="https://github.com/facebookresearch/xformers" target="_blank" rel="noopener noreferrer">facebookresearch/xformers</a> — BSD-3-Clause |
+| **TkinterDnD2** | Michael Lange / TkinterDnD2 contributors | <a href="https://github.com/pmgagne/tkinterdnd2" target="_blank" rel="noopener noreferrer">TkinterDnD2</a> — MIT |
 | **Easy3D Converter** | Tony Lin (this repo) | MIT (see below) — GUI, batch, streaming, SBS merging, naming |
 
 **Model weights** are distributed by their original authors under their own licenses. This repo does **not** re-license them. Before redistributing any downloaded weight file, check its original repo / Hugging Face page for its license:
