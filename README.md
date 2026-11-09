@@ -10,11 +10,11 @@ Results vary by hardware and settings, so experimenting with different resolutio
 [[Python: 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
 [[GPU: RTX 3070+](https://img.shields.io/badge/GPU-RTX%203070%2B-brightgreen.svg)](https://www.nvidia.com/)
 
-<img width="1278" height="848" alt="Easy3D Converter GUI" src="https://github.com/user-attachments/assets/ece54b72-35ee-4290-bdf9-3fd8cb1b8054" />
+<img width="1278" height="848" alt="Easy3D Converter GUI" src="https://github.com/user-attachments/assets/97576e9d-696f-4460-861b-73e880d6d8b7" />
 
 *Easy3D Converter GUI*
 
-<img width="3972" height="1149" alt="SBS stereo 3D result" src="https://github.com/user-attachments/assets/5578050a-efa9-4e45-bfbd-0b390a27f6f2" />
+<img width="3972" height="1149" alt="SBS stereo 3D result" src="https://github.com/user-attachments/assets/aa215237-a3e4-4ab8-a32f-dd9285c7f901" />
 
 *Original image → SBS stereo 3D result*
 
