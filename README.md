@@ -14,9 +14,11 @@
 
 # Easy3D Converter: I love Depth. I also love Light.
 
-**Convert images into side-by-side (SBS) stereo 3D. Perfect for any 3D lover — especially 3D creators.**
+**Convert a single image into a side-by-side (SBS) stereo 3D image. Perfect for any 3D lover — especially 3D creators.**
 
-Easy3D Converter is a free, open-source tool that converts a single image into a side-by-side (SBS) stereo 3D image. It combines Stable Diffusion-based generation with depth-map-based conversion, and runs on a consumer GPU such as an NVIDIA RTX 3070 or higher. Video support is planned for the future.
+Easy3D Converter is a free, open-source tool that converts a single image into a side-by-side (SBS) stereo 3D image. It combines Stable Diffusion-based generation with depth-map-based conversion, and runs on a consumer GPU such as an NVIDIA RTX 3070 or higher.
+
+Results vary by hardware and settings, so experimenting with different resolutions, seeds, and parameters is the fastest way to find what works best for you. Video support is planned for the future.
 
 ---
 
@@ -122,7 +124,7 @@ So in the same SBS image, the solid subject has depth, **and** the light still g
 
 ## How It Works · 工作原理
 
-> **v5.6 change — Face Restore is deferred.** Old versions did `Diffusion → FaceRestore → Output Type` per image. That kept GFPGAN resident in VRAM while the next image was diffusing, so image 1 took ~30s and image 2+ took ~11 min on RTX 3070 8GB. v5.6 splits the work into two phases:
+> **v5.7 change — Face Restore is deferred.** Old versions did `Diffusion → FaceRestore → Output Type` per image. That kept GFPGAN resident in VRAM while the next image was diffusing, so image 1 took ~30s and image 2+ took ~11 min on RTX 3070 8GB. v5.7 splits the work into two phases:
 
 ```
 Phase 1 — Diffusion + SBS (for every image, GFPGAN NOT loaded):
@@ -396,7 +398,7 @@ Mix of Warped (true lighting / details, with holes) vs Diffusion-generated (fill
 | 0.5 | Balanced (default, recommended) |
 | 1.0 | All Generated — lighting may drift |
 
-> **Note (GUI v5.6):** `Fusion Strength` is recorded in the filename (`_F040_`). It does **not** change inference speed, and in v5.6 it is not passed to `test.py` — see `build_command()` in `Easy3D_GUI_GenStereo.py` if you want to wire it to `AdaptiveFusion`. In other words: changing it today only changes the filename, not the image.
+> **Note (GUI v5.7):** `Fusion Strength` is recorded in the filename (`_F040_`). It does **not** change inference speed, and in v5.7 it is not passed to `test.py` — see `build_command()` in `Easy3D_GUI_GenStereo.py` if you want to wire it to `AdaptiveFusion`. In other words: changing it today only changes the filename, not the image.
 
 #### Guidance Scale
 
@@ -460,11 +462,11 @@ You can also type a custom integer (`0 – 2147483647`). Custom values appear as
 | Option | Effect |
 |---|---|
 | `None` (default) | No face restore. Phase 2 is skipped. |
-| `Both Eyes` | GFPGAN on the merged SBS image, both eyes at once. Filename adds `_FRBoth`. **Deferred (v5.6):** runs in Phase 2, after all diffusion is done, before Output Type. |
+| `Both Eyes` | GFPGAN on the merged SBS image, both eyes at once. Filename adds `_FRBoth`. **Deferred (v5.7):** runs in Phase 2, after all diffusion is done, before Output Type. |
 
 Requires `gfpgan/weights/` (see [Model List](#model-list)). If GFPGAN fails to load, the SBS is saved unchanged and the Log shows the reason.
 
-**Why deferred?** GFPGAN holds ~2–3 GB VRAM while loaded. If it is loaded per image, the next image's diffusion only has ~5 GB left on RTX 3070 8GB and slows from ~30s to ~11 min. Deferred mode loads GFPGAN once, after `test.py` has exited, so diffusion always has the full 8 GB. Do not use the old `unload-after-each-image` workaround (v5.4) together with deferred mode — v5.6 replaces it.
+**Why deferred?** GFPGAN holds ~2–3 GB VRAM while loaded. If it is loaded per image, the next image's diffusion only has ~5 GB left on RTX 3070 8GB and slows from ~30s to ~11 min. Deferred mode loads GFPGAN once, after `test.py` has exited, so diffusion always has the full 8 GB. Do not use the old `unload-after-each-image` workaround (v5.4) together with deferred mode — v5.7 replaces it.
 
 #### Low VRAM
 
@@ -541,7 +543,7 @@ All models are **relative** to the Easy3D folder. `install_all.bat` downloads th
 | 9 | `gfpgan/weights/parsing_parsenet.pth` | `TencentARC/GFPGAN` v1.3.4 | ~30–80 MB | Face parsing (GFPGAN) |
 | 10 | `gfpgan/weights/detection_Resnet50_Final.pth` | `xinntao/facexlib` v0.2.2 | ~100 MB | Face detection (GFPGAN) |
 
-> **Legacy note:** `checkpoints/` is **not** used. All models live in `models/`. If you see `checkpoints/depth_anything_v2_vitl.pth`, it is a duplicate from an old version — delete it. GUI v5.6 never writes to `checkpoints/`.
+> **Legacy note:** `checkpoints/` is **not** used. All models live in `models/`. If you see `checkpoints/depth_anything_v2_vitl.pth`, it is a duplicate from an old version — delete it. GUI v5.7 never writes to `checkpoints/`.
 
 ### Programs & Libraries
 
@@ -574,7 +576,7 @@ All models are **relative** to the Easy3D folder. `install_all.bat` downloads th
 
 ```
 Easy3D/
-├── Easy3D_GUI_GenStereo.py      # Tkinter GUI (v5.6) - main entry
+├── Easy3D_GUI_GenStereo.py      # Tkinter GUI (v5.7) - main entry
 ├── 3_Launch_Easy3D_GUI.bat        # GUI launcher (hidden via VBS, tries pythonw)
 ├── update.bat                    # One-click update from GitHub (git pull / ZIP, self-update safe)
 ├── test.py                      # GenStereo inference (batch, TF32)
@@ -616,9 +618,9 @@ Easy3D/
 | `tkinterdnd2` missing / drag-drop not working | Run `venv_Easy3D\Scripts\python.exe -m pip install tkinterdnd2==0.7.0` (included in `1_install_venv_Easy3D_v3_for_RTX20_to_RTX50.bat`). |
 | `GFPGAN loaded: False` | Run `fix_basicsr` / check `basicsr` shim for `torchvision.transforms.functional_tensor.rgb_to_grayscale` (removed in torchvision 0.21). See `GFPGAN_face.py` `get_last_error()`. |
 | `image_encoder` corrupted / `PytorchStreamReader` error | Delete `models/image_encoder/` and re-run `2_install_all.bat`. It tries `lambdalabs` → `hf-mirror` → `openai/clip-vit-large-patch14`. |
-| `checkpoints/depth_anything_v2_vitl.pth` reappears | Old GUI v1.0 bug (GUI passed `checkpoints/...` to `test.py`). GUI v5.6 uses `models/` only. Delete `checkpoints/` — it will not reappear on v5.6. |
+| `checkpoints/depth_anything_v2_vitl.pth` reappears | Old GUI v1.0 bug (GUI passed `checkpoints/...` to `test.py`). GUI v5.7 uses `models/` only. Delete `checkpoints/` — it will not reappear on v5.7. |
 | `vis/` truncated PNG / SBS failed | Streaming watcher requires stable files (size + mtime unchanged twice). Re-run — `vis/` is kept on failure for manual recovery. |
-| Batch gets slower after image 1 (30s → 11 min) | You are on old per-image FaceRestore, or GFPGAN is still resident. Update to v5.6 deferred mode (`DEFER_FACE_RESTORE = True`). Do not use v5.4 unload + v5.6 deferred together. |
+| Batch gets slower after image 1 (30s → 11 min) | You are on old per-image FaceRestore, or GFPGAN is still resident. Update to v5.7 deferred mode (`DEFER_FACE_RESTORE = True`). Do not use v5.4 unload + v5.7 deferred together. |
 | `Output/_deferred/` left over after Cancel | Normal on Cancel — Phase 2 never ran. Re-run with same output folder, or delete `_deferred/` and re-run. The SBS temps inside are not final images. |
 | `Output/_deferred/` still there while running | Normal — `_deferred/*_SBS.jpg` is the Phase 1 intermediate. It is deleted by Phase 2 after the final JPG is written. Only worry if it is still there after the run shows `Done`. |
 | OOM on 3070 8GB | Lower **Resolution** (e.g. `1536 → 1024 → 768`) and **Steps** (`50 → 30`). Do not switch to patch mode. |
