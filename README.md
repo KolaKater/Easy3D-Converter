@@ -84,7 +84,7 @@ GenStereo itself is a dual-UNet diffusion model:
 - **Warp** uses a depth map to warp the left view to the right view (true lighting / details, but with holes).
 - **AdaptiveFusion** mixes Warped + Generated to fill holes.
 
-Depth comes from **Depth Anything V2** (default) or **FlashDepth** (optional). See [Models](#models--components).
+Depth comes from **Depth Anything V2** or **FlashDepth**. See [Models](#models--components).
 
 ---
 
@@ -131,7 +131,7 @@ This step auto-detects your GPU and installs the matching PyTorch CUDA build:
 **Double-click:**
 
 ```
-install_venv_Easy3D_v3_for_RTX20_to_RTX50.bat
+1_install_venv_Easy3D_v3_for_RTX20_to_RTX50.bat
 ```
 
 Or from a terminal:
@@ -149,7 +149,7 @@ This creates `venv_Easy3D\`, installs PyTorch **first** (so it is not pulled as 
 **Double-click:**
 
 ```
-install_all.bat
+2_install_all.bat
 ```
 
 Or:
@@ -198,7 +198,7 @@ Keep Easy3D Converter up to date. No need to re-download the whole ZIP or re-ins
 update.bat
 ```
 
-That's it. Wait for `[Done] Updated to latest version!`, then double-click `Launch_Easy3D_GUI.bat` again.
+That's it. Wait for `[Done] Updated to latest version!`, then double-click `3_Launch_Easy3D_GUI.bat` again.
 
 ### What it does
 
@@ -230,7 +230,7 @@ That's it. Wait for `[Done] Updated to latest version!`, then double-click `Laun
 
 ### Quick Start
 
-1. Double-click `Launch_Easy3D_GUI.bat` (or run `venv_Easy3D\Scripts\python.exe Easy3D_GUI_GenStereo.py`).
+1. Double-click `3_Launch_Easy3D_GUI.bat` (or run `venv_Easy3D\Scripts\python.exe Easy3D_GUI_GenStereo.py`).
 2. **Input:** Click **Browse File** / **Browse Folder**, or drag & drop an image / folder onto the Input box.
 3. **Output:** Leave **Default (InputName_3D)** — output goes to `<InputName>_3D\` next to the input. Or choose **Custom** and pick a folder.
 4. Set parameters (recommended first run below).
@@ -485,15 +485,15 @@ All models are **relative** to the Easy3D folder. `install_all.bat` downloads th
 ```
 Easy3D/
 ├── Easy3D_GUI_GenStereo.py      # Tkinter GUI (v5.1) - main entry
-├── Launch_Easy3D_GUI.bat        # GUI launcher (hidden via VBS, tries pythonw)
+├── 3_Launch_Easy3D_GUI.bat        # GUI launcher (hidden via VBS, tries pythonw)
 ├── update.bat                    # One-click update from GitHub (git pull / ZIP, self-update safe)
 ├── test.py                      # GenStereo inference (batch, TF32)
 ├── test_arbitrary_size.py        # UNUSED in GUI (patch-based, reference only) - DO NOT USE
 ├── output_type.py                # SBS Parallel / XD / Auto-Align - DO NOT MODIFY
 ├── GFPGAN_face.py               # GFPGAN face restore on SBS
 ├── flashdepth_model.py          # FlashDepth wrapper
-├── install_venv_Easy3D_v3_for_RTX20_to_RTX50.bat / .py  # Create venv, auto-detect GPU, install torch + deps
-├── install_all.bat / .py        # One-click: venv + pip + all 10 models
+├── 1_install_venv_Easy3D_v3_for_RTX20_to_RTX50.bat / .py  # Create venv, auto-detect GPU, install torch + deps
+├── 2_install_all.bat / .py        # One-click: venv + pip + all 10 models
 ├── download_models.py           # Model downloader (legacy, install_all.py is preferred)
 ├── requirements.txt / requirements_full.txt  # pip freeze / pip list
 ├── models/                      # All GenStereo / VAE / MDE models (see Model List)
@@ -518,14 +518,14 @@ Easy3D/
 
 | Problem | Fix |
 |---|---|
-| `torch.cuda.is_available() == False` / CPU torch | You installed CPU torch. Delete `venv_Easy3D\`, re-run `install_venv_Easy3D_v3_for_RTX20_to_RTX50.bat` (it installs CUDA torch **first**). |
-| `pillow 13 vs gradio` / `numpy 2.x` errors | `install_venv_Easy3D_v3_for_RTX20_to_RTX50.bat` pins `pillow==10.4.0`, `numpy==1.26.4`. Do not upgrade them. |
-| `CLIPVisionModelWithProjection` / `torch >= 2.6` error | Upgrade to `torch 2.6.0+cu124` (30/40 series) or `2.7.1+cu128` (50 series) — `install_venv_Easy3D_v3_for_RTX20_to_RTX50.bat` does this. |
+| `torch.cuda.is_available() == False` / CPU torch | You installed CPU torch. Delete `venv_Easy3D\`, re-run `1_install_venv_Easy3D_v3_for_RTX20_to_RTX50.bat` (it installs CUDA torch **first**). |
+| `pillow 13 vs gradio` / `numpy 2.x` errors | `1_install_venv_Easy3D_v3_for_RTX20_to_RTX50.bat` pins `pillow==10.4.0`, `numpy==1.26.4`. Do not upgrade them. |
+| `CLIPVisionModelWithProjection` / `torch >= 2.6` error | Upgrade to `torch 2.6.0+cu124` (30/40 series) or `2.7.1+cu128` (50 series) — `1_install_venv_Easy3D_v3_for_RTX20_to_RTX50.bat` does this. |
 | `xformers` not available | Optional. GUI falls back to SDPA. On 50 series, use `xformers 0.0.30` + `cu128`. |
 | `Triton` missing on Windows | Normal. Falls back gracefully. |
-| `tkinterdnd2` missing / drag-drop not working | Run `venv_Easy3D\Scripts\python.exe -m pip install tkinterdnd2==0.7.0` (included in `install_venv_Easy3D_v3_for_RTX20_to_RTX50.bat`). |
+| `tkinterdnd2` missing / drag-drop not working | Run `venv_Easy3D\Scripts\python.exe -m pip install tkinterdnd2==0.7.0` (included in `1_install_venv_Easy3D_v3_for_RTX20_to_RTX50.bat`). |
 | `GFPGAN loaded: False` | Run `fix_basicsr` / check `basicsr` shim for `torchvision.transforms.functional_tensor.rgb_to_grayscale` (removed in torchvision 0.21). See `GFPGAN_face.py` `get_last_error()`. |
-| `image_encoder` corrupted / `PytorchStreamReader` error | Delete `models/image_encoder/` and re-run `install_all.bat`. It tries `lambdalabs` → `hf-mirror` → `openai/clip-vit-large-patch14`. |
+| `image_encoder` corrupted / `PytorchStreamReader` error | Delete `models/image_encoder/` and re-run `2_install_all.bat`. It tries `lambdalabs` → `hf-mirror` → `openai/clip-vit-large-patch14`. |
 | `checkpoints/depth_anything_v2_vitl.pth` reappears | Old GUI v1.0 bug (GUI passed `checkpoints/...` to `test.py`). GUI v5.1 uses `models/` only. Delete `checkpoints/` — it will not reappear on v5.1. |
 | `vis/` truncated PNG / SBS failed | Streaming watcher requires stable files (size + mtime unchanged twice). Re-run — `vis/` is kept on failure for manual recovery. |
 | OOM on 3070 8GB | Lower **Resolution** (e.g. `1536 → 1024 → 768`) and **Steps** (`50 → 30`). Do not switch to patch mode. |
@@ -625,4 +625,4 @@ This project is for research / personal use. Stereo 3D viewing can cause eye str
 
 ---
 
-**Easy3D Converter — Made for RTX 3070, shared for everyone. Enjoy your 3D!**
+**Easy3D Converter — Made for RTX 3070+, shared for everyone. Enjoy your 3D!**
