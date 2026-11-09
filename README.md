@@ -14,11 +14,46 @@
 
 # Easy3D Converter: I love Depth. I also love Light.
 
-**Convert a single image into a side-by-side (SBS) stereo 3D image.**
+**Convert a single image into a side-by-side (SBS) stereo 3D image. Perfect for any 3D lover — especially 3D creators.**
 
 Easy3D Converter is a free, open-source tool that converts a single image into a side-by-side (SBS) stereo 3D image. It combines Stable Diffusion-based generation with depth-map-based conversion, and runs on a consumer GPU such as an NVIDIA RTX 3070 or higher.
 
 Results vary by hardware and settings, so experimenting with different resolutions, seeds, and parameters is the fastest way to find what works best for you. Video support is planned for the future.
+
+---
+
+## Why Easy3D Is Different · 为什么 Easy3D 不一样
+
+> **Easy3D doesn't just capture Depth — it also captures Light, Fire, Water, Fog...**
+> **Easy3D 抓的不只是 Depth（深度），还有 Light（光）、Fire（火）、Water（水）、Fog（雾）……**
+
+Most 2D-to-3D converters only do one thing: **take a depth map and shift pixels left / right.**
+That works for solid objects — a chair, a face, a building. But it breaks on everything that has **no solid surface**:
+
+| What breaks in normal converters | Why |
+|---|---|
+| Light, glow, lens flare, neon | Light has no depth — there is nothing solid to shift |
+| Fire, flames, sparks | Fire is transparent, flickering, volumetric |
+| Water, reflections, ripples | Water is transparent + reflective — the depth map guesses wrong |
+| Fog, smoke, mist, haze | Fog is air, not a surface — shifting it tears the image |
+| Glass, windows, translucency | Two depths in one pixel: the glass *and* what is behind it |
+
+The result is the classic failure: holes, black edges, tearing, ghosting, or the fire / fog just looks flat while everything else pops.
+
+**Easy3D works differently.** It does not just warp pixels by depth:
+
+- **Depth + Warp** — still used for solid geometry, true lighting and details.
+- **Diffusion generation (GenStereo)** — the Denoising UNet *re-generates* the right-eye view instead of only shifting pixels. It can imagine what the light, fire, water, and fog should look like from the other eye.
+- **Reference UNet** — copies appearance and lighting from the original, so the glow / flame / reflection keeps its look and colour in both eyes.
+- **AdaptiveFusion** — mixes Warped + Generated to fill the holes that pure warping leaves behind.
+
+So in the same SBS image, the solid subject has depth, **and** the light still glows, the fire still burns, the water still reflects, the fog still floats — all in 3D, not pasted flat on top.
+
+> 一般的 2D 转 3D 工具只做一件事：**拿深度图，把像素左右挪一下。**
+> 实心物体（椅子、脸、楼）这样挪没问题，但一碰到**没有实心表面的东西**就破功了：光没有深度、火是透明又会闪的、水会反光、雾是空气不是面、玻璃一个像素里有两个深度。结果就是经典翻车：黑边、撕裂、重影，或者火 / 雾看着是平的，只有别的东西立体。
+>
+> Easy3D 不只挪像素：**深度 + Warp 管实心几何，扩散生成（GenStereo）重新生成右眼看到的画面**，Reference UNet 把原图的光感 / 颜色抄过来，AdaptiveFusion 再把 Warp 留下的洞补上。所以同一张 SBS 里，主体有深度，光还在发光、火还在烧、水还在反光、雾还在飘 — 都是立体的，不是平贴上去的。
+
 
 <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License: MIT"></a>
 <a href="https://www.python.org/" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/Python-3.11-blue.svg" alt="Python: 3.11"></a>
@@ -27,7 +62,7 @@ Results vary by hardware and settings, so experimenting with different resolutio
 
 > ### 💙 加入 Facebook 群组 · Join the Facebook Group: <a href="https://www.facebook.com/share/g/1KokTEPmCs/" target="_blank" rel="noopener noreferrer">3D Stereo Lover</a>
 > **分享你的 SBS 成果、Preset、参数设置，问问题、看别人怎么调。Share your SBS results, presets, and settings.**
-> 分享 `Seed / Depth / Baseline` 等组合，让别人直接抄就能出好效果。Share ready-made Seed / Depth / Baseline combos so others can copy them and get great results right away.
+> 建议先加群再调参 — 群里很多现成的 `Seed / Depth / Baseline` 组合，直接抄就能出好效果。Join first, then tune — the group already has many ready-made combos you can copy directly.
 
 
 <img width="1278" height="848" alt="Easy3D Converter GUI" src="https://github.com/user-attachments/assets/97576e9d-696f-4460-861b-73e880d6d8b7" />
@@ -42,6 +77,7 @@ Results vary by hardware and settings, so experimenting with different resolutio
 
 ## Table of Contents
 
+- [Why Easy3D Is Different](#why-easy3d-is-different)
 - [Features](#features)
 - [How It Works](#how-it-works)
 - [Requirements](#requirements)
@@ -71,6 +107,7 @@ Results vary by hardware and settings, so experimenting with different resolutio
 
 ## Features · 功能
 
+- **Not just Depth — Light, Fire, Water, Fog too:** Most converters only shift pixels by depth, so light / fire / water / fog go flat or tear. Easy3D re-generates the right-eye view with diffusion, so glow, flames, reflections, and fog stay 3D. See [Why Easy3D Is Different](#why-easy3d-is-different).
 - **Single image → SBS 3D:** Left = original, Right = AI-generated (or symmetric / swapped, see Gen Mode).
 - **Batch conversion:** Drop a single image or a whole folder. The batch is split into chunks (`BATCH_CHUNK_SIZE` in code, default 1). The model is loaded once per chunk — see [How It Works](#how-it-works).
 - **Streaming output:** Each image is converted to SBS as soon as its inference finishes — you don't wait for the whole batch. Face Restore is **not** streamed, it is deferred to Phase 2 (see below).
