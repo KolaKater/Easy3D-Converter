@@ -25,11 +25,11 @@ Easy3D Converter 是一个免费开源工具，在 RTX 3070 及以上的普通�
 [[Python: 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
 [[GPU: RTX 3070+](https://img.shields.io/badge/GPU-RTX%203070%2B-brightgreen.svg)](https://www.nvidia.com/)
 
-<img width="1280" height="847" alt="Easy3D Converter GUI" src="https://github.com/user-attachments/assets/b195f497-e303-4491-9896-5db86fb2c512" />
+<img width="1281" height="849" alt="图片" src="https://github.com/user-attachments/assets/691a3a8f-7325-4f85-8648-f24c13e93701" />
 
 *Easy3D Converter GUI*
 
-<img width="3836" height="1077" alt="Original image to SBS stereo 3D result" src="https://github.com/user-attachments/assets/1a982c23-568b-4f75-aa75-d0ddfd092b50" />
+<img width="3836" height="1918" alt="1794099221872-1918_Easy3D_V21_FDL_R2048_D100_B051_F050_S30_G150_PAR_Seed510902704" src="https://github.com/user-attachments/assets/18ce0af5-352d-4005-9131-56f271bb544e" />
 
 *Original image → SBS stereo 3D result / 原图 → SBS 立体 3D 成果*
 
