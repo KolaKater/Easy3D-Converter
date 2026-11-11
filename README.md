@@ -102,8 +102,8 @@ The result is the classic failure: holes, black edges, tearing, ghosting, or the
 **Recommended first run (RTX 3070+ / 第一次推荐参数)：**
 
 ```
-Finetuned:    genstereo-v2.1
-MDE:          FlashDepth-L
+Finetuned:    Finetune-v2.1
+MDE:          FD-L
 Resolution:   1344 - Finetune-v2.1 Recommended
 Steps:        20 - Fast
 3D Strength:  0.40
@@ -172,17 +172,17 @@ Resolution 下拉框里每一项是三段式：`数字 - 最配哪个 Finetuned 
 
 | Word in label / 标签里的词 | Meaning / 意思 |
 |---|---|
-| `Finetune-v1.5` | Best for `genstereo-v1.5`. / 最配 `genstereo-v1.5`。 |
-| `Finetune-v2.1` | Best for `genstereo-v2.1`. / 最配 `genstereo-v2.1`。 |
+| `Finetune-v1.5` | Best for `Finetune-v1.5`. / 最配 `Finetune-v1.5`。 |
+| `Finetune-v2.1` | Best for `Finetune-v2.1`. / 最配 `Finetune-v2.1`。 |
 | `Common` | Works for both. / 两个都能用。 |
 | `Fast` | Fastest, least detail, good for preview. / 最快，细节最少，适合预览。 |
 | `Recommended` | Best quality / speed balance for daily use. / 日常推荐：质量 / 速度最划算。 |
 | `Slowest` | Slowest, most detail, use sparingly. / 最慢，细节最多，慎用。 |
 
-**Example / 举例 — `1344 - Finetune-v2.1 Recommended`：** Resolution is `1344`, best for `genstereo-v2.1`, and recommended for daily use. / 分辨率是 `1344`，最配 `genstereo-v2.1`，而且是日常推荐。
+**Example / 举例 — `1344 - Finetune-v2.1 Recommended`：** Resolution is `1344`, best for `Finetune-v2.1`, and recommended for daily use. / 分辨率是 `1344`，最配 `Finetune-v2.1`，而且是日常推荐。
 
-So: if Finetuned is `genstereo-v2.1`, pick `1344` for daily use. If Finetuned is `genstereo-v1.5`, pick `1280 - Finetune-v1.5 Recommended`.
-所以：Finetuned 选 `genstereo-v2.1`，日常优先选 `1344`；选 `genstereo-v1.5`，日常优先选 `1280 - Finetune-v1.5 Recommended`。
+So: if Finetuned is `Finetune-v2.1`, pick `1344` for daily use. If Finetuned is `Finetune-v1.5`, pick `1280 - Finetune-v1.5 Recommended`.
+所以：Finetuned 选 `Finetune-v2.1`，日常优先选 `1344`；选 `Finetune-v1.5`，日常优先选 `1280 - Finetune-v1.5 Recommended`。
 
 ---
 
@@ -205,20 +205,44 @@ Overall stereo strength. How strong the 3D pops. Suggested 0.5. Larger = more 3D
 
 ### Follow Original / 跟原图
 
-How strictly to follow the original image. Think of it as: who is in charge, the creator or the converter?
-多严格地跟着原图走。可以这样理解：到底谁说了算，是创作者还是转换器？
+**一句话 / In one line：** `Follow Original` 是 `Easy3D` 在“3D 转换器”和“3D 创作者”之间切换的开关。/ `Follow Original` is the switch between “3D converter” and “3D creator”.
 
-- **High Follow Original:** the converter listens to the creator. The result stays close to your original photo. / **跟原图跟得紧：** 转换器听创作者的，结果跟你的原图很像。
-- **Low Follow Original:** the converter freestyles more. It may invent details that were not in your photo. / **跟原图跟得松：** 转换器自己发挥得多，可能会编出原图里没有的细节。
+| 值 / Value | Easy3D 变成什么 / What Easy3D becomes | 画面什么样 / What the picture looks like |
+|---|---|---|
+| `0.0` | 纯创作者 / Pure creator | 完全不听原图的话，放飞。光 / 火 / 水 / 雾重画得很漂亮，但人脸、建筑也敢重画，走样、变脸、颜色跑偏全来了。/ Ignores the original completely. Light / fire / water / fog repainted beautifully, but faces and buildings get repainted too — distortion, wrong faces, colour drift. |
+| `1.0` | 创作者为主 / Mostly creator | 还是敢创作，但开始听原图的话了。风景、光影效果好，人像要小心。/ Still dares to create, but starts listening to the original. Good for landscapes / light, careful with portraits. |
+| **`1.8`** | **平衡点 / Balanced — 建议值 / Recommended** | **既创作，又不走样。光 / 火 / 水 / 雾还能重画，人 / 建筑 / 脸还认得出来。日常就用它。/ Creates, but does not drift. Light / fire / water / fog still get repainted, people / buildings / faces still look like themselves. Daily default.** |
+| `2.2` | 转换器为主 / Mostly converter | 创作收敛了，贴原图了。人像脸崩 / 颜色跑偏时，先拉到这里救一下。/ Creation pulls back, sticks to the original. Use this first when a portrait face breaks or colour drifts. |
+| `5.0` | 几乎纯转换器 / Almost pure converter | 几乎不创作了，只敢把原图像素左右挪一下，变成 SBS。跟普通 2D 转 3D 工具没区别了 — 光变平、火变平、雾变平，你用 `Easy3D` 干嘛？/ Almost no creation left, only shifts the original pixels left / right into SBS. Same as any ordinary 2D-to-3D converter — light goes flat, fire goes flat, fog goes flat. Then why use `Easy3D` at all? |
 
-| Value / 值 | Effect / 效果 |
-|---|---|
-| 0.0 | Drifts away from the original. / 跑偏。 |
-| **1.80** | **Default (recommended). / 默认（推荐）。** |
-| 5.0 | Too rigid, repetitive. / 太死板、重复。 |
+**为什么这对 3D 创作者最重要？/ Why does this matter most to 3D creators?**
 
-Follow Original does **not** affect speed.
-Follow Original **不影响**速度。
+普通的 2D 转 3D 工具，只会做一件事：拿深度图，把像素左右挪一下。/ An ordinary 2D-to-3D converter only does one thing: take a depth map, shift pixels left / right.
+
+那光、火、水、雾怎么办？它们没有实心表面，挪不动，也挪不对。/ But what about light, fire, water, fog? They have no solid surface — there is nothing to shift, and shifting gets it wrong.
+
+`Easy3D` 不一样，它敢**重新创作**右眼看到的画面：光应该怎么亮、火应该怎么烧、水应该怎么反光、雾应该怎么飘，它敢自己画出来。/ `Easy3D` is different — it dares to **re-create** what the right eye should see: how the light should glow, the fire burn, the water reflect, the fog float. It dares to draw that itself.
+
+`Follow Original` 就是管它“敢不敢创作”的缰绳：/ `Follow Original` is the leash on “how much it dares to create”:
+
+- **缰绳松 (`Follow Original` 小)** → 它跑得远，创作多，光 / 火 / 水 / 雾最有 3D 感，但也可能跑偏。/ **Loose leash (small value)** → it runs far, creates a lot, light / fire / water / fog look the most 3D, but it may also run off.
+- **缰绳紧 (`Follow Original` 大)** → 它跑不远，创作少，画面跟原图一模一样，但光 / 火 / 水 / 雾也变平了，`Easy3D` 就退化成一个普通转换器。/ **Tight leash (large value)** → it cannot run far, creates little, the picture looks exactly like the original, but light / fire / water / fog go flat too, and `Easy3D` becomes just an ordinary converter.
+
+所以 `1.8` 是平衡点：缰绳不紧不松，它敢创作，又不跑偏。/ So `1.8` is the balance point: the leash is neither tight nor loose, it dares to create, but does not run off.
+
+**怎么调？/ How to tune it?**
+
+- **日常、风景、光 / 火 / 水 / 雾**：`1.8`，不用动。/ **Daily, landscapes, light / fire / water / fog**: `1.8`, do not touch it.
+- **人像、自拍、脸崩了、颜色跑了**：`1.8 → 2.2`，先拉到这里，别一下拉到 `5.0`。/ **Portrait / selfie, face broken, colour drifted**: `1.8 → 2.2` first, do not jump to `5.0`.
+- **想要它大胆创作**：`1.8 → 1.2` / `1.0`，光影会更漂亮，但要一张张检查，脸和建筑可能走样。/ **Want it to create boldly**: `1.8 → 1.2` / `1.0`, light will look prettier, but check every image — faces and buildings may drift.
+- **想要它老老实实转换**：`1.8 → 2.5` / `3.0`，别到 `5.0`。`5.0` 不是更保真，是更僵硬，而且把 `Easy3D` 最值钱的创作能力关掉了。/ **Want it to convert honestly**: `1.8 → 2.5` / `3.0`, not `5.0`. `5.0` is not more faithful, it is more stiff, and it switches off the creation ability that makes `Easy3D` worth using.
+
+> **新手只记一句 / If you only remember one line：**
+>
+> `Follow Original` 小 = 创作强，`Follow Original` 大 = 转换强。想要 `Easy3D` 帮你创作，就别把缰绳拉太紧。/ Small `Follow Original` = strong creation, large `Follow Original` = strong conversion. If you want `Easy3D` to create for you, do not pull the leash too tight.
+
+`Follow Original` **不影响速度** — 它是权重，不是步数。/ It does **not** affect speed — it is a weight, not a step count.
+
 
 ### Steps / 步数
 
@@ -260,17 +284,19 @@ Requires `gfpgan/weights/`. If it fails to load, the SBS is saved unchanged and 
 
 MDE makes the depth map. It decides the geometry, not the final look. / MDE 是做深度图的，决定几何，不决定最终画面的风格。
 
+> **GUI 里的名字就是这样写的 / Names in the GUI:** `FD-L` = FlashDepth-L，`FD-S` = FlashDepth-S，`DA2-L / DA2-B / DA2-S` = Depth Anything V2 Large / Base / Small。旧 Preset 里的长名字会自动转成短名字，不用手动改。
+
 | GUI option / 选项 | Quality / 质量 | Speed / 速度 | Use for / 适合 |
 |---|---|---|---|
-| **FlashDepth-L (default / 默认)** | Good / 好 | Fast / 快 | **Daily default. / 日常默认就是它。** |
-| FlashDepth-S, Fast | Slightly weaker / 稍弱 | Faster / 更快 | 8 GB + high Resolution (>3000) to avoid OOM. / 8 GB + 高分辨率（>3000）时用它，防 OOM。 |
-| Depth Anything V2 ViT-L | Good / 好 | Slow / 慢 | Try for a different look. Do not use Large on 8 GB + >3000. / 想换个风格时试。8 GB + >3000 别用 Large。 |
-| Depth Anything V2 ViT-B | Medium / 中 | Medium / 中 | Alternative on 8 GB + high Resolution (>3000). / 8 GB + 高分辨率（>3000）时的备选。 |
-| Depth Anything V2 ViT-S | Weaker / 弱 | Fastest / 最快 | Most stable on 8 GB + high Resolution (>3000). / 8 GB + 高分辨率（>3000）时最稳。 |
+| **FD-L (default / 默认)** | Good / 好 | Fast / 快 | **Daily default. / 日常默认就是它。** |
+| FD-S | Slightly weaker / 稍弱 | Faster / 更快 | 8 GB + high Resolution (>3000) to avoid OOM. / 8 GB + 高分辨率（>3000）时用它，防 OOM。 |
+| DA2-L | Good / 好 | Slow / 慢 | Try for a different look. Do not use Large on 8 GB + >3000. / 想换个风格时试。8 GB + >3000 别用 Large。 |
+| DA2-B | Medium / 中 | Medium / 中 | Alternative on 8 GB + high Resolution (>3000). / 8 GB + 高分辨率（>3000）时的备选。 |
+| DA2-S | Weaker / 弱 | Fastest / 最快 | Most stable on 8 GB + high Resolution (>3000). / 8 GB + 高分辨率（>3000）时最稳。 |
 
 > **8 GB rule (important) / 8 GB 规则（重要）：**
-> - Resolution `≤ 3000`: any MDE is fine, default `FlashDepth-L` works. / Resolution `≤ 3000`：随便选，默认 `FlashDepth-L` 就行。
-> - Resolution `> 3000` (e.g. 3072 / 3584 / 4096 / 5120): **switch MDE to Base / Small first** — `FlashDepth-S`, or `Depth Anything V2 ViT-B` / `ViT-S`. / Resolution `> 3000`（如 3072 / 3584 / 4096 / 5120）：**先把 MDE 换成 Base / Small** — `FlashDepth-S`，或 `Depth Anything V2 ViT-B` / `ViT-S`。
+> - Resolution `≤ 3000`: any MDE is fine, default `FD-L` works. / Resolution `≤ 3000`：随便选，默认 `FD-L` 就行。
+> - Resolution `> 3000` (e.g. 3072 / 3584 / 4096 / 5120): **switch MDE to Base / Small first** — `FD-S`, or `DA2-B` / `DA2-S`. / Resolution `> 3000`（如 3072 / 3584 / 4096 / 5120）：**先把 MDE 换成 Base / Small** — `FD-S`，或 `DA2-B` / `DA2-S`。
 
 ### Low VRAM / 低显存
 
@@ -386,7 +412,7 @@ If update fails, check network / GitHub first, then re-run `update.bat` once mor
 | Batch gets slower after image 1 (30s → 11 min) | You are on an old version. Update with `update.bat`. / 你是旧版本。用 `update.bat` 更新。 |
 | `Output/_deferred/` left over after Cancel | Normal on Cancel. Delete it and re-run, or re-run with the same output folder. / Cancel 后留下来是正常的。删掉重跑，或者用同一个输出文件夹重跑。 |
 | Portrait image looks flatter than landscape | Expected. See FAQ. / 预期的。见 FAQ。 |
-| `Flux.2 Klein` cannot be loaded | Only `genstereo-v1.5` / `genstereo-v2.1` are supported. Flux is a different architecture. / 只支持 `genstereo-v1.5` / `genstereo-v2.1`。Flux 是另一种结构。 |
+| `Flux.2 Klein` cannot be loaded | Only `Finetune-v1.5` / `Finetune-v2.1` are supported. Flux is a different architecture. / 只支持 `Finetune-v1.5` / `Finetune-v2.1`。Flux 是另一种结构。 |
 
 ---
 
