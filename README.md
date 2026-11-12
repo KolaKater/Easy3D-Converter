@@ -25,6 +25,9 @@ Easy3D Converter 是一个免费开源工具，在 RTX 3070 及以上的普通�
 [[Python: 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
 [[GPU: RTX 3070+](https://img.shields.io/badge/GPU-RTX%203070%2B-brightgreen.svg)](https://www.nvidia.com/)
 
+Youtube:
+https://www.youtube.com/watch?v=jbyHu_cRHbc
+
 <img width="1281" height="849" alt="图片" src="https://github.com/user-attachments/assets/691a3a8f-7325-4f85-8648-f24c13e93701" />
 
 *Easy3D Converter GUI*
