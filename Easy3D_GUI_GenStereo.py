@@ -1,3 +1,5 @@
+# FIX decoupled_warp_orig_v3: Warp 在原图上做, GUI 传每张原图 + orig_dir
+# FIX decoupled_warp_orig_v2: Warp 在原图上做, GUI 传原图路径
 # FIX Done color: Done 那行深蓝 -> 浅黄 #FFE87A, 深灰底上才看得清
 # FIX About layout icon: About 弹窗整齐布局 + Easy3D 图标 (不用系统默认), Close 不被切
 # FIX Preset apply gen_mode face_restore: apply_params 补 gen_mode / face_restore, Preset 加载时界面才变
@@ -9,7 +11,7 @@
 # FIX v7.0 Done open folder: Done - 地址可点开文件夹 + 悬浮提示, 点击打开文件夹
 # FIX v7.0 Running anim: Running... 打字机动画 R->Running...->R 循环, 让用户眼睛知道还在跑
 # FIX v7.0 Warped Gamma: _WARPED 补最后那次 Gamma 1.40, 跟最终 SBS 一样亮 (只补明暗, 不动尺寸)
-# FIX v7.0 Depth/Warped ratio: _DEPTH/_WARPED 改正图片比例 (vis 是推理图)
+# FIX v7.0 Depth/Warped ratio: _DEPTH/_WARPED 改正图片尺寸 (vis 是推理图)
 # FIX v75: 3D Strength, Follow Original (只显示标签, 文件名/预设/代码不动)
 # FIX v73: Mode+Limit 上移到 Row 0 取代 Depth/Fusion, Fusion 取消显示 1.0, Depth 合并进 Baseline, 删 Mode 注释
 # FIX v39: 删重复的 V37 else (一个 if 只能跟一个 else)
@@ -40,9 +42,9 @@ try:
 except Exception:
     HAS_DND = False
 
-__VERSION__ = "v7.0- 2026-11-11"
-APP_TITLE = "Easy3D: I love Depth. I also love Light."
-# About 窗口链接: GitHub 是占位, 把你的 GitHub 用户名告诉我, 我帮你换成真的
+__VERSION__ = "v8.0- 2026-11-19"
+APP_TITLE = "Easy3D: Exploring a 3D World of Light and Transparency"
+# About 窗口链接: GitHub 
 ABOUT_GITHUB_URL = "https://github.com/KolaKater/Easy3D-Converter"
 ABOUT_FACEBOOK_URL = "https://www.facebook.com/100000242772138"
 CONFIG_FILE = "preset/easy3d_gui_config.json"
@@ -92,31 +94,58 @@ FINETUNED_OPTIONS = {
 MDE_OPTIONS = {
     "FD-L": "flashdepth-l",
     "FD-S": "flashdepth-s",
+    "DA3-L": "da3-large",
+    "DA3-B": "da3-base",
+    "DA3-S": "da3-small",
     "DA2-L": "depth_anything_v2_vitl",
     "DA2-B": "depth_anything_v2_vitb",
     "DA2-S": "depth_anything_v2_vits",
-}
+    "Distill-B": "distill_any_depth_vitb",
+    "MoGe3-ViTL": "moge-3-vitl",
+    "MoGe3-ViTG": "moge-3-vitg",
+}  # FIX v76: DA3 + MoGe3
 # MDE model id -> relative checkpoint path (relative to Easy3D folder, no absolute paths).
 # FlashDepth paths match flashdepth_model.py MODEL_FILES / find_config_dir():
 #   models/FlashDepth/configs/flashdepth-l/iter_10001.pth
 #   models/FlashDepth/configs/flashdepth-s/iter_14001.pth
 MDE_PATHS = {
-    "depth_anything_v2_vitl": "models/depth_anything_v2_vitl.pth",
-    "depth_anything_v2_vitb": "models/depth_anything_v2_vitb.pth",
-    "depth_anything_v2_vits": "models/depth_anything_v2_vits.pth",
     "flashdepth-l": "models/FlashDepth/configs/flashdepth-l/iter_10001.pth",
     "flashdepth-s": "models/FlashDepth/configs/flashdepth-s/iter_14001.pth",
     "flashdepth": "models/FlashDepth/configs/flashdepth/iter_43002.pth",
-}
+    "da3-large": "models/da3-large",
+    "da3-base": "models/da3-base",
+    "da3-small": "models/da3-small",
+    "depth_anything_v2_vitl": "models/depth_anything_v2_vitl.pth",
+    "depth_anything_v2_vitb": "models/depth_anything_v2_vitb.pth",
+    "depth_anything_v2_vits": "models/depth_anything_v2_vits.pth",
+    "distill_any_depth_vitb": "models/distill_any_depth_vitb.safetensors",
+    "moge-3-vitl": "models/moge-3-vitl/model.pt",
+    "moge-3-vitg": "models/moge-3-vitg/model.pt",
+}  # FIX v76: 相对路径
 
 # MDE model id -> filename suffix (added after Finetuned model in output_stem)
 MDE_SUFFIXES = {
+    "da3_large": "_DA3L",
     "flashdepth-l": "_FDL",
     "flashdepth-s": "_FDS",
     "flashdepth": "_FD",
     "depth_anything_v2_vitl": "_DA2L",
     "depth_anything_v2_vitb": "_DA2B",
     "depth_anything_v2_vits": "_DA2S",
+    "distill_any_depth_vitb": "_DistillB",
+    "moge-3-vitl": "_MoGe3L",
+    "moge-3-vitg": "_MoGe3G",
+    "moge3-vitl": "_MoGe3L",
+    "moge3-vitg": "_MoGe3G",
+    "da3-base": "_DA3B",
+    "da3-small": "_DA3S",
+    "da3-large": "_DA3L",
+    "da3-giant": "_DA3G",
+    "any_v3_mono_base": "_DA3B",
+    "any_v3_mono_small": "_DA3S",
+    "any_v3_mono_smal": "_DA3S",
+    "da3-mono-base": "_DA3B",
+    "da3-mono-small": "_DA3S",
     "custom": "_MDEC",
 }
 VAE_OPTIONS = {
@@ -129,29 +158,55 @@ ENCODER_OPTIONS = {
 }
 RESOLUTION_OPTIONS = {
     "512 - Common, Fast": 512,
+    "672 - Common": 672,
     "768 - Finetune-v2.1": 768,
     "896 - Common": 896,
+    "1024 - Common": 1024,
+    "1088 - Common": 1088,
+    "1120 - Common": 1120,
+    "1216 - Common": 1216,
     "1280 - Finetune-v1.5 Recommended": 1280,
     "1344 - Finetune-v2.1 Recommended": 1344,
+    "1472 - Common": 1472,
+    "1568 - Common": 1568,
+    "1600 - Common": 1600,
+    "1664 - Common": 1664,
+    "1728 - Common": 1728,
     "1792 - Common": 1792,
     "1920 - Finetune-v2.1": 1920,
+    "1984 - Common": 1984,
+    "2016 - Common": 2016,
     "2048 - Finetune-v1.5": 2048,
     "2240 - Finetune-v2.1 Recommended": 2240,
+    "2304 - Tiling v1.5+v2.1": 2304,
+    "2464 - Common": 2464,
     "2560 - Finetune-v1.5": 2560,
     "2688 - Finetune-v2.1 Recommended": 2688,
     "2816 - Finetune-v1.5": 2816,
+    "2912 - Common": 2912,
     "3072 - Common": 3072,
     "3136 - Finetune-v2.1 Recommended": 3136,
     "3328 - Finetune-v1.5": 3328,
+    "3360 - Common": 3360,
     "3456 - Finetune-v2.1": 3456,
+    "3584 - Tiling v1.5": 3584,
+    "3808 - Common": 3808,
+    "3840 - Tiling v1.5+v2.1": 3840,
+    "4032 - Common": 4032,
     "4096 - Finetune-v1.5": 4096,
     "4224 - Finetune-v2.1": 4224,
+    "4256 - Common": 4256,
     "4352 - Finetune-v1.5": 4352,
     "4480 - Common, Recommended": 4480,
-    "4928 - Common, Recommended": 4928,
+    "4608 - Tiling v1.5+v2.1": 4608,
+    "4704 - Common": 4704,
     "4864 - Finetune-v1.5": 4864,
+    "4928 - Common, Recommended": 4928,
     "4992 - Finetune-v2.1": 4992,
     "5120 - Finetune-v1.5, Slowest": 5120,
+    "5152 - Common": 5152,
+    "5376 - Tiling v1.5+v2.1": 5376,
+
 }
 FACE_RESTORE_OPTIONS = {
     "None": "none",
@@ -162,20 +217,26 @@ GEN_MODE_OPTIONS = {
     "Orig_Left": "orig_left",
     "Both / Symmetric": "both",
 }
+
+# FIX v96: Fast-Decoupled 时 GUI Resolution 被忽略, 强制用 test.py 的 Decoupled 分辨率 (A=960 B=1280 C=1536).
+# 用户测试: GUI Resolution 恰好等于 Decoupled 分辨率时最清晰 (Warp 全图 = 扩散低分辨率, 不用缩放).
 MODE_OPTIONS = {
     "Quality - Step": "quality",
     "Fast - Decoupled A": "decoupled_a",
     "Fast - Decoupled B": "decoupled_b",
     "Fast - Decoupled C": "decoupled_c",
+    "Fast - Decoupled D": "decoupled_d",  # FIX v112: D=1568, test.py DECOUPLED_LOW_RES 定, GUI 不写死
+    "Fast - Decoupled E": "decoupled_e",  # FIX v132: E=1792
+    "Fast - Decoupled F": "decoupled_f",  # FIX v132: F=2016
 }
 # FIX v26: Mode -> _FaDe suffix
-_MODE_FADE_SUFFIX = {"decoupled": "_FaDe", "decoupled_a": "_FaDeA", "decoupled_b": "_FaDeB", "decoupled_c": "_FaDeC"}
+_MODE_FADE_SUFFIX = {"decoupled": "_FaDe", "decoupled_a": "_FaDeA", "decoupled_b": "_FaDeB", "decoupled_c": "_FaDeC", "decoupled_d": "_FaDeD", "decoupled_e": "_FaDeE", "decoupled_f": "_FaDeF"}  # FIX v132: 文件名 _FaDeE/_FaDeF
 def _mode_fade_suffix(mode):
     _m = str(mode or "quality").strip().lower()
     if _m == "decoupled": return "_FaDe"
     return _MODE_FADE_SUFFIX.get(_m, "")
 # FIX v22: Limit to Source 列表, 和 test.py _RESOLUTION_LIST 一致 (四舍五入取最近)
-_LIMIT_RES_LIST = [512,768,896,1024,1088,1216,1280,1344,1472,1600,1664,1728,1792,1920,1984,2048,2240,2304,2560,2688,2816,3072,3136,3328,3456,3584,3840,4096,4224,4352,4480,4608,4864,4928,4992,5120]
+_LIMIT_RES_LIST = [512,672,768,896,1024,1088,1120,1216,1280,1344,1472,1568,1600,1664,1728,1792,1920,1984,2016,2048,2240,2304,2464,2560,2688,2816,2912,3072,3136,3328,3360,3456,3584,3808,3840,4032,4096,4224,4256,4352,4480,4608,4704,4864,4928,4992,5120,5152,5376]
 def _limit_to_source_gui(gui_res, orig_long, limit_on=True):
     """FIX v22: GUI 版 Limit to Source. orig>=768 才生效, orig<768 不往下压."""
     try:
@@ -233,6 +294,9 @@ _MODE_LABEL_ALIASES = {
     "Fast - Decoupled A (768)": "Fast - Decoupled A",
     "Fast - Decoupled B (1024)": "Fast - Decoupled B",
     "Fast - Decoupled C (1344)": "Fast - Decoupled C",
+    "Fast - Decoupled D (1568)": "Fast - Decoupled D",
+    "Fast - Decoupled E (1792)": "Fast - Decoupled E",
+    "Fast - Decoupled F (2016)": "Fast - Decoupled F",
     "Fast - Decoupled": "Fast - Decoupled B",
 }
 def _migrate(saved, options):
@@ -302,7 +366,7 @@ class GenStereoGUI:
         self.pause_flag = False
         self.stop_flag = False
         self.config = self.load_config()
-        # --- v7.0 深色全套 v2: 含 TRadiobutton + TScale + Dark 面板版 ---
+        # --- v8.0 深色全套 v2: 含 TRadiobutton + TScale + Dark 面板版 ---
         style = ttk.Style()
         try: style.theme_use("clam")
         except Exception: pass
@@ -416,6 +480,7 @@ class GenStereoGUI:
         ttk.Combobox(pf2, textvariable=self.mode_var, values=list(MODE_OPTIONS), state="readonly").grid(row=0, column=1, columnspan=2, sticky=tk.EW, padx=5, pady=4)
         self.limit_var = tk.BooleanVar(value=bool(self.config.get("limit_to_source", True)))
         ttk.Checkbutton(pf2, text="Limit to Source", variable=self.limit_var, command=self.save_config_event).grid(row=0, column=3, columnspan=3, sticky=tk.W, padx=5, pady=4)
+
         self.baseline_var = tk.DoubleVar(value=_merged_base)
         ttk.Label(pf2, text="3D Strength:").grid(row=0, column=6, sticky=tk.W, padx=5, pady=4)
         ttk.Scale(pf2, from_=0.2, to=2.0, orient=tk.HORIZONTAL, variable=self.baseline_var, command=self._on_baseline).grid(row=0, column=7, sticky=tk.EW, padx=5, pady=4)
@@ -461,15 +526,21 @@ class GenStereoGUI:
         ttk.Combobox(pf2, textvariable=self.output_type_var, values=list(OUTPUT_TYPE_OPTIONS), state="readonly").grid(row=2, column=10, columnspan=2, sticky=tk.EW, padx=5, pady=4)
         # ---- Buttons / progress ----
         bf = ttk.Frame(main); bf.pack(fill=tk.X, pady=(8, 4))
-        # v7.0 Clear: 在 Cancel 右边 (先 pack 的最靠右, 所以 Clear 要在 Cancel 之前 pack)
+        # v8.0 Clear: 在 Cancel 右边 (先 pack 的最靠右, 所以 Clear 要在 Cancel 之前 pack)
         self.clear_btn = ttk.Button(bf, text="Clear", width=10, command=self.clear_input_and_filelist); self.clear_btn.pack(side=tk.RIGHT, padx=(5, 0))
         self.cancel_btn = ttk.Button(bf, text="Cancel", width=10, command=self.cancel_conversion, state=tk.DISABLED); self.cancel_btn.pack(side=tk.RIGHT, padx=(5, 0))
         self.suspend_btn = ttk.Button(bf, text="Suspend", width=10, command=self.toggle_suspend, state=tk.DISABLED); self.suspend_btn.pack(side=tk.RIGHT, padx=5)
         self.about_btn = ttk.Button(bf, text="About", width=10, command=self._show_about); self.about_btn.pack(side=tk.LEFT, padx=(0, 5))
+        # FIX v88 Edge Protection Level (原 Dilation, 只改界面名, 内部仍叫 dilation): About 右边 (About 是 LEFT/grid, 插在 About 之后, pack LEFT)
+        self.dilation_var = tk.IntVar(value=int(self.config.get("dilation", 4) or 4))
+        ttk.Label(bf, text="Edge Protection Level:").pack(side=tk.LEFT, padx=5, pady=4)
+        self.dilation_spin = ttk.Spinbox(bf, from_=0, to=50, increment=1, textvariable=self.dilation_var, width=4, command=self.save_config_event)
+        self.dilation_spin.pack(side=tk.LEFT, padx=5, pady=4)
+        self.dilation_spin.bind("<FocusOut>", lambda e: self._clamp_dilation())
         self.start_btn = ttk.Button(bf, text="Start", width=10, command=self.start_conversion); self.start_btn.pack(side=tk.RIGHT, padx=5)
         pg = ttk.Frame(main); pg.pack(fill=tk.X, pady=2); pg.columnconfigure(1, weight=1)
         self.status_var = tk.StringVar(value="Ready")
-        # v7.0: Done 那行可点开文件夹, 所以 Label 要拿到引用, 绑定点击 + 悬浮提示
+        # v8.0: Done 那行可点开文件夹, 所以 Label 要拿到引用, 绑定点击 + 悬浮提示
         self.status_label = ttk.Label(pg, textvariable=self.status_var, style="Small.TLabel")
         self.status_label.grid(row=0, column=0, sticky=tk.W, padx=5)
         self._done_dir = None
@@ -617,7 +688,7 @@ class GenStereoGUI:
                 "encoder_display": self.encoder_var.get(), "encoder_path": self.encoder_path_var.get(),
                 "depth_strength": 1.0, "baseline": self.baseline_var.get(), "baseline_merged": 1,
                 "fusion_strength": 1.0, "guidance": self.guidance_var.get(),
-                "resolution_display": self.resolution_var.get(), "steps_display": self.steps_var.get(), "mode_display": self.mode_var.get(), "limit_to_source": bool(self.limit_var.get()),
+                "resolution_display": self.resolution_var.get(), "steps_display": self.steps_var.get(), "mode_display": self.mode_var.get(), "limit_to_source": bool(self.limit_var.get()), "dilation": int(getattr(self, "dilation_var", None).get() if getattr(self, "dilation_var", None) is not None else 4),
                 "seed_display": self.seed_var.get(), "output_type_display": self.output_type_var.get(), "face_restore_display": self.face_restore_var.get(),
                 "low_vram": self.lowvram_var.get(), "save_depth": self.save_depth_var.get(), "save_warped": self.save_warped_var.get(),
                 "show_log": self.show_log_var.get(), "show_preview": self.show_preview_var.get(), "show_filelist": self.show_filelist_var.get(),
@@ -662,6 +733,7 @@ class GenStereoGUI:
             "resolution": RESOLUTION_OPTIONS.get(self.resolution_var.get(), 512),
             "mode": MODE_OPTIONS.get(self.mode_var.get(), "quality"),
             "limit_to_source": bool(self.limit_var.get()),
+            "dilation": max(0, min(50, int(self.dilation_var.get()))) if hasattr(self, "dilation_var") else 4,
             "steps": STEPS_OPTIONS.get(self.steps_var.get(), 50),
             "seed": seed,
             "output_type": OUTPUT_TYPE_OPTIONS.get(self.output_type_var.get(), "parallel"),
@@ -687,6 +759,9 @@ class GenStereoGUI:
         if "mode" in d and rev(MODE_OPTIONS, d["mode"]): self.mode_var.set(rev(MODE_OPTIONS, d["mode"]))
         if "limit_to_source" in d:
             try: self.limit_var.set(bool(d["limit_to_source"]))
+            except Exception: pass
+        if "dilation" in d:
+            try: self.dilation_var.set(max(0, min(50, int(d["dilation"]))))
             except Exception: pass
         if "steps" in d and rev(STEPS_OPTIONS, d["steps"]): self.steps_var.set(rev(STEPS_OPTIONS, d["steps"]))
         if "seed" in d:
@@ -867,11 +942,18 @@ class GenStereoGUI:
         ot = ot_map.get(str(params.get("output_type", "parallel")), "PAR")
         res = int(params.get("resolution", 512) or 512)
         _fr = "_FRBoth" if str(params.get("face_restore", "none")) == "gfpgan_both" else ""
+        # FIX v82: 文件名带 _D0.._D6, 只改 Dilation 也不会互相覆盖 (v80 教训)
+        try: _dil_v = max(0, min(50, int(params.get("dilation", 4))))
+        except Exception: _dil_v = 4
+        _dil_suf = "_D" + str(_dil_v)
         # FIX v24: Decoupled 出图加 _FaDe 后缀, Quality 不加, 保持老文件名不变
         # FIX v26: _FaDeA/B/C 查表
         _mode_suf = _mode_fade_suffix(params.get("mode", "quality"))
-        return f"{stem}_Easy3D_{model}{_mde_suf}{_mode_suf}_R{res}_{self._param_code(params.get('baseline', 1.0), 'B')}_S{int(params.get('steps', 50))}_{self._param_code(params.get('guidance_scale', 1.5), 'G')}{_fr}_{ot}_Seed{params.get('seed', '')}{extra}"
-    def _prepare_input(self, input_path, res):
+        # FIX v103: Decoupled 不加 _R (已有 _FaDeA/B/C), Quality 还加 _R.
+        _is_decoupled = str(params.get("mode", "quality")).strip().lower().startswith("decoupled")
+        _res_part = "" if _is_decoupled else f"_R{res}"
+        return f"{stem}_Easy3D_{model}{_mde_suf}{_mode_suf}{_dil_suf}{_res_part}_{self._param_code(params.get('baseline', 1.0), 'B')}_S{int(params.get('steps', 50))}_{self._param_code(params.get('guidance_scale', 1.5), 'G')}{_fr}_{ot}_Seed{params.get('seed', '')}{extra}"
+    def _prepare_input(self, input_path, res, mode=None):  # FIX v104: Decoupled 时不 resize 到 GUI Res
         """
         Returns (temp_prep_path, (orig_W, orig_H)). Temp file is _cache_<stem>.jpg in ./_cache/."""
         from PIL import Image
@@ -900,6 +982,11 @@ class GenStereoGUI:
                 return tmp2, (ow, oh)
             return Path(input_path), (ow, oh)
         tmp = tmp_dir / f"{Path(input_path).stem}_prep{res}.jpg"
+        # FIX v104: Decoupled 时不 resize 到 GUI Res, 只做 Gamma 后存原图尺寸.
+        # test.py 收到原图后一次性拉到 DECOUPLED_LOW_RES, 不经过 GUI Res 中间那次, 否则 GUI Res 不同结果会差一点点.
+        if str(mode or '').strip().lower().startswith('decoupled'):
+            orig.save(tmp, "JPEG", quality=95, subsampling=0, optimize=True)
+            return tmp, (ow, oh)
         # CANCELLED: no ml-sharp pre-shrink. GenStereo != ml-sharp. Plain resize only.
         _sq = orig.resize((int(res), int(res)), Image.LANCZOS)
         _sq.save(tmp, "JPEG", quality=95, subsampling=0, optimize=True)
@@ -936,7 +1023,7 @@ class GenStereoGUI:
         1) create_sbs_image(left, right) -> temp SBS (no Easy3D name yet)
         2) process_sbs_file(temp, output_type) - output_type.py is authoritative, it deletes temp
         3) rename result(s) to _Easy3D_... .jpg Q95 in output_dir
-        Depth/Warped: vis disp/warped (方形推理图) -> resize 到原图比例 -> _DEPTH/_WARPED .jpg Q95"""
+        Depth/Warped: vis disp/warped (推理图) -> resize 到原图大小 -> _DEPTH/_WARPED .jpg Q95"""
         from PIL import Image
         try:
             from output_type import create_sbs_image as _create_sbs
@@ -1093,7 +1180,7 @@ class GenStereoGUI:
                     disp = vis / "disp.png"
                     if disp.exists():
                         d = Image.open(disp).convert("RGB")
-                        # v7.0: vis/disp.png 是方形推理图, 改回原图比例再给用户看
+                        # v8.0: vis/disp.png 是推理图, 给用户看
                         if d.size != _orig.size: d = d.resize(_orig.size, Image.LANCZOS)
                         dst = out / (self.output_stem(str(t), params, extra="_DEPTH") + ".jpg")
                         d.save(dst, "JPEG", quality=OUTPUT_JPG_QUALITY, subsampling=0, optimize=True); self.log(f"[Output] {dst.name} ({d.size[0]}x{d.size[1]})")
@@ -1101,9 +1188,9 @@ class GenStereoGUI:
                     wp = vis / "warped.png"
                     if wp.exists():
                         w = Image.open(wp).convert("RGB")
-                        # v7.0: vis/warped.png 是方形推理图, 改回原图比例再给用户看
+                        # v8.0: vis/warped.png 是推理图, 给用户看
                         if w.size != _orig.size: w = w.resize(_orig.size, Image.LANCZOS)
-                                                # v7.0: WARPED 补最后那次 Gamma 1.40, 跟最终 SBS 一样亮 (vis 只有 0.70, 偏亮)
+                                                # v8.0: WARPED 补最后那次 Gamma 1.40, 跟最终 SBS 一样亮 (vis 只有 0.70, 偏亮)
                         if globals().get("GAMMA_ENABLED", True):
                             w = _apply_gamma(w, globals().get("GAMMA_PRE_OUTPUT", 1.0))
                         dst = out / (self.output_stem(str(t), params, extra="_WARPED") + ".jpg")
@@ -1204,6 +1291,8 @@ class GenStereoGUI:
                "--image_size", str(_eff_res),
                "--mode", str(params.get("mode", "quality")),
                "--orig_long", str(_orig_long),
+               *sum([["--orig_img", str(_o)] for _o in (params.get("_orig_imgs", []) or [])], []),
+               "--orig_dir", str(params.get("_orig_dir", "") or ""),
                "--limit_to_source", "1" if params.get("limit_to_source", True) else "0"]
         return cmd, exe
     def start_conversion(self):
@@ -1213,6 +1302,10 @@ class GenStereoGUI:
         output_dir = self.get_output_dir(input_path)
         if output_dir is None: return
         params = self.collect_params(); self.save_config()
+        # FIX v103: GUI 只传 Mode, 分辨率由 test.py 的 DECOUPLED_LOW_RES 决定, GUI 不强制.
+        if str(params.get("mode", "quality")).strip().lower().startswith("decoupled"):
+            self.log(f"[Decoupled] Mode={params.get('mode')}, Resolution decided by test.py")
+        # FIX v96: Fast-Decoupled 时 GUI Resolution 被忽略, 强制用 Decoupled 分辨率 (A=960 B=1280 C=1536).
         self.log(f"Params: {params}")
         _inp0 = Path(input_path)
         if _inp0.is_file(): _targets0 = [_inp0]
@@ -1222,20 +1315,24 @@ class GenStereoGUI:
             messagebox.showwarning("Input", "No convertible images found."); return
         if len(_targets0) > 1: self.log(f"[Batch] {len(_targets0)} images")
         output_dir.mkdir(parents=True, exist_ok=True)
-        (output_dir / "easy3d_gui_params.json").write_text(json.dumps(params, indent=2), encoding="utf-8")
+        (output_dir / "easy3d_params.json").write_text(json.dumps(params, indent=2), encoding="utf-8")
         self.stop_flag = False; self.pause_flag = False
         self.start_btn.configure(state=tk.DISABLED); self.suspend_btn.configure(state=tk.NORMAL, text="Suspend"); self.cancel_btn.configure(state=tk.NORMAL)
         self._clear_done(); self._start_running_anim("Running"); self.progress_var.set(0)
         def run_thread():
             try:
-                env = os.environ.copy(); env["PYTHONUNBUFFERED"] = "1"
+                env = os.environ.copy(); env["PYTHONUNBUFFERED"] = "1"; env["PYTHONIOENCODING"] = "utf-8"  # FIX v77: 子进程 test.py stdout 用 utf-8, 中文不炸 cp1252
                 for k, v in params.items(): env[f"GENSTEREO_{str(k).upper()}"] = str(v)
                 env["GENSTEREO_FUSION_STRENGTH"] = str(float(params.get("fusion_strength", 1.0)))  # FIX v28
+                env["GENSTEREO_ORIG_IMG"] = str(params.get("_orig_img", "") or "")  # FIX decoupled_warp_orig_v2
+                env["GENSTEREO_ORIG_DIR"] = str(params.get("_orig_dir", "") or "")  # FIX decoupled_warp_orig_v3
                 env["GENSTEREO_MODE"] = str(params.get("mode", "quality"))
+                env["GENSTEREO_DILATION"] = str(max(0, min(50, int(params.get("dilation", 4)))))  # FIX v82 Dilation
                 env["GENSTEREO_LIMIT_TO_SOURCE"] = "1" if params.get("limit_to_source", True) else "0"  # FIX v22: Mode/Limit env
                 _fm = str(params.get("finetuned_model", "genstereo-v1.5"))
                 env["GENSTEREO_VERSION"] = _fm.replace("genstereo-", "").replace("genstereo", "v1.5") if "genstereo" in _fm else _fm
                 _res_rt = int(params.get("resolution", 512) or 512)
+                # FIX v96: Decoupled 再锁一次, _eff_res 也必须是强制值 (GUI Resolution / Limit 都顶不掉).
                 self.log(f"[Work] Resolution {_res_rt} -> test.py, Mode={params.get('mode', 'quality')}, LimitToSource={'ON' if params.get('limit_to_source', True) else 'OFF'}, Finetuned={_fm}")  # FIX v22: Mode + Limit
                 creationflags = subprocess.CREATE_NO_WINDOW if sys.platform == "win32" else 0
                 _rc = 0
@@ -1273,8 +1370,12 @@ class GenStereoGUI:
                     elif _min_orig and _min_orig < 768:
                         self.log(f"[Limit] Orig min {_min_orig}px <768, no cap, Res {_res_rt} (small orig, do not shrink)")
                     _params_chunk = dict(params); _params_chunk["_eff_res"] = int(_eff_res); _params_chunk["_orig_long"] = int(_min_orig)
+                    _params_chunk["_orig_imgs"] = [str(_t) for _t in _chunk_targets]
+                    _params_chunk["_orig_dir"] = str(Path(_chunk_targets[0]).parent) if _chunk_targets else ""
+                    _params_chunk["_orig_img"] = str(_chunk_targets[0]) if _chunk_targets else ""
+                    _params_chunk["_orig_img"] = str(_chunk_targets[0]) if _chunk_targets else ""
                     for _t in _chunk_targets:
-                        _sq_path, _orig_sz = self._prepare_input(_t, int(_eff_res))
+                        _sq_path, _orig_sz = self._prepare_input(_t, int(_eff_res), mode=params.get("mode", "quality"))
                         self._prep_map[str(Path(_t))] = (_sq_path.stem, _orig_sz)
                         _sq_paths.append(str(_sq_path))
                     _cmd, _ = self.build_command(_params_chunk, _sq_paths, output_dir)
@@ -1377,7 +1478,7 @@ class GenStereoGUI:
                 self.root.after(0, lambda: self.suspend_btn.configure(state=tk.DISABLED, text="Suspend"))
                 self.root.after(0, lambda: self.cancel_btn.configure(state=tk.DISABLED))
         threading.Thread(target=run_thread, daemon=True).start()
-    # --- v7.0 Running 打字机动画: R -> Ru -> ... -> Running... -> R, 循环 ---
+    # --- v8.0 Running 打字机动画: R -> Ru -> ... -> Running... -> R, 循环 ---
     # status_var 不能直接 set("Running..."), 否则定死不动, 用户以为卡了。
     # 所有“还在跑”的地方都走 _start_running_anim() / _set_running_base(), 动画自己每 250ms 走一格。
     _running_anim_after = None
@@ -1421,7 +1522,7 @@ class GenStereoGUI:
         """最终状态: 先停动画, 再定死显示 (Done / Cancelled / Suspended / Finished 都走这里)。"""
         self._stop_running_anim()
         self.status_var.set(text)
-    # --- v7.0 Done 可点开文件夹: 点 Done - 地址 -> 打开文件夹, 悬浮提示 ---
+    # --- v8.0 Done 可点开文件夹: 点 Done - 地址 -> 打开文件夹, 悬浮提示 ---
     def _set_done(self, output_dir):
         """转换完成: 记下文件夹, 状态变成可点的 Done - 地址。"""
         # 如果有 Running 动画 (已跑过 Running patch 的版), 先停动画, 否则动画会把 Done 顶掉
@@ -1495,7 +1596,7 @@ class GenStereoGUI:
             pass
         self._status_tip = None
     def _show_about(self):
-        """About 弹窗 (v7.0 fix v3: 右侧背景图 = 专门的 Easy3D_s.png)."""
+        """About 弹窗 (v8.0 fix v3: 右侧背景图 = 专门的 Easy3D_s.png)."""
         try:
             _win = tk.Toplevel(self.root)
             _win.title("About Easy3D")

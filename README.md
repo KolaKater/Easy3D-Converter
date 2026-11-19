@@ -14,18 +14,20 @@
 
 **Turn one image into a side-by-side (SBS) stereo 3D image. / 把一张图变成 SBS 立体 3D 图。**
 
+**Easy3D is a high-quality 2D-to-3D SBS generation tool — not a generic converter. / Easy3D 是一个高质量的 2D-3D SBS 生成工具，不是一般的转换。**
+
 **Easy3D is not only a 3D converter, but also a 3D creator. / 它不只是一个 3D 转换器，也是一个 3D 创作者。**
 
 Easy3D Converter is a free, open-source tool. It runs on a consumer GPU such as an NVIDIA RTX 3070 or higher.
 Easy3D Converter 是一个免费开源工具，在 RTX 3070 及以上的普通显卡上就能跑。
 
-> **Current version: v7.0 / 当前版本：v7.0**
+> **Current version: v8.0 / 当前版本：v8.0**
 
 [[License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [[Python: 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
 [[GPU: RTX 3070+](https://img.shields.io/badge/GPU-RTX%203070%2B-brightgreen.svg)](https://www.nvidia.com/)
 
-<img width="1281" height="849" alt="图片" src="https://github.com/user-attachments/assets/691a3a8f-7325-4f85-8648-f24c13e93701" />
+<img width="1279" height="850" alt="图片" src="https://github.com/user-attachments/assets/c4398773-5d61-49ef-911c-387db6037150" />
 
 *Easy3D Converter GUI*
 
@@ -38,9 +40,10 @@ Easy3D Converter 是一个免费开源工具，在 RTX 3070 及以上的普通�
 ## Table of Contents / 目录
 
 - [Why Easy3D Is Different](#why-easy3d-is-different--为什么-easy3d-不一样)
-- [What's New in v7.0](#whats-new-in-v70--v70-更新)
+- [What's New in v8.0](#whats-new-in-v80--v80-更新)
 - [Quick Start](#quick-start--快速上手)
 - [How to Pick: Mode + Resolution](#how-to-pick-mode--resolution--怎么选模式--分辨率)
+    - [Finetuned Model](#finetuned-model--finetuned-模型保守选-v15要创意选-v21)
 - [Parameters](#parameters--参数)
 - [Requirements](#requirements--配置要求)
 - [Installation](#installation--安装)
@@ -53,6 +56,11 @@ Easy3D Converter 是一个免费开源工具，在 RTX 3070 及以上的普通�
 ---
 
 ## Why Easy3D Is Different · 为什么 Easy3D 不一样
+
+> **Easy3D is built for one thing: a high-quality SBS you actually want to look at.**
+> **Easy3D 只做一件事：出一张你真的愿意看的高质量 SBS。**
+> A generic converter just shifts pixels. Easy3D is tuned so the SBS keeps the original's detail, colour, and sharpness, with stable stereo and no warped / ghosted mess — even at high resolution.
+> 一般的转换只是把像素挪一下。Easy3D 的目标是 SBS 保持原图的细节、颜色和清晰度，立体稳定，高分辨率也不容易变形 / 重影。
 
 > **Easy3D doesn't just capture Depth — it also captures Light, Fire, Water, Fog...**
 > **Easy3D 抓的不只是 Depth（深度），还有 Light（光）、Fire（火）、Water（水）、Fog（雾）……**
@@ -79,12 +87,18 @@ The result is the classic failure: holes, black edges, tearing, ghosting, or the
 
 ---
 
-## What's New in v7.0 · v7.0 更新
+## What's New in v8.0 · v8.0 更新
 
-- **Simpler GUI: fewer knobs, clearer intent. / 界面更简单：旋钮更少，意图更清楚。**
-- **Up to 4096 px on RTX 3070 or above, without OOM. / RTX 3070 及以上，分辨率上限到 4096，不再 OOM。**
-- **Better quality than before — fewer ghosting / double images and hard seams. / 质量比以前好：重影 / 双影、硬缝更少了。**
+- **The biggest quality jump since v7.0 — details and colours match the original much more closely, and the picture is visibly sharper. / 比 v7.0 最大的变化，是画面质量的飞跃提升 — 细节和颜色和原图更加匹配，清晰度更高。**
+- **Quality Step is now much faster than before. / Quality Step 现在比以前快很多了。**
+- **More stable results, especially at high resolution. The old problems — the picture warping, deforming, or double-imaging / ghosting when the resolution goes up — are now much rarer. / 转换出来的图片比以前更稳定，不容易出现以前那种分辨率一高、画面就容易变形和重影等老问题。**
+- **New depth models: Depth Anything 3 (DA3) and MoGe 3 — see [Depth Model (MDE)](#depth-model-mde--深度模型). / 新深度模型：Depth Anything 3（DA3）和 MoGe 3 — 见 [深度模型](#depth-model-mde--深度模型)。**
+- **Up to 5120 px on RTX 3070 or above, without OOM. / RTX 3070 及以上，分辨率上限到 5120，不再 OOM。**
 - **Recommended: 1344 px for the best quality / speed balance. 1792 / 2688 px for the cleanest results. 5120 px is the slowest. / 推荐：1344 最划算，1792 / 2688 最干净，5120 最慢。**
+
+---
+
+> If install / run has any problem, post it at [Issues](https://github.com/KolaKater/Easy3D-Converter/issues) or [Discussions](https://github.com/KolaKater/Easy3D-Converter/discussions) — include your `CHECK_ENV.bat` output, the exact error text, and your GPU / Windows version. / 安装 / 运行有任何问题，直接去 [Issues](https://github.com/KolaKater/Easy3D-Converter/issues) 或 [Discussions](https://github.com/KolaKater/Easy3D-Converter/discussions) 发帖，贴上 `CHECK_ENV.bat` 的输出、完整的报错文字、显卡 / Windows 版本。
 
 ---
 
@@ -102,12 +116,14 @@ The result is the classic failure: holes, black edges, tearing, ghosting, or the
 **Recommended first run (RTX 3070+ / 第一次推荐参数)：**
 
 ```
+Mode:         Fast - Decoupled C
 Finetuned:    Finetune-v2.1
 MDE:          FD-L
 Resolution:   1344 - Finetune-v2.1 Recommended
-Steps:        20 - Fast
+Steps:        5  - Blink preview
 3D Strength:  0.40
 Follow Original: 1.80
+Seed:         Sead A
 Gen Mode:     Orig_Right
 Face Restore: None
 Output Type:  1. Parallel (Default)
@@ -135,32 +151,24 @@ You only need to remember two choices: **Mode** decides speed vs. quality, **Res
 
 | Mode / 模式 | What it feels like / 用起来像什么 | Use it when / 什么时候用 |
 |---|---|---|
-| **Quality** | Slowest, cleanest. / 最慢，最干净。 | You want the best result and are not in a hurry. / 想要最好效果，不赶时间。 |
+| **Quality** | Cleanest. Slower than Fast, but Quality Step is now much faster than before. / 最干净。比 Fast 慢，但 Quality Step 现在比以前快很多了。 | You want the best result. / 想要最好效果。 |
 | **Fast - Decoupled A** | Fast. / 快。 | Daily use, quick preview. / 日常出图、快速预览。 |
 | **Fast - Decoupled B** | Faster than Quality, finer than A. / 比 Quality 快，比 A 细。 | You want a balance of speed and quality. / 想要速度和质量都兼顾。 |
-| **Fast - Decoupled C** | Finest of the three Fast modes, still faster than Quality. / 三个 Fast 里最细的，仍比 Quality 快。 | You want the finest Fast result. / 想要 Fast 里最细的效果。 |
+| **Fast - Decoupled C** | Finer than B, still faster than Quality. / 比 B 更细，仍比 Quality 快。 | You want a finer Fast result. / 想要 Fast 里更细的效果。 |
+| **Fast - Decoupled D** | Finer than C, still faster than Quality. / 比 C 更细，仍比 Quality 快。 | Full-body photos, or you want the finest Fast result. / 全身像，或者想要 Fast 里更细的效果。 |
+| **Fast - Decoupled E** | Finer than D. / 比 D 更细。 | Large / detailed scenes, you want even finer. / 大场景、细节多的图，想要更细。 |
+| **Fast - Decoupled F** | Finest Fast mode, still faster than Quality. / Fast 里最细的，仍比 Quality 快。 | You want the finest Fast result. / 想要 Fast 里最细的效果。 |
 
-### The pairing that works best / 这样配，效果最好
+### If there is a person in the photo / 照片里有人
 
-**Just remember this table. You do not need to know why it works inside — this pairing simply gives the best result.**
-**记住下面这张表就行，不用管里面是怎么做的，这样配效果最好。**
+**Selfie / half-body → Decoupled A or B + Face Restore. / 自拍 / 半身像 → 选 Decoupled A 或 B，并加上 Face Restore。**
 
-| If you pick / 如果你选 | Resolution should be at least / Resolution 至少选 |
-|---|---|
-| **Fast - Decoupled A** | **768 or above / 768 或以上** |
-| **Fast - Decoupled B** | **896 or above / 896 或以上** |
-| **Fast - Decoupled C** | **1280 or above / 1280 或以上** |
+**Full-body → Decoupled C or D + Face Restore. / 画面上有全身像 → 建议选 C 或 D，并加上 Face Restore。**
 
-> **Why? / 为什么？**
-> This pairing gives the best result. If Resolution is too low for the Mode you picked, the result will look worse.
-> 这样配，效果最好。如果 Resolution 配得太低，效果会变差。
+If you skip Face Restore on a full-body photo, the face can go blurry — the person is small in the frame, so the face is small too.
+全身像不加 Face Restore，脸可能会很模糊 — 人在画面里小，脸也小。
 
-**Example / 举例：**
-
-- `Fast - Decoupled A` + `Resolution 768` — good. / 可以。
-- `Fast - Decoupled A` + `Resolution 512` — too low, avoid it. / 太低了，别这样配。
-- `Fast - Decoupled C` + `Resolution 1344` — good. / 可以。
-- `Fast - Decoupled C` + `Resolution 896` — too low, avoid it. / 太低了，别这样配。
+> **One rule: if there is a person, turn Face Restore on. / 记住一条就行：有人就加 Face Restore。**
 
 > **One more rule: do not upscale a small source.** If your source image is only 2048 px, running at 4096 px will not add detail — it only upscales. Use 2048 px or below for a 2048 px source. Use 2560 / 3072 / 4096 px only when the source itself is 3K / 4K.
 > **还有一条：原图小，别硬拉大。** 原图只有 2048 px，跑 4096 px 也不会多出细节，只是放大。原图 2048 px 就用 2048 px 或以下；原图本身是 3K / 4K 再用 2560 / 3072 / 4096 px。
@@ -183,6 +191,28 @@ Resolution 下拉框里每一项是三段式：`数字 - 最配哪个 Finetuned 
 
 So: if Finetuned is `Finetune-v2.1`, pick `1344` for daily use. If Finetuned is `Finetune-v1.5`, pick `1280 - Finetune-v1.5 Recommended`.
 所以：Finetuned 选 `Finetune-v2.1`，日常优先选 `1344`；选 `Finetune-v1.5`，日常优先选 `1280 - Finetune-v1.5 Recommended`。
+
+### Finetuned Model / Finetuned 模型：保守选 v1.5，要创意选 v2.1
+
+`Finetuned` 不是新旧之分，是**保守 / 创意**之分。同一个 `Seed` 跑出来，它俩也是两张独立生成的图，不是谁的高清版。
+
+| Finetuned / 模型 | What it does / 性格 | Use it when / 什么时候用 |
+|---|---|---|
+| **Finetune-v1.5** | Conservative / 保守。更听原图的话，`warped` 真纹理占得多，不敢乱编。 / 更保守，更贴原图，不敢乱编。 | **要保真的时候。** 人脸、自拍、半身像、手指、花瓣、花纹、文字 — 脸不能崩、纹理不能编的地方。`v1.5` 有时比 `v2.1` 还好，就是因为它不编。 / **Want it faithful.** Portraits, selfies, half-body, hands, petals, patterns, text — where the face cannot drift and the texture cannot be invented. |
+| **Finetune-v2.1** | Creative / 有创意。更敢自己补，`synth` 更清晰、更自信，细节更多。 / 更敢创作，细节更多。 | **要创意 / 要细节的时候。** 风景、大场景、树叶、头发丝、衣服褶皱、远处建筑、遮挡严重的边缘 — `v1.5` 糊成一团的地方。 / **Want it creative / detailed.** Landscapes, large scenes, foliage, hair, fabric folds, distant buildings, heavy occlusion — where `v1.5` goes blurry. |
+
+**一句话记住 / One line to remember：**
+
+> **要创意，选 v2.1；要保守，选 v1.5。/ Creative → v2.1, conservative → v1.5.**
+
+**怎么配 / How to pair it：**
+
+- **人像 / 有脸**：`Finetune-v1.5` + `Decoupled A / B` + `Face Restore`。脸不崩是第一位的，细节靠 Face Restore 补。/ **Portrait / face:** `Finetune-v1.5` + `Decoupled A / B` + `Face Restore`.
+- **风景 / 大场景**：`Finetune-v2.1` + `Decoupled C / D / E / F`。脸不是主角，细节多才是赢。/ **Landscape / large scene:** `Finetune-v2.1` + `Decoupled C / D / E / F`.
+- **拿不准**：先跑 `v1.5`，脸保住了再说；觉得糊，再换 `v2.1` 跑一张对比。/ **Not sure:** run `v1.5` first to keep the face safe, then try `v2.1` and compare.
+
+> **注意 / Note：** `v1.5` 是 `512` 出图，`v2.1` 是 `768` 出图。所以 `v1.5` 切块少、接缝少，看着也更干净；`v2.1` 细节多，但也更敢自己补，补错了就是脸变了、手指多了、花纹改了。看到 `v1.5` 赢了，不代表 `v2.1` 坏了，就是那张图更吃“保真”，不吃“细节”。/ `v1.5` runs at 512 px, `v2.1` at 768 px. So `v1.5` has fewer tiles / seams and looks cleaner; `v2.1` has more detail but also invents more — when it invents wrong, faces drift and patterns change.
+
 
 ---
 
@@ -280,11 +310,24 @@ Face Restore runs **after all images are converted**, not one by one. You do not
 Requires `gfpgan/weights/`. If it fails to load, the SBS is saved unchanged and the Log shows the reason.
 需要 `gfpgan/weights/`。如果加载失败，SBS 会原样保存，Log 里会写原因。
 
+### Edge Protection / 边缘保护
+
+Edge Protection keeps object edges clean, so edges do not bleed, tear, or smear into the background.
+Edge Protection 是让物体边缘更干净的，不让边缘糊进背景、撕裂、拖影。
+
+| Edge Protection Level | Effect / 效果 |
+|---|---|
+| 0 | Off / 关 — edges smear most easily. / 边缘最容易糊。 |
+| **2–4** | **Enough in most cases / 多数情况下就够了** — daily default, use this range. / 日常就用这个范围。 |
+| 5+ | Stronger, but edges can go too hard. / 更强，但边缘容易修得太硬。 |
+
+> **Daily use: just leave it at 2–4. / 日常不用调：2–4 就行。**
+
 ### Depth Model (MDE) / 深度模型
 
 MDE makes the depth map. It decides the geometry, not the final look. / MDE 是做深度图的，决定几何，不决定最终画面的风格。
 
-> **GUI 里的名字就是这样写的 / Names in the GUI:** `FD-L` = FlashDepth-L，`FD-S` = FlashDepth-S，`DA2-L / DA2-B / DA2-S` = Depth Anything V2 Large / Base / Small。旧 Preset 里的长名字会自动转成短名字，不用手动改。
+> **GUI 里的名字就是这样写的 / Names in the GUI:** `FD-L` = FlashDepth-L，`FD-S` = FlashDepth-S，`DA2-L / DA2-B / DA2-S` = Depth Anything V2 Large / Base / Small，`DA3-S / DA3-B / DA3-L` = Depth Anything 3 Small / Base / Large，`MOGE3-ViTL / MOGE3-ViTG` = MoGe 3 ViTL / ViTG。旧 Preset 里的长名字会自动转成短名字，不用手动改。
 
 | GUI option / 选项 | Quality / 质量 | Speed / 速度 | Use for / 适合 |
 |---|---|---|---|
@@ -293,6 +336,12 @@ MDE makes the depth map. It decides the geometry, not the final look. / MDE 是�
 | DA2-L | Good / 好 | Slow / 慢 | Try for a different look. Do not use Large on 8 GB + >3000. / 想换个风格时试。8 GB + >3000 别用 Large。 |
 | DA2-B | Medium / 中 | Medium / 中 | Alternative on 8 GB + high Resolution (>3000). / 8 GB + 高分辨率（>3000）时的备选。 |
 | DA2-S | Weaker / 弱 | Fastest / 最快 | Most stable on 8 GB + high Resolution (>3000). / 8 GB + 高分辨率（>3000）时最稳。 |
+| **DA3-B · New in v8.0 / v8.0 新** | Very good / 很好 | Medium / 中 | **New depth model. / 新深度模型。** Cleaner detail and edges. Try it for a different depth style. / 细节和边缘更干净，想换个深度风格时试。 |
+| **DA3-S · New in v8.0 / v8.0 新** | Good / 好 | Fast / 快 | **New depth model. / 新深度模型。** More stable on 8 GB + high Resolution. / 8 GB + 高分辨率时更稳。 |
+| **DA3-L · New in v8.0 / v8.0 新** | Very good / 很好 | Slow / 慢 | **New depth model. / 新深度模型。** Finest DA3, do not use on 8 GB + >3000. / DA3 里最细，8 GB + >3000 别用。 |
+| **MOGE3-ViTL · New in v8.0 / v8.0 新** | Very good / 很好 | Medium / 中 | **New depth model. / 新深度模型。** Accurate geometry, good for people / interiors. / 几何更准，人物 / 室内表现好。 |
+| **MOGE3-ViTG · New in v8.0 / v8.0 新** | Very good / 很好 | Slow / 慢 | **New depth model. / 新深度模型。** Largest MoGe 3, best geometry, slowest. / MoGe 3 里最大的，几何最好，最慢。 |
+| **Distill-B · New in v8.0 / v8.0 新** | Good / 好 | Medium / 中 | **New depth model. / 新深度模型。** Lightweight alternative. / 轻量备选。 |
 
 > **8 GB rule (important) / 8 GB 规则（重要）：**
 > - Resolution `≤ 3000`: any MDE is fine, default `FD-L` works. / Resolution `≤ 3000`：随便选，默认 `FD-L` 就行。
@@ -436,6 +485,10 @@ If you have a portrait photo: crop it to landscape if you can; raise `3D Strengt
 **Q: Why are some resolutions not selectable? / 为什么有些分辨率选不了？**
 Because resolutions above 960 px are tested. Some resolutions give bad results, so they are hidden on purpose. Use one of the listed resolutions. / 因为 960 px 以上的分辨率是测过的。有些分辨率效果不好，所以故意藏起来了。用列表里的分辨率就行。
 
+**Q: My full-body photo's face looks blurry. / 全身像的脸很模糊，怎么办？**
+Use **Decoupled C or D + Face Restore**. Full-body means the face is small in the frame, so it needs the finer mode + Face Restore. See [How to Pick](#how-to-pick-mode--resolution--怎么选模式--分辨率).
+用 **Decoupled C 或 D + Face Restore**。全身像里脸本来就小，要用更细的模式 + Face Restore。见 [怎么选](#how-to-pick-mode--resolution--怎么选模式--分辨率)。
+
 **Q: Where can I share results / ask for help? / 成果发哪 / 去哪问？**
 Join the Facebook group: **[3D Stereo Lover](https://www.facebook.com/share/g/1KokTEPmCs/)** — post your SBS image + filename (it contains all params) + GPU model.
 加 Facebook 群组：**[3D Stereo Lover](https://www.facebook.com/share/g/1KokTEPmCs/)** — 发 SBS 图 + 文件名（里面有全部参数）+ 显卡型号。
@@ -467,6 +520,8 @@ This project builds on the work of many open-source authors and teams. Thank you
 |---|---|---|
 | **GenStereo** | Fan Qiao et al. — ICCV 2025 | [FQiao/GenStereo](https://github.com/FQiao/GenStereo) — see its repo for license |
 | **Depth Anything V2** | Depth Anything Team | [DepthAnything/Depth-Anything-V2](https://github.com/DepthAnything/Depth-Anything-V2) — Apache-2.0 |
+| **Depth Anything 3 (DA3)** | Depth Anything Team | [ByteDance-Seed/Depth-Anything-3](https://github.com/ByteDance-Seed/Depth-Anything-3) — see its repo for license |
+| **MoGe 3** | Microsoft / MoGe Team | [microsoft/MoGe](https://github.com/microsoft/MoGe) — see its repo for license |
 | **FlashDepth** | FlashDepth Authors | [DepthAnything/FlashDepth](https://github.com/DepthAnything/FlashDepth) — see its repo for license |
 | **Stable Diffusion** | CompVis / Stability AI / Runway | [CompVis/stable-diffusion](https://github.com/CompVis/stable-diffusion) — CreativeML Open RAIL-M |
 | **CLIP** | OpenAI | [openai/CLIP](https://github.com/openai/CLIP) — MIT |
