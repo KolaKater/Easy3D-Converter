@@ -37,7 +37,8 @@ Download `Easy3D_Setup.exe` (~1.5 GB), double-click it, follow the installer. It
 [[Python: 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
 [[GPU: RTX 3070+](https://img.shields.io/badge/GPU-RTX%203070%2B-brightgreen.svg)](https://www.nvidia.com/)
 
-<img width="1279" height="850" alt="图片" src="https://github.com/user-attachments/assets/c4398773-5d61-49ef-911c-387db6037150" />
+<img width="1280" height="851" alt="图片" src="https://github.com/user-attachments/assets/107d0247-7354-4017-8140-ab712eee870d" />
+
 
 *Easy3D Converter GUI*
 
