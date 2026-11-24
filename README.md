@@ -37,11 +37,13 @@ Download `Easy3D_Setup.exe` (~1.5 GB), double-click it, follow the installer. It
 [[Python: 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
 [[GPU: RTX 3070+](https://img.shields.io/badge/GPU-RTX%203070%2B-brightgreen.svg)](https://www.nvidia.com/)
 
-<img width="1279" height="850" alt="图片" src="https://github.com/user-attachments/assets/c4398773-5d61-49ef-911c-387db6037150" />
+<img width="1280" height="849" alt="图片" src="https://github.com/user-attachments/assets/de18c23a-32ad-41ac-b744-dc648c55c9fc" />
+
 
 *Easy3D Converter GUI*
 
-<img width="3836" height="1918" alt="1794099221872-1918_Easy3D_V21_FDL_R2048_D100_B051_F050_S30_G150_PAR_Seed510902704" src="https://github.com/user-attachments/assets/18ce0af5-352d-4005-9131-56f271bb544e" />
+<img width="3836" height="1438" alt="1795380067510-1918_Easy3D_V21_FDL_D2_R1344_B050_S5_G180_FRBoth_PAR_Seed510902704" src="https://github.com/user-attachments/assets/ad516908-c781-47e3-918f-b6187d5a1162" />
+
 
 *Original image → SBS stereo 3D result / 原图 → SBS 立体 3D 成果*
 
